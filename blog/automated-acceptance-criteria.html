@@ -1,10 +1,52 @@
 <html>
 <head>
     <title>Automated Acceptance Criteria</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+    </style>
 </head>
 <body>
 <h1>Automated Acceptance Criteria</h1>
+<h2>A scenario</h2>
+<p>Post-development testing on my team is a fairly ordinary role. The
+    developers says a new web page is ready. Folks in the testing role then
+    test the same page features each time, simple things like:</p>
+<ul>
+    <li>Can an account with security role <samp>X</samp> log in?</li>
+    <li>Can <samp>X</samp> submit the form? (Or not submit if forbidden?)</li>
+    <li>What page form defaults appear for role <samp>X</samp>? Do they
+        reflect role <samp>X</samp>?
+    </li>
+</ul>
+<p>(Yes, I know &mdash; what about developer testing? Different article.)</p>
+<!-- TODO: Less fragile link for image? -->
+<!-- TODO: Scalable version of image? -->
+<!--
+<img src="https://upload.wikimedia.org/wikipedia/en/1/14/Ralph_Wiggum.png"
+     alt="Ralph Wiggum picking nose"
+     style="float:right; width:10%; height: auto"/>
+ -->
+<img src="https://lh3.googleusercontent.com/-o6e5YUtj8rU/TWkVMlQbqGI/AAAAAAAAACo/OmiXddT-biE/s200/RalphWiggum4.gif"
+     alt="Ralph Wiggum thinking"
+     style="float:right; width:10%; height: auto"/>
+<p>On it goes, the same work each time. Redundant, repetitive, error-prone,
+    fiddly. And worst of all&mdash;<em>boring</em>! And yet, all manual.</p>
+<p><em>How do we fix this?</em> <em>Can we fix this?</em></p>
+<p>After all, the testing is valuable: nobody wants broken web pages;
+    everybody wants to log in. But is it the <em>most</em> valuable testing
+    a human could do? Surely people are more clever, more insightful than
+    this.</p>
+<h2>A forward path</h2>
+<p>What are the testers testing? If you're using nearly any form of
+    modern user story writing, this includes something like "Acceptance
+    Criteria". These are the gates that permit story development to be
+    called successful: the testers are gatekeepers.</p>
+<p></p>
 <h2>What are Acceptance Criteria?</h2>
+<p>But where does this simple testing come from? Any software delivery
+    process beyond "winging it" has some requirements</p>
 <p>Well-written agile stories have Acceptance Criteria. What are
     these? An Acceptance Criteria (AC) is a statement in a story that a
     tester (QA) can use to validate that all or a portion of the story is
@@ -21,11 +63,19 @@
     property).</p>
 <p>In some cases it is even simpler: just check that a particular web address
     fully loads, for example, when testing login access to pages.</p>
+<img
+        src="https://s3.amazonaws.com/insights-images-prod/Ideal20Test20Automation20Pyramid_2fb8a2f3e134e49a9ab79b0ef8afae05.jpg"
+        alt="Ideal test automation pyramid"
+        style="float:right; width:35%; height:auto;">
 <h2>So what's the question?</h2>
-<p>Wherever possible we want to automate.  If something can be done for
+<p>Wherever possible we want to automate. If something can be done for
     us by a computing machine, we don't want to spend human time on it.
     Humans can move on to more interesting, valuable work when existing
     tasks can be automated.</p>
-<p>Look at the Test Pyramid:</p>
+<p>Consider the Test Pyramid (<em>image right</em>): automating lower-value
+    tests focuses people on higher-value ones. You get more human attention
+    and insight on the kinds of tests which best improve the value of
+    software. You win more.</p>
+<p>So if testers are spending time checking page access, or login</p>
 </body>
 </html>
