@@ -1,8 +1,203 @@
-<html>
+<!DOCTYPE html>
+<html lang=en>
 <head>
+    <meta charset=utf-8>
     <title>Automated Acceptance Criteria</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        x-todo {
+            color: red;
+            font-style: oblique;
+            text-decoration: line-through;
+        }
+
+        x-todo:before {
+            content: 'TODO: '
+        }
+    </style>
+    <script>
+        document.registerElement('x-todo', {
+            prototype: Object.create(HTMLDivElement.prototype),
+            extends: 'div'
+        })
+    </script>
 </head>
 <body>
-<h1>Automated Acceptance Criteria</h1>
+<header>
+    <x-todo>This post mashes together lots of different concerns. Untangle
+        them: stay focused on AACs.
+    </x-todo>
+    <h1>Automated Acceptance Criteria</h1>
+</header>
+<nav>
+    <ul>
+        <li><a href="#scenario">A scenario</a></li>
+        <li><a href="#forward-path">A forward path</a></li>
+        <li><a href="#three-amigos">Enter the Three Amigos</a></li>
+        <li><a href="#acceptance-criteria">What are Acceptance
+            Criteria?</a></li>
+    </ul>
+</nav>
+<article>
+    <section id="scenario">
+        <h2>A scenario</h2>
+        <p>Post-development testing on this team is a fairly ordinary role.
+            The developers say a new web page is ready. Testers then
+            validate the same page features each time for each new page,
+            simple things:</p>
+        <ul>
+            <li>Can an account with security role <samp>X</samp> log in?</li>
+            <li>Can <samp>X</samp> submit the form? (Or not submit if
+                forbidden?)
+            </li>
+            <li>What page form defaults appear for role <samp>X</samp>? Do
+                they reflect role <samp>X</samp>?
+            </li>
+        </ul>
+        <p>(Yes, I know &mdash; what about developer testing? Bear with
+            me.)</p>
+        <x-todo>Less fragile link for image?</x-todo>
+        <x-todo>Scalable version of image?</x-todo>
+        <!--
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/14/Ralph_Wiggum.png"
+             alt="Ralph Wiggum picking nose"
+             style="float:right; width:10%; height: auto"/>
+             -->
+        <img src="https://lh3.googleusercontent.com/-o6e5YUtj8rU/TWkVMlQbqGI/AAAAAAAAACo/OmiXddT-biE/s200/RalphWiggum4.gif"
+             alt="Ralph Wiggum thinking"
+             style="float:right; width:15%; height: auto"/>
+        <p>On it goes, the same work each time. Redundant, repetitive,
+            error-prone, fiddly. And worst of all&mdash;<em>boring</em>,
+            <strong>BORING</strong>! This is traditional, manual "user
+            testing" at its worst.</p>
+        <p><em>What's to be done?</em> <em>Can we fix this?</em></p>
+        <p>After all, the testing is valuable: nobody wants broken web pages;
+            everybody wants to log in. But is this the <em>most</em> valuable
+            testing a human could do? Surely people are more clever, more
+            insightful than this. And what about all the other page
+            features not tested because of time spent on the basics?</p>
+        <p>Well, people are more clever than this.</p>
+    </section>
+    <section id="forward-path">
+        <h2>A forward path</h2>
+        <x-todo>Better section title</x-todo>
+        <p>What guides testing? If you're using nearly any form of modern user
+            story writing, this includes something like "Acceptance Criteria".
+            These are the gates that permit story development to be called
+            successful: the testers are gatekeepers <a
+                    href="https://www.thoughtworks.com/insights/blog/how-we-eliminated-gatekeeper-quality">in
+                the manual testing world</a>. In the manual world these
+            criteria might be congregated into a single "Requirements
+            Document" or similar (think: <a
+                    href="https://en.wikipedia.org/wiki/Big_Design_Up_Front">big,
+                upfront design</a>).</p>
+        <p>We can do better! Gatekeeper-style testing assumes a linear path
+            from requirements to implementation to testing, just as waterfall
+            considers these activities as distinct phases. But we know
+            agile approaches do better than waterfall in most (nearly all)
+            cases. Why should we build our teams to mirror waterfall? Of
+            course the answer is to structure teams to look agile, even as
+            the team itself practices agile values.</p>
+    </section>
+    <section id="three-amigos">
+        <h2>Enter the Three Amigos</h2>
+    </section>
+    <section id="acceptance-criteria">
+        <h2>What are Acceptance Criteria?</h2>
+        <p>But where does this simple testing come from? Any software delivery
+            process beyond "winging it" has some requirements</p>
+        <p>Well-written agile stories have Acceptance Criteria. What are
+            these? An Acceptance Criteria (AC) is a statement in a story that
+            a tester (QA) can use to validate that all or a portion of the
+            story is complete. The formulaic phrasing for ACs I like best
+            is:</p>
+        <blockquote>
+            <strong>GIVEN</strong> <em>some state of the world</em><br>
+            <strong>WHEN</strong> <em>some change happens</em><br>
+            <strong>THEN</strong> <em>some observable outcome results</em>
+        </blockquote>
+        <p>Generally for web applications this means when I do something with
+            a web page in the application, then the page changes in some
+            particular way or submits a request and the response page has
+            some particular quality or property (or the negative case that
+            is does not have that quality or property).</p>
+        <p>In some cases it is even simpler: just check that a particular web
+            address fully loads, for example, when testing login access to
+            pages.</p>
+        <img
+                src="https://s3.amazonaws.com/insights-images-prod/Ideal20Test20Automation20Pyramid_2fb8a2f3e134e49a9ab79b0ef8afae05.jpg"
+                alt="Ideal test automation pyramid"
+                style="float:right; width:35%; height:auto;">
+        <h2>So what's the question?</h2>
+        <p>Wherever possible we want to automate. If something can be done for
+            us by a computing machine, we don't want to spend human time on
+            it. Humans can move on to more interesting, valuable work when
+            existing tasks can be automated.</p>
+        <p>Consider the Test Pyramid (<em>image right</em>): automating
+            lower-value tests focuses people on higher-value ones. You get
+            more human attention and insight on the kinds of tests which best
+            improve the value of software. You win more.</p>
+    </section>
+    <x-todo>Blah-blah. How much prologue before the main event?</x-todo>
+    <section>
+        <h2>A picture of a story</h2>
+        <blockquote>
+            <section>
+                <h3>Narrative</h3>
+                <p><strong>AS A</strong> ...<br>
+                    <strong>I WANT</strong> ...<br>
+                    <strong>SO THAT</strong> ...</p>
+            </section>
+            <section>
+                <h3>Details</h3>
+            </section>
+            <section>
+                <h3>
+                    <button>Test All</button>
+                    Acceptance criteria
+                </h3>
+                <p>Summary: 1 untested, 1 passed, 1 failed, 1 errored, 1
+                    disabled</p>
+                <p>
+                    <button>Test (Untested)</button>
+                    <span style="font-size:larger">&#x1F636;</span>
+                    <strong>GIVEN</strong> magical thinking<br>
+                    <strong>WHEN</strong> in Newland<br>
+                    <strong>THEN</strong> nothing has happened yet
+                </p>
+                <p style="color:green">
+                    <button>Test (Passed)</button>
+                    <span style="font-size:larger">&#x1F600;</span>
+                    <strong>GIVEN</strong> magical thinking<br>
+                    <strong>WHEN</strong> in Happyland<br>
+                    <strong>THEN</strong> Unicorns
+                </p>
+                <p style="color:red">
+                    <button>Test (Failed)</button>
+                    <span style="font-size:larger">&#x1F61E;</span>
+                    <strong>GIVEN</strong> magical thinking<br>
+                    <strong>WHEN</strong> in Sadland<br>
+                    <strong>THEN</strong> there be Dragons
+                </p>
+                <p style="color:orange; font-style: oblique">
+                    <button>Test (Errored)</button>
+                    <span style="font-size:larger">&#x1F632;</span>
+                    <strong>GIVEN</strong> magical thinking<br>
+                    <strong>WHEN</strong> in Crazyland<br>
+                    <strong>THEN</strong> nothing works right
+                </p>
+                <p style="color:gray">
+                    <button>Test (Disabled)</button>
+                    <span style="font-size:larger">&#x1F634;</span>
+                    <strong>GIVEN</strong> magical thinking<br>
+                    <strong>WHEN</strong> in Slowland<br>
+                    <strong>THEN</strong> tests are disabled
+                </p>
+            </section>
+        </blockquote>
+    </section>
+</article>
 </body>
-</html>
