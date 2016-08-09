@@ -25,6 +25,11 @@
         .untested {
         }
 
+        .running {
+            color: blue;
+            font-style: oblique;
+        }
+
         .passed {
             color: green;
         }
@@ -159,8 +164,9 @@
             more human attention and insight on the kinds of tests which best
             improve the value of software. You win more.</p>
     </section>
-    <p class="todo">Blah-blah. How much prologue before the main event?</p>
     <section id="story-picture">
+        <p class="todo">Blah-blah. How much prologue before the main
+            event?</p>
         <h2>A picture of a story</h2>
         <blockquote>
             <section>
@@ -181,59 +187,90 @@
                 </h3>
                 <p><strong>Summary:</strong>
                     <span class="untested">1 untested</span>,
+                    <span class="running">1 running</span>,
                     <span class="passed">1 passed</span>,
                     <span class="failed">1 failed</span>,
                     <span class="errored">1 errored</span>,
                     <span class="disabled">1 disabled</span></p>
-                <div class="untested">
-                    <p>
-                        <button>Test</button>
-                        <span style="font-size: larger">&#x1F636;</span>
+                <p>
+                    <button>Test</button>
+                    <span style="font-size: larger">&#x1F636;</span>
+                    <span class="untested">
                         <strong>GIVEN</strong> magical thinking<br>
                         <strong>WHEN</strong> in Newland<br>
                         <strong>THEN</strong> nothing has happened yet
-                    </p>
-                </div>
-                <div class="passed">
-                    <p>
-                        <button>Test</button>
-                        <span style="font-size: larger">&#x1F600;</span>
+                    </span>
+                </p>
+                <p>
+                    <button>Cancel</button>
+                    <span style="font-size: larger">&#x1F60E;</span>
+                    <span class="running">
+                        <strong>GIVEN</strong> magical thinking<br>
+                        <strong>WHEN</strong> in Fastland<br>
+                        <strong>THEN</strong> tests run quickly
+                    </span>
+                </p>
+                <p class="running message">15% done (3s)</p>
+                <p>
+                    <button>Test</button>
+                    <span style="font-size: larger">&#x1F600;</span>
+                    <span class="passed">
                         <strong>GIVEN</strong> magical thinking<br>
                         <strong>WHEN</strong> in Happyland<br>
                         <strong>THEN</strong> Unicorns
-                    </p>
-                </div>
-                <div class="failed">
-                    <p>
-                        <button>Test</button>
-                        <span style="font-size: larger">&#x1F61E;</span>
+                    </span>
+                </p>
+                <p>
+                    <button>Test</button>
+                    <span style="font-size: larger">&#x1F61E;</span>
+                    <spad class="failed">
                         <strong>GIVEN</strong> magical thinking<br>
                         <strong>WHEN</strong> in Sadland<br>
                         <strong>THEN</strong> there be Dragons
-                    </p>
-                    <p class="message">Expected: Dragons, got: Puppies</p>
-                </div>
-                <div class="errored">
-                    <p>
-                        <button>Test</button>
-                        <span style="font-size: larger">&#x1F632;</span>
-                        <strong>GIVEN</strong> magical thinking<br>
-                        <strong>WHEN</strong> in Crazyland<br>
-                        <strong>THEN</strong> nothing works right
-                    </p>
-                    <p class="message">Test timed out after 90 seconds</p>
-                </div>
-                <div class="disabled">
-                    <p>
-                        <button>Test</button>
-                        <span style="font-size: larger">&#x1F634;</span>
+                    </spad>
+                </p>
+                <p class="message failed">Expected: Dragons, got: Puppies</p>
+                <p>
+                    <button>Test</button>
+                    <span style="font-size: larger">&#x1F632;</span>
+                    <span class="errored">
+                            <strong>GIVEN</strong> magical thinking<br>
+                            <strong>WHEN</strong> in Crazyland<br>
+                            <strong>THEN</strong> nothing works right
+                        </span>
+                </p>
+                <p class="message errored">Test timed out after 90 seconds</p>
+                <p>
+                    <button>Test</button>
+                    <span style="font-size: larger">&#x1F634;</span>
+                    <span class="disabled">
                         <strong>GIVEN</strong> magical thinking<br>
                         <strong>WHEN</strong> in Slowland<br>
                         <strong>THEN</strong> tests are disabled
-                    </p>
-                </div>
+                    </span>
+                </p>
             </section>
         </blockquote>
+    </section>
+    <section id="implementation">
+        <h2>Possible implementations</h2>
+        <ul class="todo">
+            <li>REST between test system &amp; card wall</li>
+            <li>Convention over configuration: test named by
+                camel-catenating words in AC
+            </li>
+            <li>Convention over configuration: test page named by
+                camel-catenting story title
+            </li>
+            <li>Live bidi: Test button kicks off test via REST; test
+                updates story via REST
+            </li>
+            <li>REST "batch": use batch-oriented status codes to kick off
+                tests, poll for status update, redirect to final status.
+                Test system would not call back into story system (but how
+                to update story if tests were run separately?)
+            </li>
+        </ul>
     </section>
 </article>
 </body>
