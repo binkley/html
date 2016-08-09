@@ -241,7 +241,7 @@
                 </p>
                 <p class="message errored">Test timed out after 90 seconds</p>
                 <p>
-                    <button>Test</button>
+                    <button disabled>Disabled</button>
                     <span style="font-size: larger">&#x1F634;</span>
                     <span class="disabled">
                         <strong>GIVEN</strong> magical thinking<br>
@@ -265,10 +265,12 @@
             <li>Live bidi: Test button kicks off test via REST; test
                 updates story via REST
             </li>
-            <li>REST "batch": use batch-oriented status codes to kick off
-                tests, poll for status update, redirect to final status.
-                Test system would not call back into story system (but how
-                to update story if tests were run separately?)
+            <li>REST "batch": use HTTP 202 (Accepted) to kick off a test,
+                poll for status update, redirect to final status. Test
+                system would not call back into story system. (But how to
+                update story if tests were run separately?) See <a
+                        href="http://farazdagi.com/blog/2014/rest-long-running-jobs/"><cite>REST
+                    and long-running jobs</cite></a>
             </li>
         </ul>
     </section>
