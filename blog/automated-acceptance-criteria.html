@@ -17,6 +17,36 @@
         .todo:before {
             content: 'TODO: '
         }
+
+        .untested {
+        }
+
+        .passed {
+            color: green;
+        }
+
+        .failed {
+            color: red;
+        }
+
+        .failed-message {
+            color: red;
+            font-style: oblique;
+        }
+
+        .errored {
+            color: orange;
+            font-style: oblique;
+        }
+
+        .errored-message {
+            color: orange;
+            font-style: oblique;
+        }
+
+        .disabled {
+            color: gray;
+        }
     </style>
 </head>
 <body>
@@ -141,50 +171,58 @@
         <blockquote>
             <section>
                 <h3>Narrative</h3>
-                <p><strong>AS A</strong> ...<br>
-                    <strong>I WANT</strong> ...<br>
-                    <strong>SO THAT</strong> ...</p>
+                <p><strong>AS A</strong> AAC author<br>
+                    <strong>I WANT</strong> a mock executable story<br>
+                    <strong>SO THAT</strong> others can see the value</p>
             </section>
             <section>
                 <h3>Details</h3>
+                <p>No actual criteria were validated in the execution of
+                    these tests.  This is only a mock.</p>
             </section>
             <section>
                 <h3>
                     <button>Test All</button>
                     Acceptance criteria
                 </h3>
-                <p>Summary: 1 untested, 1 passed, 1 failed, 1 errored, 1
-                    disabled</p>
-                <p>
-                    <button>Test (Untested)</button>
+                <p>Summary:
+                    <span class="untested">1 untested</span>,
+                    <span class="passed">1 passed</span>,
+                    <span class="failed">1 failed</span>,
+                    <span class="errored">1 errored</span>,
+                    <span class="disabled">1 disabled</span></p>
+                <p class="untested">
+                    <button>Test</button>
                     <span style="font-size: larger">&#x1F636;</span>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Newland<br>
                     <strong>THEN</strong> nothing has happened yet
                 </p>
-                <p style="color:green">
-                    <button>Test (Passed)</button>
+                <p class="passed">
+                    <button>Test</button>
                     <span style="font-size: larger">&#x1F600;</span>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Happyland<br>
                     <strong>THEN</strong> Unicorns
                 </p>
-                <p style="color:red">
-                    <button>Test (Failed)</button>
+                <p class="failed">
+                    <button>Test</button>
                     <span>&#x1F61E;</span>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Sadland<br>
                     <strong>THEN</strong> there be Dragons
                 </p>
-                <p style="color:orange; font-style: oblique">
-                    <button>Test (Errored)</button>
+                <p class="failed-message">Expected: Dragons, got: Puppies</p>
+                <p class="errored">
+                    <button>Test</button>
                     <span style="font-size: larger">&#x1F632;</span>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Crazyland<br>
                     <strong>THEN</strong> nothing works right
                 </p>
-                <p style="color:gray">
-                    <button>Test (Disabled)</button>
+                <p class="errored-message">Test timed out after 90 seconds</p>
+                <p class="disabled">
+                    <button>Test</button>
                     <span style="font-size: larger">&#x1F634;</span>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Slowland<br>
@@ -192,6 +230,7 @@
                 </p>
             </section>
         </blockquote>
+    </section>
     </section>
 </article>
 </body>
