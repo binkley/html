@@ -17,11 +17,19 @@
         x-todo:before {
             content: 'TODO: '
         }
+
+        x-emoji {
+            font-size: larger;
+        }
     </style>
     <script>
         document.registerElement('x-todo', {
             prototype: Object.create(HTMLDivElement.prototype),
             extends: 'div'
+        })
+        document.registerElement('x-emoji', {
+            prototype: Object.create(HTMLElement.prototype),
+            extends: 'span'
         })
     </script>
 </head>
@@ -39,6 +47,7 @@
         <li><a href="#three-amigos">Enter the Three Amigos</a></li>
         <li><a href="#acceptance-criteria">What are Acceptance
             Criteria?</a></li>
+        <li><a href="#story-picture">A picture of a story</a></li>
     </ul>
 </nav>
 <article>
@@ -142,7 +151,7 @@
             improve the value of software. You win more.</p>
     </section>
     <x-todo>Blah-blah. How much prologue before the main event?</x-todo>
-    <section>
+    <section id="story-picture">
         <h2>A picture of a story</h2>
         <blockquote>
             <section>
@@ -163,35 +172,35 @@
                     disabled</p>
                 <p>
                     <button>Test (Untested)</button>
-                    <span style="font-size:larger">&#x1F636;</span>
+                    <x-emoji>&#x1F636;</x-emoji>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Newland<br>
                     <strong>THEN</strong> nothing has happened yet
                 </p>
                 <p style="color:green">
                     <button>Test (Passed)</button>
-                    <span style="font-size:larger">&#x1F600;</span>
+                    <x-emoji>&#x1F600;</x-emoji>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Happyland<br>
                     <strong>THEN</strong> Unicorns
                 </p>
                 <p style="color:red">
                     <button>Test (Failed)</button>
-                    <span style="font-size:larger">&#x1F61E;</span>
+                    <x-emoji>&#x1F61E;</x-emoji>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Sadland<br>
                     <strong>THEN</strong> there be Dragons
                 </p>
                 <p style="color:orange; font-style: oblique">
                     <button>Test (Errored)</button>
-                    <span style="font-size:larger">&#x1F632;</span>
+                    <x-emoji>&#x1F632;</x-emoji>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Crazyland<br>
                     <strong>THEN</strong> nothing works right
                 </p>
                 <p style="color:gray">
                     <button>Test (Disabled)</button>
-                    <span style="font-size:larger">&#x1F634;</span>
+                    <x-emoji>&#x1F634;</x-emoji>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Slowland<br>
                     <strong>THEN</strong> tests are disabled
