@@ -18,6 +18,10 @@
             content: 'TODO: '
         }
 
+        .message {
+            font-style: oblique;
+        }
+
         .untested {
         }
 
@@ -29,17 +33,7 @@
             color: red;
         }
 
-        .failed-message {
-            color: red;
-            font-style: oblique;
-        }
-
         .errored {
-            color: orange;
-            font-style: oblique;
-        }
-
-        .errored-message {
             color: orange;
             font-style: oblique;
         }
@@ -178,7 +172,7 @@
             <section>
                 <h3>Details</h3>
                 <p>No actual criteria were validated in the execution of
-                    these tests.  This is only a mock.</p>
+                    these tests. This is only a mock.</p>
             </section>
             <section>
                 <h3>
@@ -191,43 +185,53 @@
                     <span class="failed">1 failed</span>,
                     <span class="errored">1 errored</span>,
                     <span class="disabled">1 disabled</span></p>
-                <p class="untested">
-                    <button>Test</button>
-                    <span style="font-size: larger">&#x1F636;</span>
-                    <strong>GIVEN</strong> magical thinking<br>
-                    <strong>WHEN</strong> in Newland<br>
-                    <strong>THEN</strong> nothing has happened yet
-                </p>
-                <p class="passed">
-                    <button>Test</button>
-                    <span style="font-size: larger">&#x1F600;</span>
-                    <strong>GIVEN</strong> magical thinking<br>
-                    <strong>WHEN</strong> in Happyland<br>
-                    <strong>THEN</strong> Unicorns
-                </p>
-                <p class="failed">
-                    <button>Test</button>
-                    <span>&#x1F61E;</span>
-                    <strong>GIVEN</strong> magical thinking<br>
-                    <strong>WHEN</strong> in Sadland<br>
-                    <strong>THEN</strong> there be Dragons
-                </p>
-                <p class="failed-message">Expected: Dragons, got: Puppies</p>
-                <p class="errored">
-                    <button>Test</button>
-                    <span style="font-size: larger">&#x1F632;</span>
-                    <strong>GIVEN</strong> magical thinking<br>
-                    <strong>WHEN</strong> in Crazyland<br>
-                    <strong>THEN</strong> nothing works right
-                </p>
-                <p class="errored-message">Test timed out after 90 seconds</p>
-                <p class="disabled">
-                    <button>Test</button>
-                    <span style="font-size: larger">&#x1F634;</span>
-                    <strong>GIVEN</strong> magical thinking<br>
-                    <strong>WHEN</strong> in Slowland<br>
-                    <strong>THEN</strong> tests are disabled
-                </p>
+                <div class="untested">
+                    <p>
+                        <button>Test</button>
+                        <span style="font-size: larger">&#x1F636;</span>
+                        <strong>GIVEN</strong> magical thinking<br>
+                        <strong>WHEN</strong> in Newland<br>
+                        <strong>THEN</strong> nothing has happened yet
+                    </p>
+                </div>
+                <div class="passed">
+                    <p>
+                        <button>Test</button>
+                        <span style="font-size: larger">&#x1F600;</span>
+                        <strong>GIVEN</strong> magical thinking<br>
+                        <strong>WHEN</strong> in Happyland<br>
+                        <strong>THEN</strong> Unicorns
+                    </p>
+                </div>
+                <div class="failed">
+                    <p>
+                        <button>Test</button>
+                        <span>&#x1F61E;</span>
+                        <strong>GIVEN</strong> magical thinking<br>
+                        <strong>WHEN</strong> in Sadland<br>
+                        <strong>THEN</strong> there be Dragons
+                    </p>
+                    <p class="message">Expected: Dragons, got: Puppies</p>
+                </div>
+                <div class="errored">
+                    <p>
+                        <button>Test</button>
+                        <span style="font-size: larger">&#x1F632;</span>
+                        <strong>GIVEN</strong> magical thinking<br>
+                        <strong>WHEN</strong> in Crazyland<br>
+                        <strong>THEN</strong> nothing works right
+                    </p>
+                    <p class="message">Test timed out after 90 seconds</p>
+                </div>
+                <div class="disabled">
+                    <p>
+                        <button>Test</button>
+                        <span style="font-size: larger">&#x1F634;</span>
+                        <strong>GIVEN</strong> magical thinking<br>
+                        <strong>WHEN</strong> in Slowland<br>
+                        <strong>THEN</strong> tests are disabled
+                    </p>
+                </div>
             </section>
         </blockquote>
     </section>
