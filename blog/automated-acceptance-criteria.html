@@ -8,36 +8,21 @@
             font-family: sans-serif;
         }
 
-        x-todo {
+        .todo {
             color: red;
             font-style: oblique;
             text-decoration: line-through;
         }
 
-        x-todo:before {
+        .todo:before {
             content: 'TODO: '
         }
-
-        x-emoji {
-            font-size: larger;
-        }
     </style>
-    <script>
-        document.registerElement('x-todo', {
-            prototype: Object.create(HTMLDivElement.prototype),
-            extends: 'div'
-        })
-        document.registerElement('x-emoji', {
-            prototype: Object.create(HTMLElement.prototype),
-            extends: 'span'
-        })
-    </script>
 </head>
 <body>
 <header>
-    <x-todo>This post mashes together lots of different concerns. Untangle
-        them: stay focused on AACs.
-    </x-todo>
+    <p class="todo">This post mashes together lots of different concerns.
+        Untangle them: stay focused on AACs.</p>
     <h1>Automated Acceptance Criteria</h1>
 </header>
 <nav>
@@ -68,8 +53,8 @@
         </ul>
         <p>(Yes, I know &mdash; what about developer testing? Bear with
             me.)</p>
-        <x-todo>Less fragile link for image?</x-todo>
-        <x-todo>Scalable version of image?</x-todo>
+        <p class="todo">Less fragile link for image?</p>
+        <p class="todo">Scalable version of image?</p>
         <!--
         <img src="https://upload.wikimedia.org/wikipedia/en/1/14/Ralph_Wiggum.png"
              alt="Ralph Wiggum picking nose"
@@ -92,7 +77,7 @@
     </section>
     <section id="forward-path">
         <h2>A forward path</h2>
-        <x-todo>Better section title</x-todo>
+        <p class="todo">Better section title</p>
         <p>What guides testing? If you're using nearly any form of modern user
             story writing, this includes something like "Acceptance Criteria".
             These are the gates that permit story development to be called
@@ -150,7 +135,7 @@
             more human attention and insight on the kinds of tests which best
             improve the value of software. You win more.</p>
     </section>
-    <x-todo>Blah-blah. How much prologue before the main event?</x-todo>
+    <p class="todo">Blah-blah. How much prologue before the main event?</p>
     <section id="story-picture">
         <h2>A picture of a story</h2>
         <blockquote>
@@ -172,35 +157,35 @@
                     disabled</p>
                 <p>
                     <button>Test (Untested)</button>
-                    <x-emoji>&#x1F636;</x-emoji>
+                    <span style="font-size: larger">&#x1F636;</span>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Newland<br>
                     <strong>THEN</strong> nothing has happened yet
                 </p>
                 <p style="color:green">
                     <button>Test (Passed)</button>
-                    <x-emoji>&#x1F600;</x-emoji>
+                    <span style="font-size: larger">&#x1F600;</span>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Happyland<br>
                     <strong>THEN</strong> Unicorns
                 </p>
                 <p style="color:red">
                     <button>Test (Failed)</button>
-                    <x-emoji>&#x1F61E;</x-emoji>
+                    <span>&#x1F61E;</span>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Sadland<br>
                     <strong>THEN</strong> there be Dragons
                 </p>
                 <p style="color:orange; font-style: oblique">
                     <button>Test (Errored)</button>
-                    <x-emoji>&#x1F632;</x-emoji>
+                    <span style="font-size: larger">&#x1F632;</span>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Crazyland<br>
                     <strong>THEN</strong> nothing works right
                 </p>
                 <p style="color:gray">
                     <button>Test (Disabled)</button>
-                    <x-emoji>&#x1F634;</x-emoji>
+                    <span style="font-size: larger">&#x1F634;</span>
                     <strong>GIVEN</strong> magical thinking<br>
                     <strong>WHEN</strong> in Slowland<br>
                     <strong>THEN</strong> tests are disabled
