@@ -26,8 +26,12 @@
             font-style: oblique;
         }
 
-        .blocked {
+        .trouble {
             color: red !important;
+        }
+
+        .missing {
+            color: gray;
         }
 
         .untested {
@@ -208,12 +212,25 @@
                     Acceptance criteria
                 </h3>
                 <div class="header"><strong>Summary:</strong>
+                    <span class="missing">1 missing</span>,
                     <span class="untested">1 untested</span>,
                     <span class="running">1 running</span>,
                     <span class="passed">1 passed</span>,
                     <span class="failed">1 failed</span>,
                     <span class="errored">1 errored</span>,
                     <span class="disabled">1 disabled</span></div>
+                <div class="flex-item">
+                    <div>
+                        <button>Create</button>
+                        <span class="emoji">&#x1F637;</span>
+                        <span class="missing">
+                        <strong>GIVEN</strong> magical thinking<br>
+                        <strong>WHEN</strong> in Missingland<br>
+                        <strong>THEN</strong> there's no test
+                    </span>
+                    </div>
+                    <div class="missing message trouble">Missing test</div>
+                </div>
                 <div class="flex-item">
                     <div>
                         <button>Test</button>
@@ -224,6 +241,7 @@
                         <strong>THEN</strong> nothing has happened yet
                     </span>
                     </div>
+                    <div class="untested message trouble">Test never run</div>
                 </div>
                 <div class="flex-item">
                     <div>
@@ -258,9 +276,8 @@
                         <strong>THEN</strong> there be Dragons
                     </span>
                     </div>
-                    <div class="message failed">Expected: <em>Dragons</em>,
-                        got:
-                        <em>Puppies</em></div>
+                    <div class="message failed trouble">Expected:
+                        <em>Dragons</em>, got: <em>Puppies</em></div>
                 </div>
                 <div class="flex-item">
                     <div>
@@ -272,8 +289,8 @@
                             <strong>THEN</strong> nothing works right
                         </span>
                     </div>
-                    <div class="message errored">Test timed out after 90
-                        seconds
+                    <div class="message errored trouble">Test timed out
+                        after 90 seconds
                     </div>
                 </div>
                 <div class="flex-item">
@@ -286,7 +303,7 @@
                         <strong>THEN</strong> tests are disabled
                     </span>
                     </div>
-                    <div class="message disabled blocked">@dev1 @qa2:
+                    <div class="message disabled trouble">@dev1 @qa2:
                         BLOCKED on widget spanner
                     </div>
                 </div>
