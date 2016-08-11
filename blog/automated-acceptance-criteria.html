@@ -22,6 +22,10 @@
             font-style: oblique;
         }
 
+        .blocked {
+            color: red !important;
+        }
+
         .untested {
         }
 
@@ -40,7 +44,6 @@
 
         .errored {
             color: orange;
-            font-style: oblique;
         }
 
         .disabled {
@@ -54,7 +57,7 @@
         }
 
         .header {
-            flex: 1 100%;
+            flex: 100%;
         }
 
         .flex-item {
@@ -200,85 +203,88 @@
                     <button>Test All</button>
                     Acceptance criteria
                 </h3>
-                <p class="header"><strong>Summary:</strong>
+                <div class="header"><strong>Summary:</strong>
                     <span class="untested">1 untested</span>,
                     <span class="running">1 running</span>,
                     <span class="passed">1 passed</span>,
                     <span class="failed">1 failed</span>,
                     <span class="errored">1 errored</span>,
-                    <span class="disabled">1 disabled</span></p>
+                    <span class="disabled">1 disabled</span></div>
                 <div class="flex-item">
-                <p>
-                    <button>Test</button>
-                    <span style="font-size: larger">&#x1F636;</span>
-                    <span class="untested">
+                    <div>
+                        <button>Test</button>
+                        <span style="font-size: larger">&#x1F636;</span>
+                        <span class="untested">
                         <strong>GIVEN</strong> magical thinking<br>
                         <strong>WHEN</strong> in Newland<br>
                         <strong>THEN</strong> nothing has happened yet
                     </span>
-                </p>
+                    </div>
                 </div>
                 <div class="flex-item">
-                <p>
-                    <button>Cancel</button>
-                    <span style="font-size: larger">&#x1F60E;</span>
-                    <span class="running">
+                    <div>
+                        <button>Cancel</button>
+                        <span style="font-size: larger">&#x1F60E;</span>
+                        <span class="running">
                         <strong>GIVEN</strong> magical thinking<br>
                         <strong>WHEN</strong> in Fastland<br>
                         <strong>THEN</strong> tests run quickly
                     </span>
-                </p>
-                <p class="running message">15% done (3s)</p>
+                    </div>
+                    <div class="running message">15% done (3s)</div>
                 </div>
                 <div class="flex-item">
-                <p>
-                    <button>Test</button>
-                    <span style="font-size: larger">&#x1F600;</span>
-                    <span class="passed">
+                    <div>
+                        <button>Test</button>
+                        <span style="font-size: larger">&#x1F600;</span>
+                        <span class="passed">
                         <strong>GIVEN</strong> magical thinking<br>
                         <strong>WHEN</strong> in Happyland<br>
                         <strong>THEN</strong> Unicorns
                     </span>
-                </p>
+                    </div>
                 </div>
                 <div class="flex-item">
-                <p>
-                    <button>Test</button>
-                    <span style="font-size: larger">&#x1F61E;</span>
-                    <spad class="failed">
+                    <div>
+                        <button>Test</button>
+                        <span style="font-size: larger">&#x1F61E;</span>
+                        <span class="failed">
                         <strong>GIVEN</strong> magical thinking<br>
                         <strong>WHEN</strong> in Sadland<br>
                         <strong>THEN</strong> there be Dragons
-                    </spad>
-                </p>
-                <p class="message failed">Expected: <em>Dragons</em>, got:
-                    <em>Puppies</em></p>
+                    </span>
+                    </div>
+                    <div class="message failed">Expected: <em>Dragons</em>,
+                        got:
+                        <em>Puppies</em></div>
                 </div>
                 <div class="flex-item">
-                <p>
-                    <button>Test</button>
-                    <span style="font-size: larger">&#x1F632;</span>
-                    <span class="errored">
+                    <div>
+                        <button>Test</button>
+                        <span style="font-size: larger">&#x1F632;</span>
+                        <span class="errored">
                             <strong>GIVEN</strong> magical thinking<br>
                             <strong>WHEN</strong> in Crazyland<br>
                             <strong>THEN</strong> nothing works right
                         </span>
-                </p>
-                <p class="message errored">Test timed out after 90 seconds</p>
+                    </div>
+                    <div class="message errored">Test timed out after 90
+                        seconds
+                    </div>
                 </div>
                 <div class="flex-item">
-                <p>
-                    <button disabled>Disabled</button>
-                    <span style="font-size: larger">&#x1F634;</span>
-                    <span class="disabled">
+                    <div>
+                        <button disabled>Disabled</button>
+                        <span style="font-size: larger">&#x1F634;</span>
+                        <span class="disabled">
                         <strong>GIVEN</strong> magical thinking<br>
                         <strong>WHEN</strong> in Slowland<br>
                         <strong>THEN</strong> tests are disabled
                     </span>
-                </p>
-                <p class="message disabled">@dev1 @dev2:
-                    <span style="color:red">BLOCKED</span> waiting on new
-                    widget spanner</p>
+                    </div>
+                    <div class="message disabled blocked">@dev1 @qa2:
+                        BLOCKED on widget spanner
+                    </div>
                 </div>
             </section>
         </blockquote>
