@@ -18,6 +18,10 @@
             content: 'TODO: '
         }
 
+        .story-syntax {
+            font-weight: bolder;
+        }
+
         .emoji {
             font-size: larger;
         }
@@ -87,6 +91,7 @@
         <li><a href="#acceptance-criteria">What are Acceptance
             Criteria?</a></li>
         <li><a href="#story-picture">A picture of a story</a></li>
+        <li><a href="#problems">Potential problems</a></li>
         <li><a href="#implementation">Possible implementations</a></li>
     </ul>
 </nav>
@@ -116,8 +121,8 @@
              style="float:right; width:10%; height: auto"/>
              -->
         <img src="https://lh3.googleusercontent.com/-o6e5YUtj8rU/TWkVMlQbqGI/AAAAAAAAACo/OmiXddT-biE/s200/RalphWiggum4.gif"
-             alt="Ralph Wiggum thinking"
-             style="float:right; width:15%; height: auto"/>
+             alt="Ralph Wiggum thinking" style="float:right; width:15%;
+             height: auto"/>
         <p>On it goes, the same work each time. Redundant, repetitive,
             error-prone, fiddly. And worst of all&mdash;<em>boring</em>,
             <strong>BORING</strong>! This is traditional, manual "user
@@ -164,9 +169,12 @@
             story is complete. The formulaic phrasing for ACs I like best
             is:</p>
         <blockquote>
-            <strong>GIVEN</strong> <em>some state of the world</em><br>
-            <strong>WHEN</strong> <em>some change happens</em><br>
-            <strong>THEN</strong> <em>some observable outcome results</em>
+            <span class="story-syntax">GIVEN</span> <em>some state of the
+            world</em><br>
+            <span class="story-syntax">WHEN</span> <em>some change
+            happens</em><br>
+            <span class="story-syntax">THEN</span> <em>some observable
+            outcome results</em>
         </blockquote>
         <p>Generally for web applications this means when I do something with
             a web page in the application, then the page changes in some
@@ -191,15 +199,16 @@
             improve the value of software. You win more.</p>
     </section>
     <section id="story-picture">
-        <p class="todo">Blah-blah. How much prologue before the main
-            event?</p>
+        <p class="todo">Too prologue before the main event.</p>
         <h2>A picture of a story</h2>
         <blockquote>
             <section>
                 <h3>Narrative</h3>
-                <p><strong>AS A</strong> AAC author<br>
-                    <strong>I WANT</strong> a mock executable story<br>
-                    <strong>SO THAT</strong> others can see the value</p>
+                <p><span class="story-syntax">AS A</span> AAC author<br>
+                    <span class="story-syntax">I WANT</span> a mock executable
+                    story<br>
+                    <span class="story-syntax">SO THAT</span> others can see
+                    the value</p>
             </section>
             <section>
                 <h3>Details</h3>
@@ -224,10 +233,10 @@
                         <button>Create</button>
                         <span class="emoji">&#x1F637;</span>
                         <span class="missing">
-                        <strong>GIVEN</strong> magical thinking<br>
-                        <strong>WHEN</strong> in Missingland<br>
-                        <strong>THEN</strong> there's no test
-                    </span>
+                            <span class="story-syntax">GIVEN</span> magical thinking<br>
+                            <span class="story-syntax">WHEN</span> in Missingland<br>
+                            <span class="story-syntax">THEN</span> there's no test
+                        </span>
                     </div>
                     <div class="missing message trouble">Missing test</div>
                 </div>
@@ -236,10 +245,10 @@
                         <button>Test</button>
                         <span class="emoji">&#x1F636;</span>
                         <span class="untested">
-                        <strong>GIVEN</strong> magical thinking<br>
-                        <strong>WHEN</strong> in Newland<br>
-                        <strong>THEN</strong> nothing has happened yet
-                    </span>
+                            <span class="story-syntax">GIVEN</span> magical thinking<br>
+                            <span class="story-syntax">WHEN</span> in Newland<br>
+                            <span class="story-syntax">THEN</span> nothing has happened yet
+                        </span>
                     </div>
                     <div class="untested message trouble">Test never run</div>
                 </div>
@@ -248,10 +257,10 @@
                         <button>Cancel</button>
                         <span class="emoji">&#x1F60E;</span>
                         <span class="running">
-                        <strong>GIVEN</strong> magical thinking<br>
-                        <strong>WHEN</strong> in Fastland<br>
-                        <strong>THEN</strong> tests run quickly
-                    </span>
+                            <span class="story-syntax">GIVEN</span> magical thinking<br>
+                            <span class="story-syntax">WHEN</span> in Fastland<br>
+                            <span class="story-syntax">THEN</span> tests run quickly
+                        </span>
                     </div>
                     <div class="running message">15% done (3s)</div>
                 </div>
@@ -260,10 +269,10 @@
                         <button>Test</button>
                         <span class="emoji">&#x1F600;</span>
                         <span class="passed">
-                        <strong>GIVEN</strong> magical thinking<br>
-                        <strong>WHEN</strong> in Happyland<br>
-                        <strong>THEN</strong> Unicorns
-                    </span>
+                            <span class="story-syntax">GIVEN</span> magical thinking<br>
+                            <span class="story-syntax">WHEN</span> in Happyland<br>
+                            <span class="story-syntax">THEN</span> Unicorns
+                        </span>
                     </div>
                 </div>
                 <div class="flex-item">
@@ -271,10 +280,10 @@
                         <button>Test</button>
                         <span class="emoji">&#x1F61E;</span>
                         <span class="failed">
-                        <strong>GIVEN</strong> magical thinking<br>
-                        <strong>WHEN</strong> in Sadland<br>
-                        <strong>THEN</strong> there be Dragons
-                    </span>
+                            <span class="story-syntax">GIVEN</span> magical thinking<br>
+                            <span class="story-syntax">WHEN</span> in Sadland<br>
+                            <span class="story-syntax">THEN</span> there be Dragons
+                        </span>
                     </div>
                     <div class="message failed trouble">Expected:
                         <em>Dragons</em>, got: <em>Puppies</em></div>
@@ -284,9 +293,9 @@
                         <button>Test</button>
                         <span class="emoji">&#x1F632;</span>
                         <span class="errored">
-                            <strong>GIVEN</strong> magical thinking<br>
-                            <strong>WHEN</strong> in Crazyland<br>
-                            <strong>THEN</strong> nothing works right
+                            <span class="story-syntax">GIVEN</span> magical thinking<br>
+                            <span class="story-syntax">WHEN</span> in Crazyland<br>
+                            <span class="story-syntax">THEN</span> nothing works right
                         </span>
                     </div>
                     <div class="message errored trouble">Test timed out
@@ -298,10 +307,10 @@
                         <button disabled>Disabled</button>
                         <span class="emoji">&#x1F634;</span>
                         <span class="disabled">
-                        <strong>GIVEN</strong> magical thinking<br>
-                        <strong>WHEN</strong> in Slowland<br>
-                        <strong>THEN</strong> tests are disabled
-                    </span>
+                            <span class="story-syntax">GIVEN</span> magical thinking<br>
+                            <span class="story-syntax">WHEN</span> in Slowland<br>
+                            <span class="story-syntax">THEN</span> tests are disabled
+                        </span>
                     </div>
                     <div class="message disabled trouble">@dev1 @qa2:
                         BLOCKED on widget spanner
@@ -309,6 +318,15 @@
                 </div>
             </section>
         </blockquote>
+    </section>
+    <section id="problems">
+        <h2>Potential problems</h2>
+        <p>Nothing is free. Potential problems with AACs include:</p>
+        <ul>
+            <li>
+                <stron>Scaling:</stron>
+            </li>
+        </ul>
     </section>
     <section id="implementation">
         <h2>Possible implementations</h2>
@@ -320,6 +338,10 @@
             <li>Convention over configuration: test page named by
                 camel-catenting story title
             </li>
+            <li>Create is an interesting case &mdash; how feasible is it
+                to interact with the testing system &amp; use some kind
+                of template to generate a new test case?
+            </li>
             <li>Live bidi: Test button kicks off test via REST; test
                 updates story via REST
             </li>
@@ -329,6 +351,16 @@
                 update story if tests were run separately?) See <a
                         href="http://farazdagi.com/blog/2014/rest-long-running-jobs/"><cite>REST
                     and long-running jobs</cite></a>
+            </li>
+            <li>In a FitNesse context, can we do 1 test table/AC (hence 1
+                page per story), or would it be 1 AC/page and a story is a
+                suite?
+            </li>
+        </ul>
+        <h2>UI considerations</h2>
+        <ul class="todo">
+            <li>Emojis should be driven by CSS, so teams can use or not
+                use them as they prefer
             </li>
         </ul>
     </section>
