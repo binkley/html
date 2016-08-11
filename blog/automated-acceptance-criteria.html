@@ -46,6 +46,20 @@
         .disabled {
             color: gray;
         }
+
+        .flex-container {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: flex-start;
+        }
+
+        .header {
+            flex: 1 100%;
+        }
+
+        .flex-item {
+            margin: 1em;
+        }
     </style>
 </head>
 <body>
@@ -181,18 +195,19 @@
                 <p>No actual criteria were validated in the execution of
                     these tests. This is only a mock.</p>
             </section>
-            <section>
-                <h3>
+            <section class="flex-container">
+                <h3 class="header">
                     <button>Test All</button>
                     Acceptance criteria
                 </h3>
-                <p><strong>Summary:</strong>
+                <p class="header"><strong>Summary:</strong>
                     <span class="untested">1 untested</span>,
                     <span class="running">1 running</span>,
                     <span class="passed">1 passed</span>,
                     <span class="failed">1 failed</span>,
                     <span class="errored">1 errored</span>,
                     <span class="disabled">1 disabled</span></p>
+                <div class="flex-item">
                 <p>
                     <button>Test</button>
                     <span style="font-size: larger">&#x1F636;</span>
@@ -202,6 +217,8 @@
                         <strong>THEN</strong> nothing has happened yet
                     </span>
                 </p>
+                </div>
+                <div class="flex-item">
                 <p>
                     <button>Cancel</button>
                     <span style="font-size: larger">&#x1F60E;</span>
@@ -212,6 +229,8 @@
                     </span>
                 </p>
                 <p class="running message">15% done (3s)</p>
+                </div>
+                <div class="flex-item">
                 <p>
                     <button>Test</button>
                     <span style="font-size: larger">&#x1F600;</span>
@@ -221,6 +240,8 @@
                         <strong>THEN</strong> Unicorns
                     </span>
                 </p>
+                </div>
+                <div class="flex-item">
                 <p>
                     <button>Test</button>
                     <span style="font-size: larger">&#x1F61E;</span>
@@ -230,7 +251,10 @@
                         <strong>THEN</strong> there be Dragons
                     </spad>
                 </p>
-                <p class="message failed">Expected: Dragons, got: Puppies</p>
+                <p class="message failed">Expected: <em>Dragons</em>, got:
+                    <em>Puppies</em></p>
+                </div>
+                <div class="flex-item">
                 <p>
                     <button>Test</button>
                     <span style="font-size: larger">&#x1F632;</span>
@@ -241,6 +265,8 @@
                         </span>
                 </p>
                 <p class="message errored">Test timed out after 90 seconds</p>
+                </div>
+                <div class="flex-item">
                 <p>
                     <button disabled>Disabled</button>
                     <span style="font-size: larger">&#x1F634;</span>
@@ -253,6 +279,7 @@
                 <p class="message disabled">@dev1 @dev2:
                     <span style="color:red">BLOCKED</span> waiting on new
                     widget spanner</p>
+                </div>
             </section>
         </blockquote>
     </section>
