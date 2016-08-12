@@ -8,6 +8,10 @@
             font-family: sans-serif;
         }
 
+        dt {
+            font-weight: bolder;
+        }
+
         .todo {
             color: red;
             font-style: oblique;
@@ -322,11 +326,29 @@
     <section id="problems">
         <h2>Potential problems</h2>
         <p>Nothing is free. Potential problems with AACs include:</p>
-        <ul>
-            <li>
-                <stron>Scaling:</stron>
-            </li>
-        </ul>
+        <dl>
+            <dt>Integrations</dt>
+            <dd>
+                <p>There are no existing
+                    integrations along these lines. You need to build your
+                    own against JIRA, Mingle, FitNesse, Cucumber, etc. Whether
+                    the story system drives the interaction, or the test
+                    system does, may depend on the exact combination. Best
+                    would be if both systems can call the other.</p></dd>
+            <dt>Scaling</dt>
+            <dd>
+                <p>As more AACs run, the complete suite takes longer. For
+                    example, adding 1 minute of AAC/story, and 5
+                    stories/iteration, in a 12 iteration project takes 60
+                    minutes to run. This is not specific to AACs but a
+                    general problem with acceptance tests. It's still much
+                    cheaper than the manual steps for each test, but
+                    prohibitive for a developer to run the whole suite
+                    locally.</p>
+                <p><em>Best practice</em> is for the 3 amigos to run only
+                    the tests specific to a story before calling that story
+                    <em>Ready to Accept</em>.</p></dd>
+        </dl>
     </section>
     <section id="implementation">
         <h2>Possible implementations</h2>
