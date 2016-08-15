@@ -112,6 +112,10 @@
             justify-content: flex-start;
         }
 
+        .flex-container form {
+            display: inline;
+        }
+
         .header {
             flex: 100%;
         }
@@ -261,7 +265,9 @@
             </section>
             <section class="flex-container">
                 <h3 class="header">
-                    <button>Test All</button>
+                    <form action="/test-all">
+                        <button>Test All</button>
+                    </form>
                     Acceptance criteria
                 </h3>
                 <div class="header"><strong>Summary:</strong>
@@ -274,7 +280,10 @@
                     <span class="disabled">1 disabled</span></div>
                 <div class="flex-item missing">
                     <div>
-                        <button><em>Create</em></button>
+                        <form
+                                action="/create-test?given=magical+thinking&when=in+Missingland&then=there's+no+test">
+                            <button><em>Create</em></button>
+                        </form>
                         <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Missingland<br>
@@ -286,7 +295,10 @@
                 </div>
                 <div class="flex-item untested">
                     <div>
-                        <button>Test</button>
+                        <form
+                                action="/run-test?given=magical+thinking&when=in+Newland&then=nothing+has+happened+yet">
+                            <button>Test</button>
+                        </form>
                         <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Newland<br>
@@ -298,7 +310,10 @@
                 </div>
                 <div class="flex-item running">
                     <div>
-                        <button>Cancel</button>
+                        <form
+                                action="/cancel-test?given=magical+thinking&when=in+Fastland&then=tests+run+quickly">
+                            <button>Cancel</button>
+                        </form>
                         <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Fastland<br>
@@ -309,7 +324,10 @@
                 </div>
                 <div class="flex-item passed">
                     <div>
-                        <button>Test</button>
+                        <form
+                                action="/run-test?given=magical+thinking&when=in+Happyland&then=Unicorns">
+                            <button>Test</button>
+                        </form>
                         <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Happyland<br>
@@ -319,7 +337,10 @@
                 </div>
                 <div class="flex-item failed">
                     <div>
-                        <button>Test</button>
+                        <form
+                                action="/run-test?given=magical+thinking&when=in+Sadland&then=there+be+Dragons">
+                            <button>Test</button>
+                        </form>
                         <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Sadland<br>
@@ -331,7 +352,10 @@
                 </div>
                 <div class="flex-item errored">
                     <div>
-                        <button>Test</button>
+                        <form
+                                action="/run-test?given=magical+thinking&when=in+Crazyland&then=nothing+works+right">
+                            <button>Test</button>
+                        </form>
                         <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Crazyland<br>
