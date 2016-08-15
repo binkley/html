@@ -251,8 +251,17 @@
     <section id="story-picture">
         <p class="todo">Too prologue before the main event.</p>
         <h2>A picture of a story</h2>
+        <p>This is a sample story card with a simplistic implementation of
+            AACs. Live buttons call back into the story system, to be
+            mapped to calls in the testing system. (Another
+            implementation might have the buttons directly call to the
+            testing system, avoiding an extra call into the story system
+            but showing details in the page source about the testing
+            system.)</p>
         <blockquote>
             <section>
+                <h3>Title</h3>
+                <h4></h4>
                 <h3>Narrative</h3>
                 <p><span class="story-syntax">AS A</span> AAC author<br>
                     <span class="story-syntax">I WANT</span> a mock executable
@@ -473,31 +482,29 @@
     </section>
     <section id="implementation">
         <h2>Possible implementations</h2>
+        <h3>General</h3>
         <ul class="todo">
             <li>REST between test system &amp; card wall</li>
+            <li>Create is an interesting case &mdash; how feasible is it
+                to interact with the testing system &amp; use some kind
+                of template to generate a new test case?
+            </li>
+            <li>Live bidi: Test button in story kicks off test via REST;
+                edits in test update story via REST
+            </li>
+        </ul>
+        <h3>FitNesse</h3>
+        <p>FitNesse is a mature acceptance testing system built as a wiki
+            with executable pages and an extension system.</p>
+        <ul class="todo">
             <li>Convention over configuration: test named by
                 camel-catenating words in AC
             </li>
             <li>Convention over configuration: test page named by
                 camel-catenting story title
             </li>
-            <li>Create is an interesting case &mdash; how feasible is it
-                to interact with the testing system &amp; use some kind
-                of template to generate a new test case?
-            </li>
-            <li>Live bidi: Test button kicks off test via REST; test
-                updates story via REST
-            </li>
-            <li>REST "batch": use HTTP 202 (Accepted) to kick off a test,
-                poll for status update, redirect to final status. Test
-                system would not call back into story system. (But how to
-                update story if tests were run separately?) See <a
-                        href="http://farazdagi.com/blog/2014/rest-long-running-jobs/"><cite>REST
-                    and long-running jobs</cite></a>
-            </li>
-            <li>In a FitNesse context, can we do 1 test table/AC (hence 1
-                page per story), or would it be 1 AC/page and a story is a
-                suite?
+            <li>Can we do 1 test table/AC (hence 1 page per story), or
+                would it be 1 AC/page and a story is a suite?
             </li>
         </ul>
     </section>
