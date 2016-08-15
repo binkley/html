@@ -3,7 +3,8 @@
 <head>
     <meta charset=utf-8>
     <title>Automated Acceptance Criteria</title>
-    <link href='https://fonts.googleapis.com/css?family=Noto%20Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Noto%20Sans'
+          rel='stylesheet' type='text/css'>
     <style>
         body {
             font-family: 'Noto Sans', sans-serif;
@@ -27,10 +28,6 @@
             font-weight: bolder;
         }
 
-        .emoji {
-            font-size: larger;
-        }
-
         .message {
             font-style: oblique;
         }
@@ -39,11 +36,29 @@
             color: red !important;
         }
 
+        .missing .ac:before {
+            content: '\1F637';
+            font-size: larger;
+            font-style: normal;
+        }
+
         .missing {
             color: gray;
         }
 
+        .untested .ac:before {
+            content: '\1F636';
+            font-size: larger;
+            font-style: normal;
+        }
+
         .untested {
+        }
+
+        .running .ac:before {
+            content: '\1F60E';
+            font-size: larger;
+            font-style: normal;
         }
 
         .running {
@@ -51,16 +66,40 @@
             font-style: oblique;
         }
 
+        .passed .ac:before {
+            content: '\1F600';
+            font-size: larger;
+            font-style: normal;
+        }
+
         .passed {
             color: green;
+        }
+
+        .failed .ac:before {
+            content: '\1F61E';
+            font-size: larger;
+            font-style: normal;
         }
 
         .failed {
             color: red;
         }
 
+        .errored .ac:before {
+            content: '\1F632';
+            font-size: larger;
+            font-style: normal;
+        }
+
         .errored {
             color: orange;
+        }
+
+        .disabled .ac:before {
+            content: '\1F634';
+            font-size: larger;
+            font-style: normal;
         }
 
         .disabled {
@@ -233,92 +272,87 @@
                     <span class="failed">1 failed</span>,
                     <span class="errored">1 errored</span>,
                     <span class="disabled">1 disabled</span></div>
-                <div class="flex-item">
+                <div class="flex-item missing">
                     <div>
                         <button><em>Create</em></button>
-                        <span class="emoji">&#x1F637;</span>
-                        <span class="missing">
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Missingland<br>
                             <span class="story-syntax">THEN</span> there's no test
                         </span>
                     </div>
-                    <div class="missing message trouble">No test (yet) - <em>create one!</em></div>
+                    <div class="message trouble">No test (yet) - <em>create
+                        one!</em></div>
                 </div>
-                <div class="flex-item">
+                <div class="flex-item untested">
                     <div>
                         <button>Test</button>
-                        <span class="emoji">&#x1F636;</span>
-                        <span class="untested">
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Newland<br>
                             <span class="story-syntax">THEN</span> nothing has happened yet
                         </span>
                     </div>
-                    <div class="untested message trouble">Test never run - <em>be the first!</em></div>
+                    <div class="message trouble">Test never run - <em>be the
+                        first!</em></div>
                 </div>
-                <div class="flex-item">
+                <div class="flex-item running">
                     <div>
                         <button>Cancel</button>
-                        <span class="emoji">&#x1F60E;</span>
-                        <span class="running">
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Fastland<br>
                             <span class="story-syntax">THEN</span> tests run quickly
                         </span>
                     </div>
-                    <div class="running message">15% done (3s)</div>
+                    <div class="message">15% done (3s)</div>
                 </div>
-                <div class="flex-item">
+                <div class="flex-item passed">
                     <div>
                         <button>Test</button>
-                        <span class="emoji">&#x1F600;</span>
-                        <span class="passed">
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Happyland<br>
                             <span class="story-syntax">THEN</span> Unicorns
                         </span>
                     </div>
                 </div>
-                <div class="flex-item">
+                <div class="flex-item failed">
                     <div>
                         <button>Test</button>
-                        <span class="emoji">&#x1F61E;</span>
-                        <span class="failed">
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Sadland<br>
                             <span class="story-syntax">THEN</span> there be Dragons
                         </span>
                     </div>
-                    <div class="message failed trouble">Expected:
+                    <div class="message trouble">Expected:
                         <em>Dragons</em>, got: <em>Puppies</em></div>
                 </div>
-                <div class="flex-item">
+                <div class="flex-item errored">
                     <div>
                         <button>Test</button>
-                        <span class="emoji">&#x1F632;</span>
-                        <span class="errored">
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Crazyland<br>
                             <span class="story-syntax">THEN</span> nothing works right
                         </span>
                     </div>
-                    <div class="message errored trouble">Test timed out
+                    <div class="message trouble">Test timed out
                         after 90 seconds
                     </div>
                 </div>
-                <div class="flex-item">
+                <div class="flex-item disabled">
                     <div>
                         <button disabled>Disabled</button>
-                        <span class="emoji">&#x1F634;</span>
-                        <span class="disabled">
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Slowland<br>
                             <span class="story-syntax">THEN</span> tests are disabled
                         </span>
                     </div>
-                    <div class="message disabled trouble">@dev1 @qa2:
-                        BLOCKED on widget spanner
+                    <div class="message trouble">@dev1 @qa2: BLOCKED on
+                        widget spanner
                     </div>
                 </div>
             </section>
@@ -378,12 +412,6 @@
             <li>In a FitNesse context, can we do 1 test table/AC (hence 1
                 page per story), or would it be 1 AC/page and a story is a
                 suite?
-            </li>
-        </ul>
-        <h2>UI considerations</h2>
-        <ul class="todo">
-            <li>Emojis should be driven by CSS, so teams can use or not
-                use them as they prefer
             </li>
         </ul>
     </section>
