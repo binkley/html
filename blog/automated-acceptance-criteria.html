@@ -139,8 +139,10 @@
         <li><a href="#acceptance-criteria">What are Acceptance
             Criteria?</a></li>
         <li><a href="#story-picture">A picture of a story</a></li>
+        <li><a href="#ac-states">Acceptance Criteria states</a></li>
         <li><a href="#problems">Potential problems</a></li>
         <li><a href="#implementation">Possible implementations</a></li>
+        <li><a href="#rest-api">Sample REST API</a></li>
     </ul>
 </nav>
 <article>
@@ -382,6 +384,63 @@
             </section>
         </blockquote>
     </section>
+    <section id="ac-states">
+        <h2>Acceptance Criteria states</h2>
+        <p>Every AC potentially has a message from the testing system
+            giving more detail on state. These are noted below.</p>
+        <dl>
+            <dt>Missing</dt>
+            <dd>
+                <p>This AC has no matching test in the testing system. Use
+                    the <em>Create</em> button to create a new test. This does
+                    not run the test.</p>
+                <p>The <em>message</em> is boilerplate to remind users to
+                    create tests.</p>
+            </dd>
+            <dt>Untested</dt>
+            <dd>
+                <p>The AC has a matching test in the testing system, but the
+                    test has never been run. Use the <em>Test</em> button to
+                    run the test.</p>
+                <p>Typically there is no <em>message</em> for this state.</p>
+            </dd>
+            <dt>Running</dt>
+            <dd>
+                <p>The matching test for the AC is running in the testing
+                    system. Use the <em>Cancel</em> button to stop the test,
+                    or wait for it to complete.</p>
+                <p>The <em>message</em>, is supported by the testing
+                    system, should give a notion of progress.</p>
+            </dd>
+            <dt>Passed</dt>
+            <dd>
+                <p>The matching test for the AC passed last time it ran.
+                    Use the <em>Test</em> button to run the test again.</p>
+                <p>Typically there is no <em>message</em> for this state.</p>
+            </dd>
+            <dt>Failed</dt>
+            <dd>
+                <p>The matching test for the AC failed last time it ran.
+                    Use the <em>Test</em> button to run the test again.</p>
+                <p>The <em>message</em> must give a notion of why the test
+                    failed.</p>
+            </dd>
+            <dt>Errored</dt>
+            <dd>
+                <p>The matching test for the AC errored last time it ran.
+                    Use the <em>Test</em> button to run the test again.</p>
+                <p>The <em>message</em> must give a notion of why the test
+                    errored.</p>
+            </dd>
+            <dt>Disabled</dt>
+            <dd>
+                <p>The matching test for the AC is disabled in the testing
+                    system. Update the testing system to reenable.</p>
+                <p>The <em>message</em>, if supported, should give a
+                    reason the test is disabled when available.</p>
+            </dd>
+        </dl>
+    </section>
     <section id="problems">
         <h2>Potential problems</h2>
         <p>Nothing is free. Potential problems with AACs include:</p>
@@ -438,6 +497,84 @@
                 suite?
             </li>
         </ul>
+    </section>
+    <section id="rest-api">
+        <h2>Sample REST API</h2>
+        <h3>Calling the story system</h3>
+        <h4>From the story page</h4>
+        <dl>
+            <dt><code>/test-all</code></dt>
+            <dd>
+                <p>Invokes all tests for this story in the testing system,
+                    and updates the story page with progress and results.</p>
+                <h5>Parameters</h5>
+                <dl>
+                    <dt>story</dt>
+                    <dd>The unique mapping identifying a story.</dd>
+                </dl>
+            </dd>
+            <dt><code>/create-test</code></dt>
+            <dd>
+                <p>Creates a new test in the testing system for an AC, and
+                    marks the AC as runnable.</p>
+                <h5>Parameters</h5>
+                <dl>
+                    <dt>story</dt>
+                    <dd>The unique mapping identifying a story</dd>
+                    <dt>given</dt>
+                    <dd>The <em>GIVEN</em> clause of the AC</dd>
+                    <dt>when</dt>
+                    <dd>The <em>WHEN</em> clause of the AC</dd>
+                    <dt>then</dt>
+                    <dd>The <em>THEN</em> clause of the AC</dd>
+                </dl>
+            </dd>
+            <dt><code>/run-test</code></dt>
+            <dd>
+                <p>Runs the test in the testing system for an AC, and marks
+                    the AC as running. When the testing system finishes, marks
+                    the AC with disabled, passed, failed or errored.</p>
+                <h5>Parameters</h5>
+                <dl>
+                    <dt>story</dt>
+                    <dd>The unique mapping identifying a story</dd>
+                    <dt>given</dt>
+                    <dd>The <em>GIVEN</em> clause of the AC</dd>
+                    <dt>when</dt>
+                    <dd>The <em>WHEN</em> clause of the AC</dd>
+                    <dt>then</dt>
+                    <dd>The <em>THEN</em> clause of the AC</dd>
+                </dl>
+            </dd>
+            <dt><code>/cancel-test</code></dt>
+            <dd>
+                <p>Cancels the running test in the testing system for an AC,
+                    and marks the AC as runnable.</p>
+                <h5>Parameters</h5>
+                <dl>
+                    <dt>story</dt>
+                    <dd>The unique mapping identifying a story</dd>
+                    <dt>given</dt>
+                    <dd>The <em>GIVEN</em> clause of the AC</dd>
+                    <dt>when</dt>
+                    <dd>The <em>WHEN</em> clause of the AC</dd>
+                    <dt>then</dt>
+                    <dd>The <em>THEN</em> clause of the AC</dd>
+                </dl>
+            </dd>
+        </dl>
+        <h4>From the testing system</h4>
+        <dl>
+            <dt><code>/new-test</code></dt>
+            <dd>Notifies the story system of a new test potentially
+                associated with an AC.
+            </dd>
+            <dt><code>/test-done</code></dt>
+            <dd>Notifies the story system of test state for a test
+                potentially associated with an AC.
+            </dd>
+        </dl>
+        <h3>Calling the testing system</h3>
     </section>
 </article>
 </body>
