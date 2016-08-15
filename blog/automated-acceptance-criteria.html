@@ -410,7 +410,10 @@
                     system. Use the <em>Cancel</em> button to stop the test,
                     or wait for it to complete.</p>
                 <p>The <em>message</em>, is supported by the testing
-                    system, should give a notion of progress.</p>
+                    system, should give a notion of progress. See <a
+                            href="http://farazdagi.com/blog/2014/rest-long-running-jobs/"><cite>REST
+                        and long-running jobs</cite></a> for how to do this.
+                </p>
             </dd>
             <dt>Passed</dt>
             <dd>
@@ -503,7 +506,8 @@
         <h3>Calling the story system</h3>
         <h4>From the story page</h4>
         <dl>
-            <dt><code>/test-all</code></dt>
+            <dt><code>GET</code>, <code>POST</code>
+                <code>/test-all</code></dt>
             <dd>
                 <p>Invokes all tests for this story in the testing system,
                     and updates the story page with progress and results.</p>
@@ -513,7 +517,8 @@
                     <dd>The unique mapping identifying a story.</dd>
                 </dl>
             </dd>
-            <dt><code>/create-test</code></dt>
+            <dt><code>GET</code>, <code>POST</code>
+                <code>/create-test</code></dt>
             <dd>
                 <p>Creates a new test in the testing system for an AC, and
                     marks the AC as runnable.</p>
@@ -529,7 +534,8 @@
                     <dd>The <em>THEN</em> clause of the AC</dd>
                 </dl>
             </dd>
-            <dt><code>/run-test</code></dt>
+            <dt><code>GET</code>, <code>POST</code>
+                <code>/run-test</code></dt>
             <dd>
                 <p>Runs the test in the testing system for an AC, and marks
                     the AC as running. When the testing system finishes, marks
@@ -546,7 +552,8 @@
                     <dd>The <em>THEN</em> clause of the AC</dd>
                 </dl>
             </dd>
-            <dt><code>/cancel-test</code></dt>
+            <dt><code>GET</code>, <code>POST</code>
+                <code>/cancel-test</code></dt>
             <dd>
                 <p>Cancels the running test in the testing system for an AC,
                     and marks the AC as runnable.</p>
