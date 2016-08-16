@@ -292,7 +292,8 @@
                 <div class="flex-item missing">
                     <div>
                         <form
-                                action="/create-test?given=magical+thinking&when=in+Missingland&then=there's+no+test">
+                                action="/create-test/ThisProduct/ThisStory/AC1?given=magical+thinking&when=in+Missingland&then=there's+no+test"
+                                method="PUT">
                             <button><em>Create</em></button>
                         </form>
                         <span class="ac">
@@ -307,7 +308,7 @@
                 <div class="flex-item untested">
                     <div>
                         <form
-                                action="/run-test?given=magical+thinking&when=in+Newland&then=nothing+has+happened+yet">
+                                action="/run-test/ThisProduct/ThisStory/AC2">
                             <button>Test</button>
                         </form>
                         <span class="ac">
@@ -322,7 +323,7 @@
                 <div class="flex-item running">
                     <div>
                         <form
-                                action="/cancel-test?given=magical+thinking&when=in+Fastland&then=tests+run+quickly">
+                                action="/cancel-test/ThisProduct/ThisStory/AC3">
                             <button>Cancel</button>
                         </form>
                         <span class="ac">
@@ -336,7 +337,7 @@
                 <div class="flex-item passed">
                     <div>
                         <form
-                                action="/run-test?given=magical+thinking&when=in+Happyland&then=Unicorns">
+                                action="/run-test/ThisProduct/ThisStory/AC4">
                             <button>Test</button>
                         </form>
                         <span class="ac">
@@ -349,7 +350,7 @@
                 <div class="flex-item failed">
                     <div>
                         <form
-                                action="/run-test?given=magical+thinking&when=in+Sadland&then=there+be+Dragons">
+                                action="/run-test/ThisProduct/ThisStory/AC5">
                             <button>Test</button>
                         </form>
                         <span class="ac">
@@ -364,7 +365,7 @@
                 <div class="flex-item errored">
                     <div>
                         <form
-                                action="/run-test?given=magical+thinking&when=in+Crazyland&then=nothing+works+right">
+                                action="/run-test/ThisProduct/ThisStory/AC6">
                             <button>Test</button>
                         </form>
                         <span class="ac">
@@ -524,8 +525,7 @@
                     <dd>The unique mapping identifying a story.</dd>
                 </dl>
             </dd>
-            <dt><code>GET</code>, <code>POST</code>
-                <code>/create-test</code></dt>
+            <dt><code>PUT</code> <code>/create-test</code></dt>
             <dd>
                 <p>Creates a new test in the testing system for an AC, and
                     marks the AC as runnable.</p>
