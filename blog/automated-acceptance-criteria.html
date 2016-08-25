@@ -3,7 +3,8 @@
 <head>
     <meta charset=utf-8>
     <title>Automated Acceptance Criteria</title>
-    <link href='https://fonts.googleapis.com/css?family=Noto%20Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Noto%20Sans'
+          rel='stylesheet' type='text/css'>
     <style>
         body {
             font-family: 'Noto Sans', sans-serif;
@@ -27,10 +28,6 @@
             font-weight: bolder;
         }
 
-        .emoji {
-            font-size: larger;
-        }
-
         .message {
             font-style: oblique;
         }
@@ -39,11 +36,29 @@
             color: red !important;
         }
 
+        .missing .ac:before {
+            content: '\1F637';
+            font-size: larger;
+            font-style: normal;
+        }
+
         .missing {
             color: gray;
         }
 
+        .untested .ac:before {
+            content: '\1F636';
+            font-size: larger;
+            font-style: normal;
+        }
+
         .untested {
+        }
+
+        .running .ac:before {
+            content: '\1F60E';
+            font-size: larger;
+            font-style: normal;
         }
 
         .running {
@@ -51,16 +66,40 @@
             font-style: oblique;
         }
 
+        .passed .ac:before {
+            content: '\1F600';
+            font-size: larger;
+            font-style: normal;
+        }
+
         .passed {
             color: green;
+        }
+
+        .failed .ac:before {
+            content: '\1F61E';
+            font-size: larger;
+            font-style: normal;
         }
 
         .failed {
             color: red;
         }
 
+        .errored .ac:before {
+            content: '\1F632';
+            font-size: larger;
+            font-style: normal;
+        }
+
         .errored {
             color: orange;
+        }
+
+        .disabled .ac:before {
+            content: '\1F634';
+            font-size: larger;
+            font-style: normal;
         }
 
         .disabled {
@@ -71,6 +110,10 @@
             display: flex;
             flex-flow: row wrap;
             justify-content: flex-start;
+        }
+
+        .flex-container form {
+            display: inline;
         }
 
         .header {
@@ -96,8 +139,10 @@
         <li><a href="#acceptance-criteria">What are Acceptance
             Criteria?</a></li>
         <li><a href="#story-picture">A picture of a story</a></li>
+        <li><a href="#ac-states">Acceptance Criteria states</a></li>
         <li><a href="#problems">Potential problems</a></li>
         <li><a href="#implementation">Possible implementations</a></li>
+        <li><a href="#rest-api">Sample REST API</a></li>
     </ul>
 </nav>
 <article>
@@ -206,8 +251,17 @@
     <section id="story-picture">
         <p class="todo">Too prologue before the main event.</p>
         <h2>A picture of a story</h2>
+        <p>This is a sample story card with a simplistic implementation of
+            AACs. Live buttons call back into the story system, to be
+            mapped to calls in the testing system. (Another
+            implementation might have the buttons directly call to the
+            testing system, avoiding an extra call into the story system
+            but showing details in the page source about the testing
+            system.)</p>
         <blockquote>
             <section>
+                <h3>Title</h3>
+                <h4></h4>
                 <h3>Narrative</h3>
                 <p><span class="story-syntax">AS A</span> AAC author<br>
                     <span class="story-syntax">I WANT</span> a mock executable
@@ -222,7 +276,9 @@
             </section>
             <section class="flex-container">
                 <h3 class="header">
-                    <button>Test All</button>
+                    <form action="/test-all">
+                        <button>Test All</button>
+                    </form>
                     Acceptance criteria
                 </h3>
                 <div class="header"><strong>Summary:</strong>
@@ -233,96 +289,170 @@
                     <span class="failed">1 failed</span>,
                     <span class="errored">1 errored</span>,
                     <span class="disabled">1 disabled</span></div>
-                <div class="flex-item">
+                <div class="flex-item missing">
                     <div>
-                        <button><em>Create</em></button>
-                        <span class="emoji">&#x1F637;</span>
-                        <span class="missing">
+                        <form
+                                action="/create-test/ThisProduct/ThisStory/AC1?given=magical+thinking&when=in+Missingland&then=there's+no+test"
+                                method="PUT">
+                            <button><em>Create</em></button>
+                        </form>
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Missingland<br>
                             <span class="story-syntax">THEN</span> there's no test
                         </span>
                     </div>
-                    <div class="missing message trouble">No test (yet) - <em>create one!</em></div>
+                    <div class="message trouble">No test (yet) - <em>create
+                        one!</em></div>
                 </div>
-                <div class="flex-item">
+                <div class="flex-item untested">
                     <div>
-                        <button>Test</button>
-                        <span class="emoji">&#x1F636;</span>
-                        <span class="untested">
+                        <form
+                                action="/run-test/ThisProduct/ThisStory/AC2">
+                            <button>Test</button>
+                        </form>
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Newland<br>
                             <span class="story-syntax">THEN</span> nothing has happened yet
                         </span>
                     </div>
-                    <div class="untested message trouble">Test never run - <em>be the first!</em></div>
+                    <div class="message trouble">Test never run - <em>be the
+                        first!</em></div>
                 </div>
-                <div class="flex-item">
+                <div class="flex-item running">
                     <div>
-                        <button>Cancel</button>
-                        <span class="emoji">&#x1F60E;</span>
-                        <span class="running">
+                        <form
+                                action="/cancel-test/ThisProduct/ThisStory/AC3">
+                            <button>Cancel</button>
+                        </form>
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Fastland<br>
                             <span class="story-syntax">THEN</span> tests run quickly
                         </span>
                     </div>
-                    <div class="running message">15% done (3s)</div>
+                    <div class="message">15% done (3s)</div>
                 </div>
-                <div class="flex-item">
+                <div class="flex-item passed">
                     <div>
-                        <button>Test</button>
-                        <span class="emoji">&#x1F600;</span>
-                        <span class="passed">
+                        <form
+                                action="/run-test/ThisProduct/ThisStory/AC4">
+                            <button>Test</button>
+                        </form>
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Happyland<br>
                             <span class="story-syntax">THEN</span> Unicorns
                         </span>
                     </div>
                 </div>
-                <div class="flex-item">
+                <div class="flex-item failed">
                     <div>
-                        <button>Test</button>
-                        <span class="emoji">&#x1F61E;</span>
-                        <span class="failed">
+                        <form
+                                action="/run-test/ThisProduct/ThisStory/AC5">
+                            <button>Test</button>
+                        </form>
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Sadland<br>
                             <span class="story-syntax">THEN</span> there be Dragons
                         </span>
                     </div>
-                    <div class="message failed trouble">Expected:
+                    <div class="message trouble">Expected:
                         <em>Dragons</em>, got: <em>Puppies</em></div>
                 </div>
-                <div class="flex-item">
+                <div class="flex-item errored">
                     <div>
-                        <button>Test</button>
-                        <span class="emoji">&#x1F632;</span>
-                        <span class="errored">
+                        <form
+                                action="/run-test/ThisProduct/ThisStory/AC6">
+                            <button>Test</button>
+                        </form>
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Crazyland<br>
                             <span class="story-syntax">THEN</span> nothing works right
                         </span>
                     </div>
-                    <div class="message errored trouble">Test timed out
+                    <div class="message trouble">Test timed out
                         after 90 seconds
                     </div>
                 </div>
-                <div class="flex-item">
+                <div class="flex-item disabled">
                     <div>
                         <button disabled>Disabled</button>
-                        <span class="emoji">&#x1F634;</span>
-                        <span class="disabled">
+                        <span class="ac">
                             <span class="story-syntax">GIVEN</span> magical thinking<br>
                             <span class="story-syntax">WHEN</span> in Slowland<br>
                             <span class="story-syntax">THEN</span> tests are disabled
                         </span>
                     </div>
-                    <div class="message disabled trouble">@dev1 @qa2:
-                        BLOCKED on widget spanner
+                    <div class="message trouble">@dev1 @qa2: BLOCKED on
+                        widget spanner
                     </div>
                 </div>
             </section>
         </blockquote>
+    </section>
+    <section id="ac-states">
+        <h2>Acceptance Criteria states</h2>
+        <p>Every AC potentially has a message from the testing system
+            giving more detail on state. These are noted below.</p>
+        <dl>
+            <dt>Missing</dt>
+            <dd>
+                <p>This AC has no matching test in the testing system. Use
+                    the <em>Create</em> button to create a new test. This does
+                    not run the test.</p>
+                <p>The <em>message</em> is boilerplate to remind users to
+                    create tests.</p>
+            </dd>
+            <dt>Untested</dt>
+            <dd>
+                <p>The AC has a matching test in the testing system, but the
+                    test has never been run. Use the <em>Test</em> button to
+                    run the test.</p>
+                <p>Typically there is no <em>message</em> for this state.</p>
+            </dd>
+            <dt>Running</dt>
+            <dd>
+                <p>The matching test for the AC is running in the testing
+                    system. Use the <em>Cancel</em> button to stop the test,
+                    or wait for it to complete.</p>
+                <p>The <em>message</em>, is supported by the testing
+                    system, should give a notion of progress. See <a
+                            href="http://farazdagi.com/blog/2014/rest-long-running-jobs/"><cite>REST
+                        and long-running jobs</cite></a> for how to do this.
+                </p>
+            </dd>
+            <dt>Passed</dt>
+            <dd>
+                <p>The matching test for the AC passed last time it ran.
+                    Use the <em>Test</em> button to run the test again.</p>
+                <p>Typically there is no <em>message</em> for this state.</p>
+            </dd>
+            <dt>Failed</dt>
+            <dd>
+                <p>The matching test for the AC failed last time it ran.
+                    Use the <em>Test</em> button to run the test again.</p>
+                <p>The <em>message</em> must give a notion of why the test
+                    failed.</p>
+            </dd>
+            <dt>Errored</dt>
+            <dd>
+                <p>The matching test for the AC errored last time it ran.
+                    Use the <em>Test</em> button to run the test again.</p>
+                <p>The <em>message</em> must give a notion of why the test
+                    errored.</p>
+            </dd>
+            <dt>Disabled</dt>
+            <dd>
+                <p>The matching test for the AC is disabled in the testing
+                    system. Update the testing system to reenable.</p>
+                <p>The <em>message</em>, if supported, should give a
+                    reason the test is disabled when available.</p>
+            </dd>
+        </dl>
     </section>
     <section id="problems">
         <h2>Potential problems</h2>
@@ -353,39 +483,112 @@
     </section>
     <section id="implementation">
         <h2>Possible implementations</h2>
+        <h3>General</h3>
         <ul class="todo">
             <li>REST between test system &amp; card wall</li>
+            <li>Create is an interesting case &mdash; how feasible is it
+                to interact with the testing system &amp; use some kind
+                of template to generate a new test case?
+            </li>
+            <li>Live bidi: Test button in story kicks off test via REST;
+                edits in test update story via REST
+            </li>
+        </ul>
+        <h3>FitNesse</h3>
+        <p>FitNesse is a mature acceptance testing system built as a wiki
+            with executable pages and an extension system.</p>
+        <ul class="todo">
             <li>Convention over configuration: test named by
                 camel-catenating words in AC
             </li>
             <li>Convention over configuration: test page named by
                 camel-catenting story title
             </li>
-            <li>Create is an interesting case &mdash; how feasible is it
-                to interact with the testing system &amp; use some kind
-                of template to generate a new test case?
-            </li>
-            <li>Live bidi: Test button kicks off test via REST; test
-                updates story via REST
-            </li>
-            <li>REST "batch": use HTTP 202 (Accepted) to kick off a test,
-                poll for status update, redirect to final status. Test
-                system would not call back into story system. (But how to
-                update story if tests were run separately?) See <a
-                        href="http://farazdagi.com/blog/2014/rest-long-running-jobs/"><cite>REST
-                    and long-running jobs</cite></a>
-            </li>
-            <li>In a FitNesse context, can we do 1 test table/AC (hence 1
-                page per story), or would it be 1 AC/page and a story is a
-                suite?
+            <li>Can we do 1 test table/AC (hence 1 page per story), or
+                would it be 1 AC/page and a story is a suite?
             </li>
         </ul>
-        <h2>UI considerations</h2>
-        <ul class="todo">
-            <li>Emojis should be driven by CSS, so teams can use or not
-                use them as they prefer
-            </li>
-        </ul>
+    </section>
+    <section id="rest-api">
+        <h2>Sample REST API</h2>
+        <h3>Calling the story system</h3>
+        <h4>From the story page</h4>
+        <dl>
+            <dt><code>GET</code>, <code>POST</code>
+                <code>/test-all</code></dt>
+            <dd>
+                <p>Invokes all tests for this story in the testing system,
+                    and updates the story page with progress and results.</p>
+                <h5>Parameters</h5>
+                <dl>
+                    <dt>story</dt>
+                    <dd>The unique mapping identifying a story.</dd>
+                </dl>
+            </dd>
+            <dt><code>PUT</code> <code>/create-test</code></dt>
+            <dd>
+                <p>Creates a new test in the testing system for an AC, and
+                    marks the AC as runnable.</p>
+                <h5>Parameters</h5>
+                <dl>
+                    <dt>story</dt>
+                    <dd>The unique mapping identifying a story</dd>
+                    <dt>given</dt>
+                    <dd>The <em>GIVEN</em> clause of the AC</dd>
+                    <dt>when</dt>
+                    <dd>The <em>WHEN</em> clause of the AC</dd>
+                    <dt>then</dt>
+                    <dd>The <em>THEN</em> clause of the AC</dd>
+                </dl>
+            </dd>
+            <dt><code>GET</code>, <code>POST</code>
+                <code>/run-test</code></dt>
+            <dd>
+                <p>Runs the test in the testing system for an AC, and marks
+                    the AC as running. When the testing system finishes, marks
+                    the AC with disabled, passed, failed or errored.</p>
+                <h5>Parameters</h5>
+                <dl>
+                    <dt>story</dt>
+                    <dd>The unique mapping identifying a story</dd>
+                    <dt>given</dt>
+                    <dd>The <em>GIVEN</em> clause of the AC</dd>
+                    <dt>when</dt>
+                    <dd>The <em>WHEN</em> clause of the AC</dd>
+                    <dt>then</dt>
+                    <dd>The <em>THEN</em> clause of the AC</dd>
+                </dl>
+            </dd>
+            <dt><code>GET</code>, <code>POST</code>
+                <code>/cancel-test</code></dt>
+            <dd>
+                <p>Cancels the running test in the testing system for an AC,
+                    and marks the AC as runnable.</p>
+                <h5>Parameters</h5>
+                <dl>
+                    <dt>story</dt>
+                    <dd>The unique mapping identifying a story</dd>
+                    <dt>given</dt>
+                    <dd>The <em>GIVEN</em> clause of the AC</dd>
+                    <dt>when</dt>
+                    <dd>The <em>WHEN</em> clause of the AC</dd>
+                    <dt>then</dt>
+                    <dd>The <em>THEN</em> clause of the AC</dd>
+                </dl>
+            </dd>
+        </dl>
+        <h4>From the testing system</h4>
+        <dl>
+            <dt><code>/new-test</code></dt>
+            <dd>Notifies the story system of a new test potentially
+                associated with an AC.
+            </dd>
+            <dt><code>/test-done</code></dt>
+            <dd>Notifies the story system of test state for a test
+                potentially associated with an AC.
+            </dd>
+        </dl>
+        <h3>Calling the testing system</h3>
     </section>
 </article>
 </body>
