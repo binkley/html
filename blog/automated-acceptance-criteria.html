@@ -10,6 +10,10 @@
             font-family: 'Noto Sans', sans-serif;
         }
 
+        aside {
+            width: 25%;
+        }
+
         dt {
             font-weight: bolder;
         }
@@ -127,25 +131,73 @@
 </head>
 <body>
 <header>
-    <p class="todo">This post mashes together lots of different concerns.
-        Untangle them: stay focused on AACs.</p>
     <h1>Automated Acceptance Criteria</h1>
 </header>
-<nav>
-    <ul>
-        <li><a href="#scenario">A scenario</a></li>
-        <li><a href="#forward-path">A forward path</a></li>
-        <li><a href="#three-amigos">Enter the Three Amigos</a></li>
-        <li><a href="#acceptance-criteria">What are Acceptance
-            Criteria?</a></li>
-        <li><a href="#story-picture">A picture of a story</a></li>
-        <li><a href="#ac-states">Acceptance Criteria states</a></li>
-        <li><a href="#problems">Potential problems</a></li>
-        <li><a href="#implementation">Possible implementations</a></li>
-        <li><a href="#rest-api">Sample REST API</a></li>
-    </ul>
-</nav>
 <article>
+    <aside style="float: right">
+        <p class="todo">Less fragile link for image</p>
+        <img src="https://lh3.googleusercontent.com/-o6e5YUtj8rU/TWkVMlQbqGI/AAAAAAAAACo/OmiXddT-biE/s200/RalphWiggum4.gif"
+             alt="Thoughtful Ralph Wiggum" style="float: right; width: 50%;
+              height: auto"/>
+        <blockquote>
+            A well written user story helps put me into a thoughtful frame
+            of mind.
+        </blockquote>
+    </aside>
+    <section id="dream-story-card">
+        <h2>I have a dream (story card)</h2>
+        <p>What is my dream story card? I don't mean: <em>what's the story
+            I'd most like to work on</em>! I mean:
+            <em>what should a story card look like in a non-physical
+                system</em> (as opposed to card stock on a wall)? This
+            may be a trivial question. But for me the
+            <strong>user experience</strong> working with stories is very
+            important: I work with them daily, discuss them, complete
+            them, etc. I want the feel of the card to be a <em>thoughtful</em>,
+            like that fellow to the right.</p>
+        <p>And more than that. I am lazy, impatient, hubristic. The
+            <strong>acceptance criteria</strong>, I want them testable,
+            literally testable in that each has a matching test I can
+            execute. Given my laziness, I don't want to switch systems
+            and run tests; I'd like to do that directly from the user
+            story card.</p>
+        <p>So is there a system like that today?  No.  There are bits and
+            pieces</p>
+    </section>
+    <aside style="float:left">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/14/Ralph_Wiggum.png"
+             alt="Ralph Wiggum picking nose"
+             style="float:left; width: 40%; height: auto"/>
+        <blockquote>
+            Difficult to use systems, waiting on tests, ugly interfaces,
+            counter-intuitive controls: these are a few of my least
+            favorite things.
+        </blockquote>
+    </aside>
+    <section id="nightmare-story-card">
+        <h2>Not all story card systems are equal</h2>
+        <p>Some story card systems are particularly awkward to read,
+            understand or use. Special demerits for:</p>
+        <ul>
+            <li>A hard-coded workflow that cannot be changed to fit the
+                team: the team has to fit the tool
+            </li>
+            <li>Workflow state transition buttons are nice, but not so
+                nice is unconfigurable labels, especially when the button
+                labels are misleading
+            </li>
+            <li>A hard-coded or limited hierarchy of stories, so if a
+                team uses <em>epics</em> or <em>features</em> or
+                <em>themes</em> or whatever to organize stories and more
+                than one level, they are out of luck
+            </li>
+            <li>Lack of RESTful support, in particular, no useful
+                identifier for story cards, so linking directly to cards is
+                opaque, useless or completely absent
+            </li>
+        </ul>
+    </section>
+
     <section id="scenario">
         <h2>A scenario</h2>
         <p>Post-development testing on this team is a fairly ordinary role.
@@ -163,16 +215,6 @@
         </ul>
         <p>(Yes, I know &mdash; what about developer testing? Bear with
             me.)</p>
-        <p class="todo">Less fragile link for image?</p>
-        <p class="todo">Scalable version of image?</p>
-        <!--
-        <img src="https://upload.wikimedia.org/wikipedia/en/1/14/Ralph_Wiggum.png"
-             alt="Ralph Wiggum picking nose"
-             style="float:right; width:10%; height: auto"/>
-             -->
-        <img src="https://lh3.googleusercontent.com/-o6e5YUtj8rU/TWkVMlQbqGI/AAAAAAAAACo/OmiXddT-biE/s200/RalphWiggum4.gif"
-             alt="Ralph Wiggum thinking" style="float:right; width:15%;
-             height: auto"/>
         <p>On it goes, the same work each time. Redundant, repetitive,
             error-prone, fiddly. And worst of all&mdash;<em>boring</em>,
             <strong>BORING</strong>! This is traditional, manual "user
@@ -235,8 +277,8 @@
             address fully loads, for example, when testing login access to
             pages.</p>
         <img
-                src="https://s3.amazonaws.com/insights-images-prod/Ideal20Test20Automation20Pyramid_2fb8a2f3e134e49a9ab79b0ef8afae05.jpg"
-                alt="Ideal test automation pyramid"
+                src="http://martinfowler.com/bliki/images/testPyramid/test-pyramid.png"
+                alt="Martin Fowler's Test Pyramid"
                 style="float:right; width:35%; height:auto;">
         <h2>So what's the question?</h2>
         <p>Wherever possible we want to automate. If something can be done for
@@ -323,7 +365,8 @@
                 <div class="flex-item running">
                     <div>
                         <form
-                                action="/cancel-test/ThisProduct/ThisStory/AC3">
+                                action="/tests-in-progress/ThisProduct/ThisStory/AC3"
+                                method="DELETE">
                             <button>Cancel</button>
                         </form>
                         <span class="ac">
@@ -559,22 +602,16 @@
                     <dd>The <em>THEN</em> clause of the AC</dd>
                 </dl>
             </dd>
-            <dt><code>GET</code>, <code>POST</code>
-                <code>/cancel-test</code></dt>
+            <dt><code>GET</code>
+                <code>/tests-in-progress/<em>id</em></code></dt>
+            <dd>
+                <p>Gets the status of a currently running test.</p>
+            </dd>
+            <dt><code>DELETE</code>
+                <code>/tests-in-progress/<em>id</em></code></dt>
             <dd>
                 <p>Cancels the running test in the testing system for an AC,
                     and marks the AC as runnable.</p>
-                <h5>Parameters</h5>
-                <dl>
-                    <dt>story</dt>
-                    <dd>The unique mapping identifying a story</dd>
-                    <dt>given</dt>
-                    <dd>The <em>GIVEN</em> clause of the AC</dd>
-                    <dt>when</dt>
-                    <dd>The <em>WHEN</em> clause of the AC</dd>
-                    <dt>then</dt>
-                    <dd>The <em>THEN</em> clause of the AC</dd>
-                </dl>
             </dd>
         </dl>
         <h4>From the testing system</h4>
