@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang=en>
 <head>
@@ -146,23 +147,23 @@
     </aside>
     <section id="dream-story-card">
         <h2>I have a dream (story card)</h2>
-        <p>What is my dream story card? I don't mean: <em>what's the story
+        <p>What is my dream story card? I don't mean: <em>What's the story
             I'd most like to work on</em>! I mean:
-            <em>what should a story card look like in a non-physical
-                system</em> (as opposed to card stock on a wall)? This
+            <em>What should a virtual story card look like</em> (as opposed
+            to card stock on a wall)? This
             may be a trivial question. But for me the
             <strong>user experience</strong> working with stories is very
-            important: I work with them daily, discuss them, complete
-            them, etc. I want the feel of the card to be a <em>thoughtful</em>,
-            like that fellow to the right.</p>
+            important: I work with them daily, write them, discuss them,
+            finish them, etc. I want the feel of the card to be
+            <em>thoughtful</em>, like that fellow to the right.</p>
         <p>And more than that. I am lazy, impatient, hubristic. The
             <strong>acceptance criteria</strong>, I want them testable,
             literally testable in that each has a matching test I can
             execute. Given my laziness, I don't want to switch systems
-            and run tests; I'd like to do that directly from the user
-            story card.</p>
+            and run tests; I'd like to execute acceptance criteria directly
+            from the story card.</p>
         <p>So is there a system like that today?  No.  There are bits and
-            pieces</p>
+            pieces though.</p>
     </section>
     <aside style="float:left">
         <img src="https://upload.wikimedia.org/wikipedia/en/1/14/Ralph_Wiggum.png"
@@ -191,7 +192,7 @@
                 <em>themes</em> or whatever to organize stories and more
                 than one level, they are out of luck
             </li>
-            <li>Lack of RESTful support, in particular, no useful
+            <li>Lack of quality RESTful support, in particular, no simple
                 identifier for story cards, so linking directly to cards is
                 opaque, useless or completely absent
             </li>
@@ -536,6 +537,11 @@
             <li>Live bidi: Test button in story kicks off test via REST;
                 edits in test update story via REST
             </li>
+            <li>A given test can only be run once at a time; no parallel runs
+                of the same test.  A live story card may show a test
+                changing to <em>running</em> from <em>runnable</em> when
+                another user kicks off the test from elsewhere
+            </li>
         </ul>
         <h3>FitNesse</h3>
         <p>FitNesse is a mature acceptance testing system built as a wiki
@@ -554,6 +560,13 @@
     </section>
     <section id="rest-api">
         <h2>Sample REST API</h2>
+        <ul class="todo">
+            <li>Terrible, horrible, no good un-RESTful API.</li>
+            <li>Swagger for documenting API</li>
+            <li><code>POST</code> best for actions?</li>
+            <li>Use long-running REST API for running tests (which do not
+                have to be fast! Think Cucumber)</li>
+        </ul>
         <h3>Calling the story system</h3>
         <h4>From the story page</h4>
         <dl>
@@ -568,6 +581,16 @@
                     <dd>The unique mapping identifying a story.</dd>
                 </dl>
             </dd>
+            <dt><code>GET</code> <code>/tests/<var>id</var></code></dt>
+            <dd>
+                <p>Gets the status of <var>id</var> test, including:
+                    <ul>
+                        <li>Most recent test result (pass, fail, etc.)</li>
+                        <li>Current state (running, stopped, etc.)</li>
+                    </ul>
+                </p>
+            </dd>
+            </dt>
             <dt><code>PUT</code> <code>/create-test</code></dt>
             <dd>
                 <p>Creates a new test in the testing system for an AC, and
@@ -603,13 +626,13 @@
                 </dl>
             </dd>
             <dt><code>GET</code>
-                <code>/tests-in-progress/<em>id</em></code></dt>
+                <code>/tests-in-progress/<var>id</var></code></dt>
             <dd>
                 <p>Gets the status of a currently running test.</p>
             </dd>
             <dt><code>DELETE</code>
-                <code>/tests-in-progress/<em>id</em></code></dt>
-            <dd>
+                <code>/tests-in-progress/<var>id</var></code></dt>
+           <dd>
                 <p>Cancels the running test in the testing system for an AC,
                     and marks the AC as runnable.</p>
             </dd>
