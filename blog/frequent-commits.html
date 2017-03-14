@@ -1,6 +1,7 @@
 <p>Pair posting with guest <a href="https://github.com/skruegs">Sarah
     Krueger</a>!</p>
-<h3>A source control pattern for TDD</h3>
+<h3 id="a-source-control-pattern-for-TDD">A source control pattern for
+    TDD</h3>
 <p>At work we recently revisited our commit practices. One issue spotted:
     we didn't commit often enough. To address we adopted the source control
     pattern in this post. There are lots of benefits; the one that mattered
@@ -38,17 +39,17 @@ $ git commit --amend &amp;&amp; git push &amp;&amp; git commit --allow-empty -m 
         commits, so you need a first, empty commit to amend against.
     </li>
 </ol>
-<h4>Bootstrapping</h4>
+<h4 id="bootstrapping">Bootstrapping</h4>
 <p>The TDD cycle depends on an initial, empty commit. The first time using
     this source control pattern:</p>
 <pre class="code"># Do this after the most recent commit, before any edits
 $ git commit --allow-empty -m <i>WIP</i></pre>
-<h4>Adding files</h4>
+<h4 id="adding-files">Adding files</h4>
 <p>This pattern, though very useful, does not address new files. You do
     need to run <code>git add</code> with new files to include them in the
     commit. Automatically adding new files can be dangerous if
     <code>gitignore</code> isn't set up right.</p>
-<h4>It depends on your style</h4>
+<h4 id="it-depends-on-your-style">It depends on your style</h4>
 <p>The exact command line depends on your style. You could include a script
     to run before tests, or before commit (though the latter might be
     better done with a git pre-commit hook). You might prefer merge pulls
@@ -56,7 +57,7 @@ $ git commit --allow-empty -m <i>WIP</i></pre>
     might toss <code>$EDITOR</code> at the front of the TDD cycle.</p>
 <p>The command lines assume git, but this source control pattern works with
     any system that supports similar functionality.</p>
-<h4>Fine-grained commits</h4>
+<h4 id="fine-grained-commits">Fine-grained commits</h4>
 <p>An example of style choice. If you prefer fine-grained commits to
     unit-of-work single commits (depending on your taste or project; they're
     both good practice):</p>
@@ -64,7 +65,7 @@ $ git commit --allow-empty -m <i>WIP</i></pre>
 $ git pull --rebase &amp;&amp; <i>run tests</i> &amp;&amp; git commit -a</pre>
 <pre class="code"># Fine-grained commits, push, begin TDD cycle again
 $ git push</pre>
-<h4>Improving your life</h4>
+<h4 id="improving-your-life">Improving your life</h4>
 <p>No matter your exact command line, it can be made friendlier for you.
     Yes, shell history can story your long chain of commands. What if they
     vary slightly between programmers sharing a project, or what if there
