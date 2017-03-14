@@ -1,12 +1,84 @@
-<p>Pair posting with guest <a href="https://github.com/skruegs">Sarah Krueger</a>!</p> <h3>A source control pattern for TDD</h3> <p>At work we recently revisited our commit practices.  One issue spotted: we didn't commit often enough.  To address we adopted the source control pattern in this post. There are lots of benefits; the one that mattered to me most: <a href="https://en.wikipedia.org/wiki/Don't_throw_the_baby_out_with_the_bathwater">No more throwing the baby out with the bathwater</a>, that is, no more two hour coding sessions only to start again and lose the good with the bad.</p> <p>So we worked out this command-line pattern using single unit-of-work commits (without <code>git rebase -i</code>!):</p> <pre class="code"># TDD cycle: edit code, run tests, rather-rinse-repeat until green
-$ git pull --rebase &amp;&amp; <i>run tests</i> &amp;&amp; git commit -a --amend --no-edit</pre> <pre class="code"># Simple unit-of-work commit, push, begin TDD cycle again
-$ git commit --amend &amp;&amp; git push &amp;&amp; git commit --allow-empty -m <i>WIP</i></pre> <p>What is this?</p> <ol><li>Start with a pull.  This ensures you are always current, and find conflicts as soon as possible.</li> <li>Run your <em>full tests</em>.  This depends on your project, for example, <code>mvn verify</code> or <code>rake</code>.  If some tests are slow, split them out, and add a full test run before pushing.</li> <li>Amend your work to the current commit.  This gives you a safe fallback known to pass tests.  Worst case you might lose some recent work, but not hours worth.  (Hint: <strong>run tests often</strong>.)</li> <li>When ready to push, update the commit message to the final message for public push.</li> <li>Push.  Share.  Make the world better.</li> <li>Restart the TDD cycle with an empty commit using a message that makes sense to you, for example "WIP" (work in progress); the message should be obvious not to push.  Key: the TDD cycle command line only amends commits, so you need a first, empty commit to amend against.</li></ol> <h4>Bootstrapping</h4> <p>The TDD cycle depends on an initial, empty commit.  The first time using this source control pattern:</p> <pre class="code"># Do this after the most recent commit, before any edits
-$ git commit --allow-empty -m <i>WIP</i></pre> <h4>Adding files</h4> <p>This pattern, though very useful, does not address new files.  You do need to run <code>git add</code> with new files to include them in the commit.  Automatically adding new files can be dangerous if <code>gitignore</code> isn't set up right.</p> <h4>It depends on your style</h4> <p>The exact command line depends on your style.  You could include a script to run before tests, or before commit (though the latter might be better done with a git pre-commit hook).  You might prefer merge pulls instead of rebase pulls.  If your editor runs from the command line you might toss <code>$EDITOR</code> at the front of the TDD cycle.</p> <p>The command lines assume git, but this source control pattern works with any system that supports similar functionality.</p> <h4>Fine-grained commits</h4> <p>An example of style choice. If you prefer fine-grained commits to unit-of-work single commits (depending on your taste or project; they're both good practice):</p> <pre class="code"># TDD cycle: edit code, run tests, rather-rinse-repeat until green
-$ git pull --rebase &amp;&amp; <i>run tests</i> &amp;&amp; git commit -a</pre> <pre class="code"># Fine-grained commits, push, begin TDD cycle again
-$ git push</pre> <h4>Improving your life</h4> <p>No matter your exact command line, it can be made friendlier for you.  Yes, shell history can story your long chain of commands.  What if they vary slightly between programmers sharing a project, or what if there is a common standard approach?  <a href="https://medium.com/@santiaro90/write-your-own-git-subcommands-36d08f6a673e" title="Write Your Own Git Subcommands">Extend git</a>.  Let's call our example subcommand "tdd".  Save this in a file named <code>git-tdd</code> in your <code>$PATH</code>:</p> <pre class="code">#!/bin/sh
+<p>Pair posting with guest <a href="https://github.com/skruegs">Sarah
+    Krueger</a>!</p>
+<h3>A source control pattern for TDD</h3>
+<p>At work we recently revisited our commit practices. One issue spotted:
+    we didn't commit often enough. To address we adopted the source control
+    pattern in this post. There are lots of benefits; the one that mattered
+    to me most: <a
+            href="https://en.wikipedia.org/wiki/Don't_throw_the_baby_out_with_the_bathwater">No
+        more throwing the baby out with the bathwater</a>, that is, no more
+    two hour coding sessions only to start again and lose the good with the
+    bad.</p>
+<p>So we worked out this command-line pattern using single unit-of-work
+    commits (without <code>git rebase -i</code>!):</p>
+<pre class="code"># TDD cycle: edit code, run tests, rather-rinse-repeat until green
+$ git pull --rebase &amp;&amp; <i>run tests</i> &amp;&amp; git commit -a --amend --no-edit</pre>
+<pre class="code"># Simple unit-of-work commit, push, begin TDD cycle again
+$ git commit --amend &amp;&amp; git push &amp;&amp; git commit --allow-empty -m <i>WIP</i></pre>
+<p>What is this?</p>
+<ol>
+    <li>Start with a pull. This ensures you are always current, and find
+        conflicts as soon as possible.
+    </li>
+    <li>Run your <em>full tests</em>. This depends on your project, for
+        example, <code>mvn verify</code> or <code>rake</code>. If some tests
+        are slow, split them out, and add a full test run before pushing.
+    </li>
+    <li>Amend your work to the current commit. This gives you a safe fallback
+        known to pass tests. Worst case you might lose some recent work, but
+        not hours worth. (Hint: <strong>run tests often</strong>.)
+    </li>
+    <li>When ready to push, update the commit message to the final message for
+        public push.
+    </li>
+    <li>Push. Share. Make the world better.</li>
+    <li>Restart the TDD cycle with an empty commit using a message that makes
+        sense to you, for example "WIP" (work in progress); the message should
+        be obvious not to push. Key: the TDD cycle command line only amends
+        commits, so you need a first, empty commit to amend against.
+    </li>
+</ol>
+<h4>Bootstrapping</h4>
+<p>The TDD cycle depends on an initial, empty commit. The first time using
+    this source control pattern:</p>
+<pre class="code"># Do this after the most recent commit, before any edits
+$ git commit --allow-empty -m <i>WIP</i></pre>
+<h4>Adding files</h4>
+<p>This pattern, though very useful, does not address new files. You do
+    need to run <code>git add</code> with new files to include them in the
+    commit. Automatically adding new files can be dangerous if
+    <code>gitignore</code> isn't set up right.</p>
+<h4>It depends on your style</h4>
+<p>The exact command line depends on your style. You could include a script
+    to run before tests, or before commit (though the latter might be
+    better done with a git pre-commit hook). You might prefer merge pulls
+    instead of rebase pulls. If your editor runs from the command line you
+    might toss <code>$EDITOR</code> at the front of the TDD cycle.</p>
+<p>The command lines assume git, but this source control pattern works with
+    any system that supports similar functionality.</p>
+<h4>Fine-grained commits</h4>
+<p>An example of style choice. If you prefer fine-grained commits to
+    unit-of-work single commits (depending on your taste or project; they're
+    both good practice):</p>
+<pre class="code"># TDD cycle: edit code, run tests, rather-rinse-repeat until green
+$ git pull --rebase &amp;&amp; <i>run tests</i> &amp;&amp; git commit -a</pre>
+<pre class="code"># Fine-grained commits, push, begin TDD cycle again
+$ git push</pre>
+<h4>Improving your life</h4>
+<p>No matter your exact command line, it can be made friendlier for you.
+    Yes, shell history can story your long chain of commands. What if they
+    vary slightly between programmers sharing a project, or what if there
+    is a common standard approach? <a
+            href="https://medium.com/@santiaro90/write-your-own-git-subcommands-36d08f6a673e"
+            title="Write Your Own Git Subcommands">Extend git</a>. Let's call
+    our example subcommand "tdd". Save this in a file named
+    <code>git-tdd</code> in your <code>$PATH</code>:</p>
+<pre class="code">#!/bin/sh
 set -e
 case $1 in
     test ) git pull --rebase &amp;&amp; <i>run tests</i> &amp;&amp; git commit -a --amend --no-edit ;;
     accept ) git commit --amend &amp;&amp; git push &amp;&amp; git commit --allow-empty -m <i>WIP</i> ;;
-esac</pre> <p>Now your command line becomes:</p> <pre class="code">$ git tdd test  # Repeat until unit of work is ready
+esac</pre>
+<p>Now your command line becomes:</p>
+<pre class="code">$ git tdd test  # Repeat until unit of work is ready
 $ git tdd accept</pre>
