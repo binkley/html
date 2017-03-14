@@ -16,7 +16,7 @@
 $ git pull --rebase &amp;&amp; <i>run tests</i> &amp;&amp; git commit -a --amend --no-edit</pre>
 <pre class="code"># Simple unit-of-work commit, push, begin TDD cycle again
 $ git commit --amend &amp;&amp; git push &amp;&amp; git commit --allow-empty -m <i>WIP</i></pre>
-<p>What is this?</p>
+<h4 id="what-is-this">What is this?</h4>
 <ol>
     <li>Start with a pull. This ensures you are always current, and find
         conflicts as soon as possible.
@@ -39,6 +39,20 @@ $ git commit --amend &amp;&amp; git push &amp;&amp; git commit --allow-empty -m 
         commits, so you need a first, empty commit to amend against.
     </li>
 </ol>
+<h4 id="why">Why?</h4>
+<p>They key feature of this source control pattern is: Always commit after
+    reaching green on tests; never commit without testing. When tests
+    fail, the commit fails (the <code>&amp;&amp;</code> is <a
+            href="https://en.wikipedia.org/wiki/Short-circuit_evaluation"
+            title="Short-circuit evaluation">short-circuit logical and</a>).
+</p>
+<p>In the math sense, this pattern makes testing and committing <a
+        href="https://en.wikipedia.org/wiki/Bijection,_injection_and_surjection"
+        title="Bijection, injection and surjection"><em>one-to-one</em>
+    and <em>onto</em></a>. Since TDD requires frequent running of
+    tests, this means frequent commits when those tests pass. To avoid a
+    long series of tiny commits when pushing, amend to collect a unit of
+    work.</p>
 <h4 id="bootstrapping">Bootstrapping</h4>
 <p>The TDD cycle depends on an initial, empty commit. The first time using
     this source control pattern:</p>
@@ -83,3 +97,6 @@ esac</pre>
 <p>Now your command line becomes:</p>
 <pre class="code">$ git tdd test  # Repeat until unit of work is ready
 $ git tdd accept</pre>
+<h3>Updated:</h3>
+<p>An editing error left out the <a href="#why">Why?</a> section when
+    initially posted.</p>
