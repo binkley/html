@@ -13,7 +13,7 @@
 <p>So we worked out this command-line pattern using single unit-of-work
     commits (without <code>git rebase -i</code>!):</p>
 <pre class="code"># TDD cycle: edit code, run tests, rather-rinse-repeat until green
-$ git pull --rebase &amp;&amp; <i>run tests</i> &amp;&amp; git commit -a --amend --no-edit</pre>
+$ git pull --rebase --autostash &amp;&amp; <i>run tests</i> &amp;&amp; git commit -a --amend --no-edit</pre>
 <pre class="code"># Simple unit-of-work commit, push, begin TDD cycle again
 $ git commit --amend &amp;&amp; git push &amp;&amp; git commit --allow-empty -m <i>WIP</i></pre>
 <h4 id="what-is-this">What is this?</h4>
@@ -76,7 +76,7 @@ $ git commit --allow-empty -m <i>WIP</i></pre>
     unit-of-work single commits (depending on your taste or project; they're
     both good practice):</p>
 <pre class="code"># TDD cycle: edit code, run tests, rather-rinse-repeat until green
-$ git pull --rebase &amp;&amp; <i>run tests</i> &amp;&amp; git commit -a</pre>
+$ git pull --rebase --autostash &amp;&amp; <i>run tests</i> &amp;&amp; git commit -a</pre>
 <pre class="code"># Fine-grained commits, push, begin TDD cycle again
 $ git push</pre>
 <h4 id="improving-your-life">Improving your life</h4>
@@ -91,7 +91,7 @@ $ git push</pre>
 <pre class="code">#!/bin/sh
 set -e
 case $1 in
-    test ) git pull --rebase &amp;&amp; <i>run tests</i> &amp;&amp; git commit -a --amend --no-edit ;;
+    test ) git pull --rebase --autostash &amp;&amp; <i>run tests</i> &amp;&amp; git commit -a --amend --no-edit ;;
     accept ) git commit --amend &amp;&amp; git push &amp;&amp; git commit --allow-empty -m <i>WIP</i> ;;
 esac</pre>
 <p>Now your command line becomes:</p>
