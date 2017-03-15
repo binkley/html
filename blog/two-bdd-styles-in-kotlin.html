@@ -1,4 +1,7 @@
-<p>Experimenting with BDD <em>syntax</em> in Kotlin, I tried these two styles:</p> <pre class="code">fun main(args: Array&lt;String&gt;) {
+<p>Experimenting with BDD <em>syntax</em> in Kotlin, I tried these two styles:
+</p>
+
+<pre class="code">fun main(args: Array&lt;String&gt;) {
     println(So
             GIVEN "an apple"
             WHEN "it falls"
@@ -20,7 +23,11 @@ data class BDD constructor(
             }
         }
     }
-}</pre> <p>And:</p> <pre class="code">fun main(args: Array&lt;String&gt;) {
+}</pre>
+
+<p>And:</p>
+
+<pre class="code">fun main(args: Array&lt;String&gt;) {
     println(GIVEN `an apple`
             WHEN `it falls`
             THEN `Newton thinks`
@@ -45,4 +52,84 @@ data class BDD(val GIVEN: String, val WHEN: String, val THEN: String = whoami())
     class When(val GIVEN: String = whoami())
     class Then(val GIVEN: String, val WHEN: String = whoami())
     class Qed
-}</pre> <p>Comparing <code>main()</code> methods, which is easier to read or use?  I haven't tried implementing, just have looked at testing code style. Note that I'm using <a href="https://kotlinlang.org/docs/reference/functions.html#infix-notation">the <code>infix</code> feature</a> of Kotlin to have my BDD "GIVEN/WHEN/THEN" as punctuation free as I'm able.</p> <p>In the one case&mdash;using strings to describe cases&mdash;, an implementation would be more similar to Spec or Cucumber, which usually uses pattern matching to associate text with implementation.  In the other case&mdash;using functions to describe cases&mdash;, an implementation goes directly into the function definition.  In either case, Kotlin only supports binary infix functions, not unary (of course, you say, that's what "infix" means!), so I need either an initial starting token (<code>So</code> in the strings case) or an ending one (<code>QED</code> in the functions case).</p> <p>I'm curious how implementation sorts out.</p> <p>(<a href="https://github.com/binkley/skratch/tree/master/src/main/kotlin/hm/binkley/labs/skratch/bdd">Code here.</a>)</p>
+}</pre>
+
+<p>Comparing <code>main()</code> methods, which is easier to read or use? I
+    haven't tried implementing, just have looked at testing code style. Note
+    that I'm using <a
+            href="https://kotlinlang.org/docs/reference/functions.html#infix-notation">the
+        <code>infix</code> feature</a> of Kotlin to have my BDD
+    "GIVEN/WHEN/THEN" as punctuation free as I'm able.</p>
+
+<p>In the one case&mdash;using strings to describe cases&mdash;, an
+    implementation would be more similar to Spec or Cucumber, which usually
+    uses pattern matching to associate text with implementation. In the other
+    case&mdash;using functions to describe cases&mdash;, an implementation
+    goes directly into the function definition. In either case, Kotlin only
+    supports binary infix functions, not unary (of course, you say, that's
+    what "infix" means!), so I need either an initial starting token
+    (<code>So</code> in the strings case) or an ending one (<code>QED</code>
+    in the functions case).</p>
+
+<p>I'm curious how implementation sorts out.</p><p>(<a
+        href="https://github.com/binkley/skratch/tree/master/src/main/kotlin/hm/binkley/labs/skratch/bdd">Code
+    here.</a>)</p>
+
+<h4>UPDATE:</h4>
+
+<p>I have working code now that runs these BDD sentences but remain unclear
+    which of the two styles (strings vs functions) would be easier to work
+    with:</p>
+
+<pre class="code">fun main(args: Array&lt;String&gt;) {
+    var apple: Apple? = null
+    upon("an apple") {
+        apple = Apple(Newton(thinking = false))
+    }
+    upon("it falls") {
+        apple?.falls()
+    }
+    upon("Newton thinks") {
+        assert(apple?.physicist?.thinking ?: false) {
+            "Newton is sleeping"
+        }
+    }
+
+    println(So
+            GIVEN "an apple"
+            WHEN "it falls"
+            THEN "Newton thinks")
+}</pre>
+
+<p>Vs:</p>
+
+<pre class="code">fun main(args: Array&lt;String&gt;) {
+    println(GIVEN `an apple`
+            WHEN `it falls`
+            THEN `Newton thinks`
+            QED)
+}
+
+var apple: Apple? = null
+
+infix fun Given.`an apple`(WHEN: When) = upon(this) {
+    apple = Apple(Newton(thinking = false))
+}
+
+infix fun When.`it falls`(THEN: Then) = upon(this) {
+    apple?.falls()
+}
+
+infix fun Then.`Newton thinks`(QED: Qed) = upon(this) {
+    assert(apple?.physicist?.thinking ?: false) {
+        "Newton is sleeping"
+    }
+}</pre>
+
+<p>The strings style is certainly more familiar. However, mistakes in
+    registering matches of "GIVEN/WHEN/THEN" clauses appear at runtime and do
+    not provide much help.</p>
+
+<p>The functions style is more obtuse. However, mistakes cause compile-time
+    errors that are easier to understand, and your code editor can navigate
+    between declaration and usage.</p>
