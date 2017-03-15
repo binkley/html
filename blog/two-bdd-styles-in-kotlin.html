@@ -1,0 +1,48 @@
+<p>Experimenting with BDD <em>syntax</em> in Kotlin, I tried these two styles:</p> <pre class="code">fun main(args: Array&lt;String&gt;) {
+    println(So
+            GIVEN "an apple"
+            WHEN "it falls"
+            THEN "Newton thinks")
+}
+
+data class BDD constructor(
+        val GIVEN: String, val WHEN: String, val THEN: String) {
+    companion object {
+        val So = So()
+    }
+
+    class So {
+        infix fun GIVEN(GIVEN: String) = Given(GIVEN)
+        data class Given(private val GIVEN: String) {
+            infix fun WHEN(WHEN: String) = When(GIVEN, WHEN)
+            data class When(private val GIVEN: String, private val WHEN: String) {
+                infix fun THEN(THEN: String) = BDD(GIVEN, WHEN, THEN)
+            }
+        }
+    }
+}</pre> <p>And:</p> <pre class="code">fun main(args: Array&lt;String&gt;) {
+    println(GIVEN `an apple`
+            WHEN `it falls`
+            THEN `Newton thinks`
+            QED)
+}
+
+infix fun Given.`an apple`(WHEN: When) = When()
+infix fun When.`it falls`(THEN: Then) = Then(GIVEN)
+infix fun Then.`Newton thinks`(QED: Qed) = BDD(GIVEN, WHEN)
+
+inline fun whoami() = Throwable().stackTrace[1].methodName
+
+data class BDD(val GIVEN: String, val WHEN: String, val THEN: String = whoami()) {
+    companion object {
+        val GIVEN = Given()
+        val WHEN = When()
+        val THEN = Then("")
+        val QED = Qed()
+    }
+
+    class Given
+    class When(val GIVEN: String = whoami())
+    class Then(val GIVEN: String, val WHEN: String = whoami())
+    class Qed
+}</pre> <p>Comparing <code>main()</code> methods, which is easier to read or use?  I haven't tried implementing, just have looked at testing code style. Note that I'm using <a href="https://kotlinlang.org/docs/reference/functions.html#infix-notation">the <code>infix</code> feature</a> of Kotlin to have my BDD "GIVEN/WHEN/THEN" as punctuation free as I'm able.</p> <p>In the one case&mdash;using strings to describe cases&mdash;, an implementation would be more similar to Spec or Cucumber, which usually uses pattern matching to associate text with implementation.  In the other case&mdash;using functions to describe cases&mdash;, an implementation goes directly into the function definition.  In either case, Kotlin only supports binary infix functions, not unary (of course, you say, that's what "infix" means!), so I need either an initial starting token (<code>So</code> in the strings case) or an ending one (<code>QED</code> in the functions case).</p> <p>I'm curious how implementation sorts out.</p> <p>(<a href="https://github.com/binkley/skratch/tree/master/src/main/kotlin/hm/binkley/labs/skratch/bdd">Code here.</a>)</p>
