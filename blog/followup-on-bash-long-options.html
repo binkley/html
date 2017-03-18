@@ -1,0 +1,53 @@
+<p>A followup on <a
+        href="https://binkley.blogspot.com/2016/03/bash-long-options.html"
+        title="Bash long options"><cite>Bash
+    long options</cite>.</a></p>
+
+<p>The top-level option parsing <code>while</code>-loop I discussed works fine
+    for regular options. Sometimes you need special parsing for subcommand
+    options. A hypothetical example might be:</p>
+
+<pre class="code">$ my-script --toplevel-thing my-subcommand --something-wonderful option-arg</pre>
+
+<p>Here the <code>--toplevel-thing</code> option is for <code>my-script</code>,
+    and <code>--something-wonderful</code> option and its
+    <var>option-arg</var> is for <code>my-subcommand</code>. Regular
+    <code>getopts</code> parsing will try to handle all options for the top
+    level, failing to distinguish subcommand options as separate. Further,
+    <code>getopts</code> in a function does not behave <a
+            href="http://stackoverflow.com/a/16655341"
+            title="Using getopts inside a Bash function">quite as expected</a>.
+</p>
+
+<p>One solution is simple and hearkens back to the pre-<code>getopts</code>
+    days. For the top level:</p>
+
+<pre class="code">while (( 0 < $# ))
+do
+    case $1 in
+        --toplevel-thing ) _toplevel_thing=true ; shift ;;
+        -* ) usage &gt;&amp;2 ; exit 2 ;;
+        * ) break ;;
+    esac
+done</pre>
+
+<p>Using a <code>while</code>-loop with explicit breaks avoids looking too far
+    along the command line, and wrongly consuming options meant for
+    subcommands. Rechecking <code>$#</code> each time through the loop breaks
+    gracefully. Similarly, for subcommands expressed in a function:</p>
+
+<pre class="code">function my-subcommand {
+    while (( 0 < $# ))
+    do
+        case $1 in
+            --something-special ) local option_arg="$2" ; shift 2 ;;
+            * ) usage &gt;&amp;2 ; exit 2 ;;
+        esac
+    done
+    # Rest of my-subcommand, using `option_arg` if provided</pre>
+
+<p>This uses the same pattern as the top level so you avoid needing to
+    remember to handle top level one way, and subcommand another.</p>
+
+<p><a href="https://github.com/binkley/shell/blob/master/git/git-tdd"
+      title="git-tdd">An example script</a> using this pattern.</p>
