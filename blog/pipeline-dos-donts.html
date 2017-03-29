@@ -1,0 +1,62 @@
+<p>The build pipeline is one of the key techniques to improving software
+    delivery. It provides two benefits that boost productivity and reduce
+    risk:</p>
+
+<ol>
+    <li>Quick feedback to developers (inputs)</li>
+    <li>A path to production (outputs)</li>
+</ol>
+
+<h3 id="pipeline-shape">Pipeline shape</h3>
+
+<!-- @formatter:off -->
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 20">
+    <text x="10" y="20" transform="rotate(-90 10 20)">Dev</text>
+    <text x="90" y="0" transform="rotate(90 90 0)">Prod</text>
+    <rect x="10" y="0" width="80" height="20" stroke="black"
+          fill="transparent"></rect>
+    <line x1="10" y1="15" x2="90" y2="5" stroke="black"></line>
+</svg>
+<!-- @formatter:on -->
+
+<h3 id="invest-in-your-pipeline">Invest in your pipeline</h3>
+
+<h4 id="dos">Do</h4>
+
+<dl>
+    <dt>Fail fast</dt>
+
+    <dt>Front-load fast stages</dt>
+
+    <dt>Separate stages by purpose</dt>
+
+    <dt>Emulate production as much as possible</dt>
+</dl>
+
+<h4 id="donts">Don't</h4>
+
+<dl>
+    <dt>Mix types of tests in the same stage</dt>
+
+    <dt>Mix tooling</dt>
+    <dd>As much as feasible, keeping tooling consistent among all pipeline
+        stages. For example, in an F# project, use the same version of F# in
+        every stage. This can be challenging when crossing environment
+        boundaries, say from developer's Windows desktops to managed Linux
+        VMs.
+    </dd>
+</dl>
+
+<h4 id="desktop-vms">Desktop VMs</h4>
+
+<p>When possible, developers should have an environment as production-like as
+    possible. One solution is to run VMs on the development desktop that
+    emulate production.</p>
+
+<h3 id="closing-the-loop">Closing the loop</h3>
+
+<p>Pipeline is really a feedback loop, prod back to PO</p>
+
+<h3>Need title</h3>
+
+<p>Dev flows left, prod flows right</p>
