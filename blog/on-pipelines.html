@@ -69,13 +69,30 @@
 <h4 id="dos">Do</h4>
 
 <dl>
-    <dt>Fail fast</dt>
-
-    <dt>Front-load fast stages</dt>
-
     <dt>Separate stages by purpose</dt>
+    <dd>Group logically related pipeline steps by stage. For example, run unit
+        tests in a unit test stage. Or in a multi-product build, group stages
+        by build. This helps visualize what a pipeline does, and <em>why </em>.
+        Your pipeline architecture documents should align with these stages.
+    </dd>
 
     <dt>Emulate production as much as possible</dt>
+    <dd>As much as possible, each stage of a pipeline should have the same
+        environment as the following stage, and development should have the
+        same environment as the first pipeline stage. This ensures consistency
+        across the flow towards production, and finds environmental issues as
+        early as possible, before they can affect production.
+    </dd>
+
+    <dt>Fail fast</dt>
+    <dd>The faster the pipeline can fail when something&mdash; anything&mdash;is
+        wrong, the faster development can address.
+    </dd>
+
+    <dt>Front-load fast stages</dt>
+    <dd>Invariably some stages in a pipeline run faster than others. Always
+        put these stages before slower ones if there are not dependencies.
+    </dd>
 </dl>
 
 <h4 id="donts">Don't</h4>
