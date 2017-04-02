@@ -3,7 +3,7 @@
         title="DDD - Data Display Debugger">GNU DDD</a>.)</p>
 
 <p><em>Documentation Driven Development</em>&mdash;DDD&mdash;is a term I just
-    made up. I was working on some code TDD-style (<a
+    made up (not really; read on). I was working on some code TDD-style (<a
             href="http://blog.cleancoder.com/uncle-bob/2014/12/17/TheCyclesOfTDD.html"
             title="The Cycles of TDD">"first, write a failing test"</a>), and
     also thinking about my user documentation. My usual practice is to get my
@@ -16,18 +16,19 @@
     of closed-source software, this makes sense. You prepare the documentation
     to ship to customers (internal or external); generally holding off until
     the code is stable so your documentation is mostly accurate. After all,
-    with closed source, users can't see your tests or the code, the
+    with closed source, users can't see your tests or the code: the
     documentation is their only view into how to use your code.</p>
 
 <p>With open-source software, this picture is radically changed. Your users
     <em>can</em> see your tests and code, in fact, you generally encourage
-    them to look, or fork! So now your tests are visible, little public
-    miniature specifications. Why documentation then?</p>
+    them to look, or fork! So now your tests are little visible public
+    specifications. Why documentation then?</p>
 
 <p>Personally I still like solid documentation on open source projects. True,
     I could just browse the tests. But that isn't the best way to start with
     code that is new to me. I'd like to see examples, some explanation,
-    perhaps some architecture or high-level picture. Hence, documentation.</p>
+    perhaps some architecture or high-level pictures. Hence,
+    documentation.</p>
 
 <p>So, back to DDD. If I'm pushing out my tests and code to a public
     repository as soon as they pass (or near enough), how is my documentation
@@ -54,9 +55,10 @@
     this are the usual suspects:</p>
 
 <ul>
-    <li>Write examples which don't work, or possibly even compile</li>
+    <li>Write examples which don't work, or possibly don't even compile</li>
     <li>Write explanations which don't fit your code</li>
-    <li>Write step-by-step walkthroughs which don't work</li>
+    <li>Write step-by-step walkthroughs which can't be followed</li>
+    <li>Write architecture diagrams which are wrong</li>
     <li>Etc, etc, etc, anything you'd put in documentation which is invalid
         for your current code
     </li>
@@ -99,3 +101,13 @@
             title="Using Swagger to detect breaking API changes">have
         leveraged this</a>.</p>
 
+<h3>About the post title</h3>
+
+<p><cite>The Handmaid's Tale</cite> is a sly reference to Chaucer's <a
+        href="https://en.wikipedia.org/wiki/The_Wife_of_Bath%27s_Tale"><cite>The
+    Wife of Bath's Tale</cite></a> (featuring a strong protagonist balancing
+    among bickering companions), and <a
+            href="https://en.wikipedia.org/wiki/The_Merchant%27s_Tale"><cite>The
+        Merchants's Tale</cite></a> sequence. Documentation has often been
+    treated as subservient to code, an afterthought, when really it is the
+    first thing most new users see about a system. Give it its due.</p>
