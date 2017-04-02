@@ -1,6 +1,7 @@
 # Blog Posts
 
 * [Automated Acceptance Criteria](automated-acceptance-criteria.html) - in progress
+* [DDD, _A Handmaid's Tale_](ddd-a-handmaids-tale.html)
 * [Followup on Bash long options](followup-on-bash-long-options.html)
 * [Frequent commits](frequent-commits.html)
 * [On pipelines](on-pipelines.html) - in progress

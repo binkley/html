@@ -1,0 +1,101 @@
+<p>(No, this is not a post about the venerable and excellent <a
+        href="https://www.gnu.org/software/ddd/"
+        title="DDD - Data Display Debugger">GNU DDD</a>.)</p>
+
+<p><em>Documentation Driven Development</em>&mdash;DDD&mdash;is a term I just
+    made up. I was working on some code TDD-style (<a
+            href="http://blog.cleancoder.com/uncle-bob/2014/12/17/TheCyclesOfTDD.html"
+            title="The Cycles of TDD">"first, write a failing test"</a>), and
+    also thinking about my user documentation. My usual practice is to get my
+    tests and code into good shape, push-worthy, and then update the
+    documentation with my improvements (one hopes). Then the thought struck
+    me: I'm doing this wrong!</p>
+
+<p>We write tests first as miniature specifications for the code. But my
+    documentation is conveying to the public my specifications. In the world
+    of closed-source software, this makes sense. You prepare the documentation
+    to ship to customers (internal or external); generally holding off until
+    the code is stable so your documentation is mostly accurate. After all,
+    with closed source, users can't see your tests or the code, the
+    documentation is their only view into how to use your code.</p>
+
+<p>With open-source software, this picture is radically changed. Your users
+    <em>can</em> see your tests and code, in fact, you generally encourage
+    them to look, or fork! So now your tests are visible, little public
+    miniature specifications. Why documentation then?</p>
+
+<p>Personally I still like solid documentation on open source projects. True,
+    I could just browse the tests. But that isn't the best way to start with
+    code that is new to me. I'd like to see examples, some explanation,
+    perhaps some architecture or high-level picture. Hence, documentation.</p>
+
+<p>So, back to DDD. If I'm pushing out my tests and code to a public
+    repository as soon as they pass (or near enough), how is my documentation
+    ever to keep up? How do I encourage others to clone or fork my code, and
+    contribute? I still want new users to have good documentation for getting
+    started; I still want my tests to ultimately define my specifications. The
+    answer is easy: <em>First write failing documentation</em>.</p>
+
+<p>This is not at all a new idea! See <a
+        href="https://collectiveidea.com/blog/archives/2014/04/21/on-documentation-driven-development"
+        title="On Documentation-Driven Development">Steve Richert</a>, <a
+        href="https://gist.github.com/zsup/9434452"
+        title="Documentation-Driven Development">Zach Supalla</a>, and many
+    others. An early form of this idea is Knuth's <a
+            href="http://wiki.c2.com/?LiterateProgramming">Literate
+        Programming</a>.</p>
+
+<h3 id="failing-documentation">Failing documentation</h3>
+
+<p>What is "failing documentation"?</p>
+
+<p>Firstly, just as with "failing tests", you start with documentation of how
+    your code should behave, but which isn't actually the case. The ways to do
+    this are the usual suspects:</p>
+
+<ul>
+    <li>Write examples which don't work, or possibly even compile</li>
+    <li>Write explanations which don't fit your code</li>
+    <li>Write step-by-step walkthroughs which don't work</li>
+    <li>Etc, etc, etc, anything you'd put in documentation which is invalid
+        for your current code
+    </li>
+</ul>
+
+<p>Then you fix it:</p>
+
+<ol>
+    <li>Write failing documentation</li>
+    <li>Write failing tests which correspond to the documentation</li>
+    <li>Fix the code to make the tests pass, and the documentation correct
+    </li>
+</ol>
+
+<p>Afterwards you have:</p>
+
+<ul>
+    <li>Current, accurate documentation</li>
+    <li>Current, passing tests</li>
+    <li>Current, working code</li>
+</ul>
+
+<h3 id="supporting-ecosystems">Supporting ecosystems</h3>
+
+<p>As straight-forward as DDD is to explain, some software ecosystems make it
+    easier to actually do than others. A standout example is Python and <a
+            href="https://en.wikipedia.org/wiki/Doctest"><code>doctest</code></a>.
+    In <code>doctest</code> you write your tests directly in the API
+    documentation as examples. This is a perfect marriage of documentation and
+    tests.</p>
+
+<p><a href="http://swagger.io/">Swagger</a> is an interesting case. It's
+    generally a documentation-first approach tailored for REST API
+    specifications. But the documentation is "live documentation"&mdash;i.e.,
+    an executable web form for exploratory testing&mdash;rather than text and
+    code examples to read. Using DDD, you would write your REST API
+    specification first in Swagger, then write failing tests around that
+    before fixing the code to implement. Clever people <a
+            href="http://swagger.io/using-swagger-to-detect-breaking-api-changes/"
+            title="Using Swagger to detect breaking API changes">have
+        leveraged this</a>.</p>
+
