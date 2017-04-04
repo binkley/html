@@ -1,0 +1,34 @@
+<p>I usually set up my Maven-build projects to be as quiet as possible. My
+    preference is "Silence is Golden": if the command says nothing on the
+    command line, it worked; if it failed, it prints to STDERR.</p>
+
+<p>However, sometimes I want to see some output while I'm tracking down a
+    problem. How best to reconcile these?</p>
+
+<p><a href="https://maven.apache.org/docs/3.3.1/release-notes.html"
+      title="Release Notes – Maven 3.3.1">Maven 3.3.1</a> (maybe earlier)
+    introduced the <code>.mvn</code> directory for your project root (note
+    leading DOT). In here you can keep a <code>jvm.config</code> file which
+    has the flags to the <code>java</code> command used when running
+    <code>mvn</code>. Here's my usual <code>jvm.config</code>:</p>
+
+<pre class="code">
+-Dorg.slf4j.simpleLogger.defaultLogLevel=WARN
+-Dorg.slf4j.simpleLogger.log.Sisu=WARN</pre>
+
+<p>This quiets maven down quite a bit, using the properties to control Maven's
+    more recent logger, SLF4J. And I normally commit that into my project code
+    repository.</p>
+
+<p>And for those times I'd like more output? I could edit the file, but I
+    don't trust myself enough not to accidentally commit those temporary
+    changes. So I use the command line:</p>
+
+<pre class="code">MAVEN_OPTS='-Dorg.slf4j.simpleLogger.defaultLogLevel=INFO' mvn</pre>
+
+<p>Ultimately <a
+        href="https://github.com/apache/maven/blob/master/apache-maven/src/bin/mvn"><code>mvn</code>
+    reads <code>.mvn/jvm.config</code></a>, putting the contents into the
+    variable <code>MAVEN_OPTS</code>, and uses <code>MAVEN_OPTS</code> in the
+    invocation of <code>java</code>, and you can override the variable
+    yourself on the command line. </p>
