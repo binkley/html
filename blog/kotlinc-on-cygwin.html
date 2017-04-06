@@ -1,0 +1,31 @@
+<p>There may be a better way, but I found that running <code>kotlinc</code> to
+    bring up the Kotlin REPL, while in a Cygwin BASH shell using Mintty, did
+    not respond to keyboard input. A little research indicated the issue is
+    with JLine, which has some understandable difficulties reconciling running
+    under Cygwin with running under CMD.</p> <p>The workaround I used:</p>
+<pre class="code">$ JAVA_OPTS='-Djline.terminal=unix' kotlinc
+Welcome to Kotlin version 1.1.1 (JRE 1.8.0_121-b13)
+Type :help for help, :quit for quit
+>>> println("FOOBAR")
+println("FOOBAR")
+FOOBAR</pre> <p>Requesting JLine to use UNIX-y primitives for terminal access
+    solved the problem. I would like to hear about other solutions.</p> <p>
+    <strong>UPDATE</strong>: Edited for clarity. And some additional reading:
+</p>
+<ul>
+    <li>This is <a href="https://github.com/jline/jline2/issues/245"
+                   title="JLine hangs reading line in GitBash">a known
+        issue</a></li>
+    <li>It impacts <a
+            href="http://stackoverflow.com/questions/25974993/how-to-set-system-property-jline-terminal-to-fix-no-echo-while-typing-on-cygwin"
+            title="How to set system property jline.terminal (to fix no echo while typing on cygwin's mintty)?">other
+        programs</a> than just <code>kotlinc</code></li>
+    <li>The issues <a href="https://github.com/jline/jline3/issues/41"
+                      title="Cygwin pty is used when running with the default windows console"><em>may</em>
+        be fixed</a> in JLine3
+    </li>
+    <li>I filed <a href="https://youtrack.jetbrains.com/issue/KT-17286"
+                   title="Kotlinc does not handline terminal input/output under Cygwin">a
+        report</a> with JetBrains
+    </li>
+</ul>
