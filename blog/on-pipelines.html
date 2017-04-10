@@ -38,6 +38,8 @@
     development should have the most production-like environment
     possible.</em></blockquote>
 
+<p>And in pictures:</p>
+
 <!-- @formatter:off -->
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 20"
      width="80%" style="margin: auto; display: block">
@@ -66,41 +68,60 @@
 
 <h3 id="invest-in-your-pipeline">Invest in your pipeline</h3>
 
-<h4 id="dos">Do</h4>
+<h4 id="pipeline-dos">Pipeline do's</h4>
 
 <dl>
-    <dt>Separate stages by purpose</dt>
+    <dt><em>Separate stages by purpose</em></dt>
     <dd>Group logically related pipeline steps by stage. For example, run unit
         tests in a unit test stage. Or in a multi-product build, group stages
-        by build. This helps visualize what a pipeline does, and <em>why </em>.
-        Your pipeline architecture documents should align with these stages.
+        by build. This helps visualize what a pipeline does, and <em>why</em>.
+        And importantly, it quickly points to the cause of failure. Your
+        pipeline architecture documents should align with these stages.
     </dd>
 
-    <dt>Emulate production as much as possible</dt>
-    <dd>As much as possible, each stage of a pipeline should have the same
-        environment as the following stage, and development should have the
-        same environment as the first pipeline stage. This ensures consistency
-        across the flow towards production, and finds environmental issues as
-        early as possible, before they can affect production.
+    <dt><em>Emulate production as much as possible</em></dt>
+    <dd>To the degree possible, each stage of a pipeline should have the same
+        environment as the following stage, and development (before the
+        pipeline first sees changes) should have the same environment as the
+        first pipeline stage. This ensures consistency across the flow towards
+        production, and finds environmental issues as early as possible,
+        before they can affect production.
     </dd>
 
-    <dt>Fail fast</dt>
-    <dd>The faster the pipeline can fail when something&mdash; anything&mdash;is
-        wrong, the faster development can address.
+    <dt><em>Send code as far towards production as possible</em></dt>
+    <dd>The flipside of keeping environments similar is keeping code similar.
+        To the degree possible, each stage should act on the same code as the
+        previous stage, and production (after the pipeline is done) should run
+        the same code.
     </dd>
 
-    <dt>Front-load fast stages</dt>
-    <dd>Invariably some stages in a pipeline run faster than others. Always
-        put these stages before slower ones if there are not dependencies.
+    <dt><em>Use feature toggles and gates</em></dt>
+    <dd>Production cannot always run the code exactly as the pipeline sees it,
+        and sometimes earlier stages near production are similar. In these
+        cases, use <a
+                href="https://martinfowler.com/articles/feature-toggles.html"><cite>Feature
+            Toggles</cite></a> to turn off code in production, and Approval
+        Promotions (gates) to manage timing of code deployment. These come
+        with
+        <a href="http://swreflections.blogspot.com/2014/08/feature-toggles-are-one-of-worst-kinds.html"
+           title="Feature Toggles are one of the worst kinds of Technical Debt">their
+            own drawbacks</a>, so should only be used if really needed.
+    </dd>
+
+    <dt><em>Front-load and fail fast</em></dt>
+    <dd>The faster the pipeline can fail when something&mdash;anything&mdash;is
+        wrong, the faster development can fix it and continue. Invariably some
+        stages in a pipeline run faster than others. Put these stages before
+        slower ones, if there are not dependencies, for faster feedback.
     </dd>
 </dl>
 
-<h4 id="donts">Don't</h4>
+<h4 id="pipeline-donts">Pipeline don't's</h4>
 
 <dl>
-    <dt>Mix types of tests in the same stage</dt>
+    <dt><em>Mix types of tests in the same stage</em></dt>
 
-    <dt>Mix tooling</dt>
+    <dt><em>Mix tooling</em></dt>
     <dd>As much as feasible, keeping tooling consistent among all pipeline
         stages. For example, in an F# project, use the same version of F# in
         every stage. This can be challenging when crossing environment
@@ -109,11 +130,36 @@
     </dd>
 </dl>
 
-<h4 id="desktop-vms">Desktop VMs</h4>
+<h4 id="vms">VMs</h4>
 
 <p>When possible, developers should have an environment as production-like as
     possible. One solution is to run VMs on the development desktop that
-    emulate production.</p>
+    emulate production. The same solution applies to testing.</p>
+
+<p>When possible, the only difference between production and environments
+    prior to production should be:</p>
+
+<dl>
+    <dt><em>Scaling</em></dt>
+    <dd>With fixed infrastructure (often inhouse), it is too normally costly
+        to replicate the production environment, so developers and the
+        pipeline should approximate as closely as possible. However, in the
+        age of the cloud, it is often feasible to exactly duplicate
+        production, especially when system architecture assumes cloud and does
+        not have built-in requirements of more than X servers or fewer than Y
+        servers.
+    </dd>
+
+    <dt><em>Security</em></dt>
+    <dd>Good security requires separation between production and
+        non-production accounts. This is the most common kind of configuration
+        difference between production and non-production. However, the
+        non-production accounts should have the same access and setup as
+        production, just against non-production resources.
+    </dd>
+
+    <dt><em>Resources</em></dt>
+</dl>
 
 <h3 id="closing-the-loop">Closing the loop</h3>
 
