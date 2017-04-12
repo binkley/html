@@ -1,0 +1,31 @@
+<p>I'm using <code>make</code> for a simple shell project, to run tests before
+    committing. The check was trivial:</p>
+
+<pre class="code">SHELL = bash
+
+test:
+&#9;@./run-tests t | grep 'Summary: 16 PASSED, 0 FAILED, 0 ERRORED' &gt;/dev/null</pre>
+
+<p>This has the nice quality of <em>Silence is Golden</em>: say nothing when
+    all is good. However, it loses the quality of <em>Complain on Failure</em>:
+    it simply fails without saying why.</p>
+
+<p>A better solution, preserving both qualities:</p>
+
+<pre class="code">SHELL = bash
+
+test:
+&#9;@diff --color=auto \
+&#9;    &lt;(./run-tests t | grep 'Summary: .* PASSED, .* FAILED, .* ERRORED') \
+&#9;    &lt;(echo 'Summary: 16 PASSED, 0 FAILED, 0 ERRORED')</pre>
+
+<p>It still says nothing when all is good, but now shows on failure how many
+    tests went awry when things. <em>Bonus</em>: color for programmers who
+    like that sort of thing.</p>
+
+<p>Why set <code>SHELL</code> to <code>bash</code>? I'm taking advantage of <a
+        href="https://www.gnu.org/software/bash/manual/html_node/Process-Substitution.html#Process-Substitution"><cite>Process
+    Substitution</cite></a>. Essentially the command outputs inside the
+    subshells are turned into special kinds of files, and <code>diff</code>
+    likes to compare files. Ksh and Zsh also support process substitution, so
+    I'm going with the most widely available option.</p>

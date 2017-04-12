@@ -7,4 +7,5 @@
 * [Kotlinc on Cygwin](kotlinc-on-cygwin.html)
 * [Maven logging and the command line](maven-logging-and-the-command-line.html)
 * [On pipelines](on-pipelines.html) - in progress
+* [Quick diff tip, make, et al](quick-diff-tip-make-et-al.html)
 * [Two BDD styles in Kotlin](two-bdd-styles-in-kotlin.html)
