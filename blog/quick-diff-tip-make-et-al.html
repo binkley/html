@@ -29,3 +29,21 @@ test:
     subshells are turned into special kinds of files, and <code>diff</code>
     likes to compare files. Ksh and Zsh also support process substitution, so
     I'm going with the most widely available option.</p>
+
+<p><strong>UPDATE:</strong></p> <p>Why are my arguments to <code>diff</code>
+    ordered like that? In usual testing language, I'm comparing "actual" vs
+    "expected", and more commonly you'll see programmers list "expected"
+    first.</p>
+
+<p><code>diff</code> by default colors the <em>left-hand</em> input in <span
+        style="color:red">RED</span>, and the <em>right-hand</em> input in
+    <span style="color:green">GREEN</span>. On failure, it makes more sense to
+    color "actual" in red and "expected" in green. Example output on failure:
+</p>
+
+<pre class="code">$ make
+<span style="color:cyan">1c1</span>
+<span style="color:red">&lt; Summary: 17 PASSED, 1 FAILED, 0 ERRORED</span>
+---
+<span style="color:green">&gt; Summary: 19 PASSED, 0 FAILED, 0 ERRORED</span>
+make: *** [Makefile:4: test] Error 1</pre>
