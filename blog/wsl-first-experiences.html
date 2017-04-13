@@ -1,0 +1,151 @@
+<p>I first tried Windows Subsystem for Linux in December 2016, but was not
+    successful in installing, so I held off.</p>
+
+<p>After getting the Windows 10 Creators Edition update, I saw <a
+        href="https://blogs.msdn.microsoft.com/commandline/2017/04/11/windows-10-creators-update-whats-new-in-bashwsl-windows-console/"
+        title="Windows 10 Creators Update: What’s new in Bash/WSL & Windows Console">how
+    much work and love</a> went into improving WSL, and decided to try again.
+    I was rewarded.</p>
+
+<p>On the whole, the installation was smooth, brief, you might even say <a
+        href="http://catb.org/jargon/html/T/trivial.html">trivial</a>. There
+    were Windows reboots to enable Developer Mode, and after installing WSL,
+    but much solid effort has gone into making Windows reboots quick and
+    painless, and with a regular Linux distro I'd have rebooted anyhow after
+    upgrading, so no disgruntlement.</p>
+
+<p>And what did I get for my efforts? WSL bash is bash. Just bash. Really, it
+    is just plain old bash, with all the command line tools I've grown
+    accustomed to over 30 years. The best praise I can give a tool: <em>It
+        just works</em>. And WSL just works. (But see <a href="#almost-there"><cite>Almost
+        there</cite></a>, below.)</p>
+
+<p>Out of the box WSL runs Ubuntu 16.04 (Xenial), the official LTS
+    distribution (long-term support). This is a sane choice for Microsoft.
+    It's stable, reliable, secure, tested, trusted. For anyone wanting a
+    working Linux command line, this is a go-to choice. Still, I updated
+    it.</p>
+
+<h3 id="things-i-changed">Things I changed</h3>
+
+<p>Even with all the goodness, there were some things I had to change:</p>
+
+<dl>
+    <dt>The terminal</dt>
+    <dd>I immediately installed <a href="https://github.com/mintty/wsltty"
+                                   title="Mintty as a terminal for Bash on Ubuntu on Windows / WSL">Mintty
+        for WSL</a>. I've grown to love Mintty on Cygwin, trusting it as a
+        reliable and featureful terminal emulator without going overboard.
+        It's a tasteful balance, well executed. And <code>CMD.EXE</code>,
+        though much improved, still is not there (but may head there; we'll
+        see if PowerShell wins out).
+    </dd>
+
+    <dt>DBus</dt>
+    <dd>Not to get into flamewars, I just accept that Ubuntu uses DBus. By
+        default it doesn't run on WSL, but this was easy to fix, and it made
+        upgrading Ubuntu smoother. Using <code>sudo</code>, edit <code>/etc/dbus-1/session.conf</code>
+        as
+        <a href="https://www.reddit.com/r/Windows10/comments/4rsmzp/bash_on_windows_getting_dbus_and_x_server_working/">others
+            have suggested</a> (I did it by hand, not with <code>sed</code>).
+        You may have to repeat after upgrading Ubuntu.
+    </dd>
+
+    <dt>The Ubuntu version</dt>
+    <dd>It seems trivial, but I was unhappy that <code>diff --color</code>
+        didn't work. Am I shallow&mdash;color? Some of the scripts <a
+                href="https://github.com/binkley/shell"
+                title="Helpful shell scripts and programs">I write</a> for
+        open source provide colorized diff output, and I'd like to work on
+        them in WSL without disabling this feature. Microsoft made <a
+                href="https://blogs.msdn.microsoft.com/commandline/2016/09/22/24-bit-color-in-the-windows-console/"
+                title="24-bit Color in the Windows Console!">much hay</a> over
+        24-bit color support in <code>CMD.EXE</code>. So <a
+                href="#upgrading-wsl-ubuntu" title="Upgrading WSL Ubuntu">I
+            updated to Ubuntu 17</a>, which includes diffutils 3.5 (the
+        version in which <code>--color</code> was added). Microsoft does not
+        official support upgrading Ubuntu, but I ran into no real problems.
+    </dd>
+</dl>
+
+<h3 id="upgrading-wsl-ubuntu">Upgrading WSL Ubuntu</h3>
+
+<p><em>Caveat coder</em> &mdash; there is a <em>reason</em> this is
+    unsupported by Microsoft at present. I just never ran into those reasons
+    myself. For example, I used DBus to make upgrading happier; I am not using
+    any Linux desktop (graphical) programs, so maybe this could be a reason.
+</p>
+
+<p>Researching <a
+        href="http://sourcedigit.com/22194-upgrade-ubuntu-17-04-upgrade-ubuntu-command-line/"
+        title="Upgrade Ubuntu 17.04 – Upgrade Ubuntu Via Command Line">several</a>
+    <a href="https://www.howtoforge.com/tutorial/ubuntu-lts-update-dist-upgrade/"
+       title="How to Update a Ubuntu LTS release to the next LTS Version (release upgrade)">helpful</a>
+    Internet sources, I:</p>
+
+<ol>
+    <li>Edited <tt>/etc/update-manager/release-upgrades</tt> to use "normal"
+        releases, not just LTS
+    </li>
+    <li>Fixed <code>/etc/dbus-1/session.conf</code></li>
+    <li>Ran <code>sudo do-release-upgrade</code> to move to 16.10 from 16.04
+    </li>
+    <li>Re-fixed <code>/etc/dbus-1/session.conf</code></li>
+    <li>Ran <code>sudo do-release-upgrade -d</code> to move to 17.04 from
+        16.10
+    </li>
+</ol>
+
+<p>(Pay attention: there are many "yN" prompts were the default is to abort:
+    you <strong>must</strong> enter "y" to these!)</p>
+
+<p>When I am prompted to reboot, I quit the upgrade, close all WSL terminals,
+    and start a fresh one. There is <a
+            href="https://blogs.msdn.microsoft.com/wsl/2016/04/22/windows-subsystem-for-linux-overview/"
+            title="Windows Subsystem for Linux Overview">no actual kernel</a>
+    to reboot: it remains 4.4.0-42-Microsoft throughout. The kernel is
+    emulated by Windows, not an actual file to boot, so upgrades only change
+    the packages bundled with the kernel, not the kernel itself. <a
+            href="https://www.microsoft.com/en-us/research/project/drawbridge/">The
+        underlying abstraction</a> is quite elegant.</p>
+
+<h3 id="almost-there">Almost there</h3>
+
+<p>Can I drop Cygwin and make WSL my daily development environment? Not quite
+    yet. For shell script work, WSL is excellent. But for my Kotlin, Java,
+    Ruby, et al, other projects, I rely on IntelliJ IDEA as my editor (though
+    Emacs might return into my life again). Filesystem interop between Windows
+    programs (such as <code>java.exe</code>) and WSL is good <a
+            href="https://youtrack.jetbrains.com/issue/IDEA-171457"
+            title="Git source control status wrong for project stored in WSL">but
+        not perfect</a>. </p>
+
+<h3 id="other-options">Other options</h3>
+
+<dl>
+    <dt>Cygwin on Windows</dt>
+    <dd>This is and has been my solution for bash on Windows for many years. I
+        will move to WSL when I'm ready, but I'm not ready yet. I need my
+        regular development cycle to work first. (See <a href="#almost-there"><cite>Almost
+            there</cite></a>.) There are downsides to Cygwin, for example,
+        coping with line endings, but it's been reliable for me.
+    </dd>
+    <dt>Homebrew on Mac</dt>
+    <dd>This is work. My company issues me a Mac laptop, and I use it. For the
+        most part, it is fine for work with colleagues and clients, though at
+        times the Mac is <a
+                href="http://appletoolbox.com/2016/07/macos-sierra-features-review/">a
+            little strange</a>, and much of the user experiences feels
+        counterintuitive. Still, the software mostly works, and the hardware
+        is incredibly good.
+    </dd>
+</dl>
+
+<p><em>But why not just use Linux?</em> Well, my daily machine at home is a
+    Windows box. Because it's my <em>gaming rig</em>, and <a
+            href="http://www.lotro.com/en"
+            title="The Lord of the Rings Online">games I play</a> don't run
+    well in Linux, and getting a Mac desktop is not currently <a
+            href="https://arstechnica.com/apple/2017/04/imagining-a-new-mac-pro-the-imac-pro-and-the-future-of-apples-desktops/"
+            title="Imagining a new Mac Pro, the “iMac Pro,” and the future of Apple’s desktops">a
+        pretty story</a>.</p>

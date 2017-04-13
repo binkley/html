@@ -9,3 +9,4 @@
 * [On pipelines](on-pipelines.html) - in progress
 * [Quick diff tip, make, et al](quick-diff-tip-make-et-al.html)
 * [Two BDD styles in Kotlin](two-bdd-styles-in-kotlin.html)
+* [WSL, first experiences](wsl-first-experiences.html)
