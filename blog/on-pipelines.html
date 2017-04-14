@@ -11,21 +11,47 @@
         title="The Continuous Delivery Maturity Model">various maturity
     models</a>.</p>
 
+<nav>
+    <ul>
+        <li><a href="#pipeline-benefits"><cite>Pipeline benefits</cite></a>
+        </li>
+        <li><a href="#pipeline-shape"><cite>Pipeline shape</cite></a></li>
+        <li><a href="#invest-in-your-pipeline"><cite>Invest in your
+            pipeline</cite></a>
+            <ul>
+                <li><a href="#pipeline-dos"><cite>Pipeline do's</cite></a>
+                </li>
+                <li><a href="#pipeline-donts"><cite>Pipeline dont's</cite></a>
+                </li>
+                <li><a href="#vms"><cite>VMs</cite></a></li>
+            </ul>
+        </li>
+        <li><a href="#feature-toggles"><cite>Feature toggles</cite></a></li>
+        <li><a href="#closing-the-loop"><cite>Closing the loop</cite></a></li>
+    </ul>
+</nav>
+
 <h3 id="pipeline-benefits">Pipeline benefits</h3>
 
 <p>The pipeline is the principal tool in connecting work (developers, inputs)
     and value (production, outputs). Benefits include:</p>
 <ul>
     <li>It provides backpressure to developers, preventing many kinds of
-        problems from appearing in production.
+        problems from appearing later in testing or production.
+    </li>
+    <li>It raises the efficiency and speed to production, automating many
+        traditionally manual steps, especially in testing.
     </li>
     <li>It acts as a gate to production, increasing the options available to
-        management.
+        management. (But see <a href="#feature-toggles"><cite>Feature
+            toggles</cite>, below.)</a>
     </li>
     <li>It includes quality control elements, increasing organizational
-        confidence in the delivery process.
+        confidence in the product and process. This includes historic data.
     </li>
-    <li>It provides audit and control points for good governance.</li>
+    <li>It provides audit and control points for good governance, and a
+        record.
+    </li>
 </ul>
 
 <h3 id="pipeline-shape">Pipeline shape</h3>
@@ -160,6 +186,8 @@
 
     <dt><em>Resources</em></dt>
 </dl>
+
+<h3 id="feature-toggles">Feature toggles</h3>
 
 <h3 id="closing-the-loop">Closing the loop</h3>
 
