@@ -1,15 +1,17 @@
-<p>The build pipeline is a key techniques to improving software delivery. It
-    provides two benefits that boost productivity and reduce risk:</p>
+<section id="introduction">
+    <p>The build pipeline is a key techniques to improving software delivery.
+        It provides two benefits that boost productivity and reduce risk:</p>
 
-<ol>
-    <li>Quick feedback to developers (inputs)</li>
-    <li>A path to production (outputs)</li>
-</ol>
+    <ol>
+        <li>Quick feedback to developers (inputs)</li>
+        <li>A path to production (outputs)</li>
+    </ol>
 
-<p>And it is a key component of <a
-        href="https://www.infoq.com/articles/Continuous-Delivery-Maturity-Model"
-        title="The Continuous Delivery Maturity Model">various maturity
-    models</a>.</p>
+    <p>And it is a key component of <a
+            href="https://www.infoq.com/articles/Continuous-Delivery-Maturity-Model"
+            title="The Continuous Delivery Maturity Model">various maturity
+        models</a>.</p>
+</section>
 
 <nav>
     <ul>
@@ -31,168 +33,185 @@
     </ul>
 </nav>
 
-<h3 id="pipeline-benefits">Pipeline benefits</h3>
+<section id="pipeline-benefits">
+    <h3>Pipeline benefits</h3>
 
-<p>The pipeline is the principal tool in connecting work (developers, inputs)
-    and value (production, outputs). Benefits include:</p>
-<ul>
-    <li>It provides backpressure to developers, preventing many kinds of
-        problems from appearing later in testing or production.
-    </li>
-    <li>It raises the efficiency and speed to production, automating many
-        traditionally manual steps, especially in testing.
-    </li>
-    <li>It acts as a gate to production, increasing the options available to
-        management. (But see <a href="#feature-toggles"><cite>Feature
-            toggles</cite>, below.)</a>
-    </li>
-    <li>It includes quality control elements, increasing organizational
-        confidence in the product and process. This includes historic data.
-    </li>
-    <li>It provides audit and control points for good governance, and a
-        record.
-    </li>
-</ul>
+    <p>The pipeline is the principal tool in connecting work (developers,
+        inputs) and value (production, outputs). Benefits include:</p>
+    <ul>
+        <li>It provides backpressure to developers, preventing many kinds of
+            problems from appearing later in testing or production.
+        </li>
+        <li>It raises the efficiency and speed to production, automating many
+            traditionally manual steps, especially in testing.
+        </li>
+        <li>It acts as a gate to production, increasing the options available
+            to management. (But see <a href="#feature-toggles"><cite>Feature
+                toggles</cite>, below.)</a>
+        </li>
+        <li>It includes quality control elements, increasing organizational
+            confidence in the product and process. This includes historic
+            data.
+        </li>
+        <li>It provides audit and control points for good governance, and a
+            record.
+        </li>
+    </ul>
+</section>
 
-<h3 id="pipeline-shape">Pipeline shape</h3>
+<section id="pipeline-shape">
+    <h3>Pipeline shape</h3>
 
-<p>Unlike a physical pipeline, a build pipeline is bi-directional. Developer
-    work flows in towards production, and production environments flow towards
-    development. Another way to express this:</p>
+    <p>Unlike a physical pipeline, a build pipeline is bi-directional.
+        Developer work flows in towards production, and production
+        environments flow towards development. Another way to express
+        this:</p>
 
-<blockquote><em>Code should move as fast as possible towards production, and
-    development should have the most production-like environment
-    possible.</em></blockquote>
+    <blockquote><em>Code should move as fast as possible towards production,
+        and development should have the most production-like environment
+        possible.</em></blockquote>
 
-<p>And in pictures:</p>
+    <p>And in pictures:</p>
 
-<!-- @formatter:off -->
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 20"
-     width="80%" style="margin: auto; display: block">
-    <defs>
-        <marker id="arrow" viewBox="0 0 10 10" refX="1" refY="5"
-                orient="auto">
-            <path d="M 0 0 L 10 5 L 0 10 z"></path>
-        </marker>
-    </defs>
-    <text x="10" y="10" transform="rotate(-90 10 10)" font-size="10"
-          style="text-anchor: middle">Dev</text>
-    <text x="90" y="10" transform="rotate(90 90 10)" font-size="10"
-          style="text-anchor: middle">Prod</text>
-    <!-- TODO: How to calculate x/y for text? -->
-    <text x="25" y="6" font-size="7">Code</text>
-    <line x1="40" y1="4" x2="69" y2="4" stroke="black"
-          marker-end="url(#arrow)"></line>
-    <text x="60" y="19" font-size="7">Env</text>
-    <line x1="60" y1="17" x2="28" y2="17" stroke="black"
-          marker-end="url(#arrow)"></line>
-    <rect x="10" y="0" width="80" height="20" stroke="black"
-          fill="transparent"></rect>
-    <line x1="10" y1="15" x2="90" y2="5" stroke="black"></line>
-</svg>
-<!-- @formatter:on -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 20"
+         width="80%" style="margin: auto; display: block">
+        <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="1" refY="5"
+                    orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z"></path>
+            </marker>
+        </defs>
+        <text x="10" y="10" transform="rotate(-90 10 10)" font-size="10"
+              style="text-anchor: middle">Dev
+        </text>
+        <text x="90" y="10" transform="rotate(90 90 10)" font-size="10"
+              style="text-anchor: middle">Prod
+        </text>
+        <!-- TODO: How to calculate x/y for text? -->
+        <text x="25" y="6" font-size="7">Code</text>
+        <line x1="40" y1="4" x2="69" y2="4" stroke="black"
+              marker-end="url(#arrow)"></line>
+        <text x="60" y="19" font-size="7">Env</text>
+        <line x1="60" y1="17" x2="28" y2="17" stroke="black"
+              marker-end="url(#arrow)"></line>
+        <rect x="10" y="0" width="80" height="20" stroke="black"
+              fill="transparent"></rect>
+        <line x1="10" y1="15" x2="90" y2="5" stroke="black"></line>
+    </svg>
+</section>
 
-<h3 id="invest-in-your-pipeline">Invest in your pipeline</h3>
+<aside>
+    <p>Of course, <a href="https://en.wiktionary.org/wiki/the_cake_is_a_lie"
+                     title="the cake is a lie">the pipeline is a lie</a>. It
+        is really a portion of the complete product feedback loop, the portion
+        seen by most development teams.</p>
+</aside>
 
-<h4 id="pipeline-dos">Pipeline do's</h4>
+<section id="invest-in-your-pipeline">
+    <h3>Invest in your pipeline</h3>
 
-<dl>
-    <dt><em>Separate stages by purpose</em></dt>
-    <dd>Group logically related pipeline steps by stage. For example, run unit
-        tests in a unit test stage. Or in a multi-product build, group stages
-        by build. This helps visualize what a pipeline does, and <em>why</em>.
-        And importantly, it quickly points to the cause of failure. Your
-        pipeline architecture documents should align with these stages.
-    </dd>
+    <h4 id="pipeline-dos">Pipeline do's</h4>
 
-    <dt><em>Emulate production as much as possible</em></dt>
-    <dd>To the degree possible, each stage of a pipeline should have the same
-        environment as the following stage, and development (before the
-        pipeline first sees changes) should have the same environment as the
-        first pipeline stage. This ensures consistency across the flow towards
-        production, and finds environmental issues as early as possible,
-        before they can affect production.
-    </dd>
+    <dl>
+        <dt><em>Separate stages by purpose</em></dt>
+        <dd>Group logically related pipeline steps by stage. For example, run
+            unit tests in a unit test stage. Or in a multi-product build,
+            group stages by build. This helps visualize what a pipeline does,
+            and <em>why</em>. And importantly, it quickly points to the cause
+            of failure. Your pipeline architecture documents should align with
+            these stages.
+        </dd>
 
-    <dt><em>Send code as far towards production as possible</em></dt>
-    <dd>The flipside of keeping environments similar is keeping code similar.
-        To the degree possible, each stage should act on the same code as the
-        previous stage, and production (after the pipeline is done) should run
-        the same code.
-    </dd>
+        <dt><em>Emulate production as much as possible</em></dt>
+        <dd>To the degree possible, each stage of a pipeline should have the
+            same environment as the following stage, and development (before
+            the pipeline first sees changes) should have the same environment
+            as the first pipeline stage. This ensures consistency across the
+            flow towards production, and finds environmental issues as early
+            as possible, before they can affect production.
+        </dd>
 
-    <dt><em>Use feature toggles and gates</em></dt>
-    <dd>Production cannot always run the code exactly as the pipeline sees it,
-        and sometimes earlier stages near production are similar. In these
-        cases, use <a
-                href="https://martinfowler.com/articles/feature-toggles.html"><cite>Feature
-            Toggles</cite></a> to turn off code in production, and Approval
-        Promotions (gates) to manage timing of code deployment. These come
-        with
-        <a href="http://swreflections.blogspot.com/2014/08/feature-toggles-are-one-of-worst-kinds.html"
-           title="Feature Toggles are one of the worst kinds of Technical Debt">their
-            own drawbacks</a>, so should only be used if really needed.
-    </dd>
+        <dt><em>Send code as far towards production as possible</em></dt>
+        <dd>The flipside of keeping environments similar is keeping code
+            similar. To the degree possible, each stage should act on the same
+            code as the previous stage, and production (after the pipeline is
+            done) should run the same code.
+        </dd>
 
-    <dt><em>Front-load and fail fast</em></dt>
-    <dd>The faster the pipeline can fail when something&mdash;anything&mdash;is
-        wrong, the faster development can fix it and continue. Invariably some
-        stages in a pipeline run faster than others. Put these stages before
-        slower ones, if there are not dependencies, for faster feedback.
-    </dd>
-</dl>
+        <dt><em>Use feature toggles and gates</em></dt>
+        <dd>Production cannot always run the code exactly as the pipeline sees
+            it, and sometimes earlier stages near production are similar. In
+            these cases, use <a
+                    href="https://martinfowler.com/articles/feature-toggles.html"><cite>Feature
+                Toggles</cite></a> to turn off code in production, and
+            Approval Promotions (gates) to manage timing of code deployment.
+            These come with <a
+                    href="http://swreflections.blogspot.com/2014/08/feature-toggles-are-one-of-worst-kinds.html"
+                    title="Feature Toggles are one of the worst kinds of Technical Debt">their
+                own drawbacks</a>, so should only be used if really needed.
+        </dd>
 
-<h4 id="pipeline-donts">Pipeline don't's</h4>
+        <dt><em>Front-load and fail fast</em></dt>
+        <dd>The faster the pipeline can fail when something&mdash;anything&mdash;is
+            wrong, the faster development can fix it and continue. Invariably
+            some stages in a pipeline run faster than others. Put these stages
+            before slower ones, if there are not dependencies, for faster
+            feedback.
+        </dd>
+    </dl>
 
-<dl>
-    <dt><em>Mix types of tests in the same stage</em></dt>
+    <h4 id="pipeline-donts">Pipeline don't's</h4>
 
-    <dt><em>Mix tooling</em></dt>
-    <dd>As much as feasible, keeping tooling consistent among all pipeline
-        stages. For example, in an F# project, use the same version of F# in
-        every stage. This can be challenging when crossing environment
-        boundaries, say from developer's Windows desktops to managed Linux
-        VMs.
-    </dd>
-</dl>
+    <dl>
+        <dt><em>Mix types of tests in the same stage</em></dt>
 
-<h4 id="vms">VMs</h4>
+        <dt><em>Mix tooling</em></dt>
+        <dd>As much as feasible, keeping tooling consistent among all pipeline
+            stages. For example, in an F# project, use the same version of F#
+            in every stage. This can be challenging when crossing environment
+            boundaries, say from developer's Windows desktops to managed Linux
+            VMs.
+        </dd>
+    </dl>
 
-<p>When possible, developers should have an environment as production-like as
-    possible. One solution is to run VMs on the development desktop that
-    emulate production. The same solution applies to testing.</p>
+    <h4 id="vms">VMs</h4>
 
-<p>When possible, the only difference between production and environments
-    prior to production should be:</p>
+    <p>When possible, developers should have an environment as production-like
+        as possible. One solution is to run VMs on the development desktop
+        that emulate production. The same solution applies to testing.</p>
 
-<dl>
-    <dt><em>Scaling</em></dt>
-    <dd>With fixed infrastructure (often inhouse), it is too normally costly
-        to replicate the production environment, so developers and the
-        pipeline should approximate as closely as possible. However, in the
-        age of the cloud, it is often feasible to exactly duplicate
-        production, especially when system architecture assumes cloud and does
-        not have built-in requirements of more than X servers or fewer than Y
-        servers.
-    </dd>
+    <p>When possible, the only difference between production and environments
+        prior to production should be:</p>
 
-    <dt><em>Security</em></dt>
-    <dd>Good security requires separation between production and
-        non-production accounts. This is the most common kind of configuration
-        difference between production and non-production. However, the
-        non-production accounts should have the same access and setup as
-        production, just against non-production resources.
-    </dd>
+    <dl>
+        <dt><em>Scaling</em></dt>
+        <dd>With fixed infrastructure (often inhouse), it is too normally
+            costly to replicate the production environment, so developers and
+            the pipeline should approximate as closely as possible. However,
+            in the age of the cloud, it is often feasible to exactly duplicate
+            production, especially when system architecture assumes cloud and
+            does not have built-in requirements of more than X servers or
+            fewer than Y servers.
+        </dd>
 
-    <dt><em>Resources</em></dt>
-</dl>
+        <dt><em>Security</em></dt>
+        <dd>Good security requires separation between production and
+            non-production accounts. This is the most common kind of
+            configuration difference between production and non-production.
+            However, the non-production accounts should have the same access
+            and setup as production, just against non-production resources.
+        </dd>
 
-<h3 id="feature-toggles">Feature toggles</h3>
+        <dt><em>Resources</em></dt>
+    </dl>
+</section>
 
-<h3 id="closing-the-loop">Closing the loop</h3>
+<section id="feature-toggles">
+    <h3>Feature toggles</h3>
+</section>
 
-<p>Pipeline is really a feedback loop, prod back to PO</p>
+<section id="closing-the-loop">
+    <h3>Closing the loop</h3>
 
-<h3>Need title</h3>
-
-<p>Dev flows left, prod flows right</p>
+    <p>Pipeline is really a feedback loop, prod back to PO</p>
+</section>
