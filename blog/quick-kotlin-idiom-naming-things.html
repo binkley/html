@@ -10,11 +10,15 @@
 
 <pre class="code">fun maybe_three(check: (Int) -&gt; Boolean) {
     if (check(3)) do_the_three_thing()
-    else println("$check says do not pass go")
+    else println("\"$check says\", Do not pass go.")
 }
 
 maybe_three(Named("Is it three?") { i -&gt; 3 == i })
 maybe_three(Named("Is it four?") { i -&gt; 4 == i })</pre>
+
+<p>The first call of <code>maybe_three</code> prints: <samp>Breakfast, lunch,
+    dinner</samp>. The second call prints: <samp>"Is it four?" says, Do not
+    pass go.</samp></p>
 
 <p>Many variations on this are possible, not just functions! What makes this
     example work nicely is <a
