@@ -1,0 +1,29 @@
+<p>Kotlin is very much a better Java. A great example is this simple idiom for
+    naming things:</p>
+
+<pre class="code">open class Named&lt;in T&gt;(val name: String, check: (T) -&gt; Boolean)
+    : (T) -&gt; Boolean by check {
+    override fun toString() = name
+}</pre>
+
+<p>So I can write something like this:</p>
+
+<pre class="code">fun maybe_three(check: (Int) -&gt; Boolean) {
+    if (check(3)) do_the_three_thing()
+    else println("$check says do not pass go")
+}
+
+maybe_three(Named("Is it three?") { i -&gt; 3 == i })
+maybe_three(Named("Is it four?") { i -&gt; 4 == i })</pre>
+
+<p>Many variations on this are possible, not just functions! What makes this
+    example work nicely is <a
+            href="https://kotlinlang.org/docs/reference/delegation.html">delegation</a>&mdash;the
+    magical <code>by</code> keyword&mdash; for the general feature of naming
+    things by overriding <code>toString()</code>; and for the function
+    delegated to, the elegant <a
+            href="https://kotlinlang.org/docs/reference/lambdas.html">lambda</a>
+    (anonymous function) syntax for the last parameter. You can delegate
+    anything, not just functions, so you could make named maps, named business
+    objects, <i>et al</i>, by using delegation on existing types without
+    needing to change them.</p>
