@@ -43,3 +43,10 @@ os.name = Windows 10</pre>
 <p>Color is back. It turns out, any value for <code>os.name</code> will work
     (for example, "Bob") as long as it doesn't contain "win". I picked
     "Cygwin" for explicitness.</p>
+
+<p><strong>UPDATE</strong>: I have to rethink this.  Sure I get color now,
+    but at the expense of <code>maven test</code> failing as maven no longer
+    believes I'm on Windows, so is unhappy at the lack of a
+    <code>/bin/sh</code> and general UNIX filesystem.  One step forward, two
+    steps back.</p>
+</p>
