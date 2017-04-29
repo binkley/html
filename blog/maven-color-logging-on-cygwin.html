@@ -1,0 +1,45 @@
+<p>I'm quite happy Maven 3.5.0 has added color logging!</p>
+
+<p>With earlier versions of maven, I used Jean-Christophe Guy's <a
+        href="https://github.com/jcgay/maven-color">excellent maven-color
+    extension</a>. On Windows that involved some manual hacking of my maven
+    installation, but on Mac, it was trivial with homebrew.</p>
+
+<p>So now I'm getting color output from maven out of the box. Except when I
+    don't.</p>
+
+<p>You see, this new feature relies on <a
+        href="https://github.com/fusesource/jansi">the good JAnsi library</a>.
+    And JAnsi presently has an issue with color on Cygwin. When I'm at home,
+    Cygwin is my mainstay, used on my gaming-cum-programming rig, so this is
+    significant to me. What is the issue? No color&mdash;JAnsi detects I'm on
+    Windows, and uses the native Windows console color handling, which doesn't
+    work in Mintty or Xterm. Those use standard ANSI escape sequences, etc.
+    rather than an OS-specific library.</p>
+
+<p>Digging through the source for JAnsi, I find <a
+        href="https://github.com/fusesource/jansi/blob/c6830ac1e54b1f8fd3985c5fe595a835ad56046a/jansi/src/main/java/org/fusesource/jansi/AnsiConsole.java#L46">the
+    trouble spot</a>:</p>
+
+<pre class="code">private static final boolean IS_WINDOWS = System.getProperty("os.name").toLowerCase(Locale.ENGLISH).contains("win");</pre>
+
+<p>Aha! The special Windows-handling code kicks in when the
+    <code>os.name</code> system property contains "win" (in any case). Using
+    the <code>jps</code> and <code>jinfo</code> tools that come with the JDK,
+    I double-checked against a long-running maven build (16848 just was the
+    PID used by the JVM for this maven build; use <code>jps</code> to list all
+    current PIDs):</p>
+
+<pre class="code">$ jinfo -sysprops 16848 | grep os.name
+os.name = Windows 10</pre>
+
+<p>Some experimenting found a way to work around that:</p>
+
+<pre class="code">MAVEN_OPTS=-Dos.name=Cygwin mvn clean</pre>
+
+<p>(You need to use <code>MAVEN_OPTS</code> rather than passing <code>-Dos.name=Cygwin</code>
+    to maven; once maven starts the value is immutable.)</p>
+
+<p>Color is back. It turns out, any value for <code>os.name</code> will work
+    (for example, "Bob") as long as it doesn't contain "win". I picked
+    "Cygwin" for explicitness.</p>

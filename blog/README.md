@@ -5,6 +5,7 @@
 * [Followup on Bash long options](followup-on-bash-long-options.html)
 * [Frequent commits](frequent-commits.html)
 * [Kotlinc on Cygwin](kotlinc-on-cygwin.html)
+* [Maven color logging on Cygwin](maven-color-logging-on-cygwin.html)
 * [Maven logging and the command line](maven-logging-and-the-command-line.html)
 * [On pipelines](on-pipelines.html) - in progress
 * [Quick diff tip, make, et al](quick-diff-tip-make-et-al.html)
