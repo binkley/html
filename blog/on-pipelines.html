@@ -21,9 +21,11 @@
         <li><a href="#invest-in-your-pipeline"><cite>Invest in your
             pipeline</cite></a>
             <ul>
-                <li><a href="#pipeline-dos"><cite>Pipeline do's</cite></a>
+                <li><a href="#pipeline-aromas"><cite>Pipeline
+                    aromas</cite></a>
                 </li>
-                <li><a href="#pipeline-donts"><cite>Pipeline dont's</cite></a>
+                <li><a href="#pipeline-smells"><cite>Pipeline
+                    smells</cite></a>
                 </li>
                 <li><a href="#vms"><cite>VMs</cite></a></li>
             </ul>
@@ -102,15 +104,18 @@
 
 <aside>
     <p>Of course, <a href="https://en.wiktionary.org/wiki/the_cake_is_a_lie"
-                     title="the cake is a lie">the pipeline is a lie</a>. It
-        is really a portion of the complete product feedback loop, the portion
-        seen by most development teams.</p>
+                     title="the cake is a lie"><em>the pipeline is a lie</em></a>.
+        It is really only a portion of the complete product feedback loop, the
+        portion seen by most development teams.</p>
 </aside>
 
 <section id="invest-in-your-pipeline">
     <h3>Invest in your pipeline</h3>
 
-    <h4 id="pipeline-dos">Pipeline do's</h4>
+    <h4 id="pipeline-aromas">Pipeline aromas</h4>
+
+    <p><em>Aromas</em> are pleasant, like fresh brewed coffee in the morning.
+        Keep your pipeline fresh to keep work pleasant.</p>
 
     <dl>
         <dt><em>Separate stages by purpose</em></dt>
@@ -160,7 +165,10 @@
         </dd>
     </dl>
 
-    <h4 id="pipeline-donts">Pipeline don't's</h4>
+    <h4 id="pipeline-smells">Pipeline smells</h4>
+
+    <p><em>Smells</em> are unpleasant, like the counter spill that needs
+        cleaning. Keep your pipeline clean to avoid unpleasantness.</p>
 
     <dl>
         <dt><em>Mix types of tests in the same stage</em></dt>
@@ -171,6 +179,13 @@
             in every stage. This can be challenging when crossing environment
             boundaries, say from developer's Windows desktops to managed Linux
             VMs.
+        </dd>
+
+        <dt><em>Separate ownership of environments</em></dt>
+        <dd>The influence of <a href="CONWAYS LAW"><cite>Conway's
+            Law</cite></a> tends to appear in latter stages of a pipeline.
+            Perhaps a separate Testing team owns QA stages. Resist this
+            tendency. TALK ABOUT THIS MORE.
         </dd>
     </dl>
 
