@@ -1,6 +1,7 @@
 # Web Pages
 
 * [Blog posts](blog/)
+* [Geolocation example](geolocation.html)
 
 ## Interesting posts
 
