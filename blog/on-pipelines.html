@@ -42,22 +42,24 @@
     <p>The pipeline is the principal tool in connecting work (developers,
         inputs) and value (production, outputs). Benefits include:</p>
     <ul>
-        <li>It provides backpressure to developers, preventing many kinds of
-            problems from appearing later in testing or production.
+        <li>It provides backpressure to developers, showing them problems
+            earlier, and preventing many kinds of problems from appearing
+            later in testing or production.
         </li>
         <li>It raises the efficiency and speed to production, automating many
-            traditionally manual steps, especially in testing.
+            traditionally manual steps, especially around testing.
         </li>
         <li>It acts as a gate to production, increasing the options available
             to management. (But see <a href="#feature-toggles"><cite>Feature
-                toggles</cite>, below.)</a>
+                toggles</cite></a>, below, for a alternative and complimentary
+            approach.)
         </li>
         <li>It includes quality control elements, increasing organizational
-            confidence in the product and process. This includes historic
-            data.
+            confidence in the product and process. This includes historic data
+            for trend analysis.
         </li>
-        <li>It provides audit and control points for good governance, and a
-            record.
+        <li>It provides audit and control points for good governance, and an
+            accurate, reproducible record.
         </li>
     </ul>
 </section>
@@ -84,6 +86,12 @@
                 <path d="M 0 0 L 10 5 L 0 10 z"></path>
             </marker>
         </defs>
+        <line x1="30" y1="0" x2="30" y2="30" stroke="grey"
+              stroke-dasharray="4,1" stroke-width="0.5"></line>
+        <line x1="50" y1="0" x2="50" y2="30" stroke="grey"
+              stroke-dasharray="4,1" stroke-width="0.5"></line>
+        <line x1="70" y1="0" x2="70" y2="30" stroke="grey"
+              stroke-dasharray="4,1" stroke-width="0.5"></line>
         <text x="10" y="10" transform="rotate(-90 10 10)" font-size="10"
               style="text-anchor: middle">Dev
         </text>
@@ -91,15 +99,15 @@
               style="text-anchor: middle">Prod
         </text>
         <!-- TODO: How to calculate x/y for text? -->
-        <text x="25" y="6" font-size="7">Code</text>
-        <line x1="40" y1="4" x2="69" y2="4" stroke="black"
+        <text x="13" y="6" font-size="7">Code</text>
+        <line x1="28" y1="4" x2="80" y2="4" stroke="green"
               marker-end="url(#arrow)"></line>
-        <text x="60" y="19" font-size="7">Env</text>
-        <line x1="60" y1="17" x2="28" y2="17" stroke="black"
+        <text x="74" y="19" font-size="7">Env</text>
+        <line x1="74" y1="17" x2="20" y2="17" stroke="green"
               marker-end="url(#arrow)"></line>
-        <rect x="10" y="0" width="80" height="20" stroke="black"
+        <rect x="10" y="0" width="80" height="20" stroke="blue"
               fill="transparent"></rect>
-        <line x1="10" y1="15" x2="90" y2="5" stroke="black"></line>
+        <line x1="10" y1="15" x2="90" y2="5" stroke="blue"></line>
     </svg>
 </section>
 
