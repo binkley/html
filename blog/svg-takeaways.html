@@ -1,0 +1,105 @@
+<p>I started playing with SVG for another blog post I'm working on. I wanted
+    to learn more about SVG, an XML application. Some of my takeaways:</p>
+
+<h3>Z ordering</h3>
+
+<p>Elements are drawn in the order they appear in the XML. So if you want
+    element <var>B</var> to overlay element <var>A</var>, then write
+    <var>A</var> earlier in XML, and write <var>B</var> later. Then
+    <var>B</var> will be drawn after <var>A</var>, and lay on top of it (if
+    they overlap), hiding bits of <var>A</var> if <var>B</var> isn't
+    transparent.</p>
+
+<h3>Scaling</h3>
+
+<p>You define your own coordinate system, and X/Y coordinates are all relative
+    to this drawing area, called the "view box". So if you declare the view
+    box to have an <var>X</var> ranging 0-20 "units" and a <var>Y</var>
+    ranging 0-100 "units", then your elements will use an <var>X</var> between
+    0 and 20 and a <var>Y</var> between 0 and 100.</p>
+
+<p>Recall the "S" in "SVG" stands for <em>scalable</em>. So when I say
+    "units", these are relative units in context of the view box, and so in
+    the example, "50%" of the X coordinate is 10 "units". You don't write down
+    "units" in the XML, just provide the <var>X</var> and <var>Y</var> ranges.
+</p>
+
+<p>What size is this on screen? Your browser or device or PDF will render the
+    SVG view box to fit, and scale your elements accordingly. This is great
+    for diagrams and drawings. If you do nothing special to stretch or squeeze
+    the view box, your elements will retain perspective and always fit the
+    page.</p>
+
+<p>Embedding SVG in HTML5, I found this produced nice standalone diagrams
+    within the vertical flow of text (using the X/Y from the example). The
+    "style" bit is important:</p>
+
+<pre class="code">
+&lt;svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 20"
+    width="80%" style="margin: auto; display: block"&gt;
+    &lt;!-- Write elements here --&gt;
+&lt;/svg&gt;
+</pre>
+
+<h3>Styling</h3>
+
+<p>Element attributes are consistent. So when I figured out that <code>stroke="black"</code>
+    drew black lines, I could use the same attribute on any element to assign
+    color. This was nice for learning the SVG language piecewise, picking up
+    bits as I went along.</p>
+
+<p>Fractional values are OK in several contexts. So when I wanted skinnier
+    lines, I could write <code>stroke-width="0.5"</code>.</p>
+
+<h3>A full example</h3>
+
+<p>Here's the SVG for that post I mentioned at start. I provide it without
+    explanation; take your best guess what it's for!</p>
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 20"
+     width="80%" style="margin: auto; display: block">
+    <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="1" refY="5" orient="auto"
+                stroke="green" fill="green">
+            <path d="M 0 0 L 10 5 L 0 10 z"></path>
+        </marker>
+    </defs>
+    <line x1="30" y1="0" x2="30" y2="30" stroke="lightgrey"
+          stroke-dasharray="1,1" stroke-linecap="round"
+          stroke-width="0.5"></line>
+    <line x1="30" y1="0" x2="30" y2="30" transform="rotate(7 30 10)"
+          stroke="grey" stroke-dasharray="1,1" stroke-linecap="round"
+          stroke-width="0.5"></line>
+    <line x1="50" y1="0" x2="50" y2="30" stroke="lightgrey"
+          stroke-dasharray="1,1" stroke-linecap="round"
+          stroke-width="0.5"></line>
+    <line x1="50" y1="0" x2="50" y2="30" transform="rotate(7 50 10)"
+          stroke="grey" stroke-dasharray="1,1" stroke-linecap="round"
+          stroke-width="0.5"></line>
+    <line x1="70" y1="0" x2="70" y2="30" stroke="lightgrey"
+          stroke-dasharray="1,1" stroke-linecap="round"
+          stroke-width="0.5"></line>
+    <line x1="70" y1="0" x2="70" y2="30" transform="rotate(7 70 10)"
+          stroke="grey" stroke-dasharray="1,1" stroke-linecap="round"
+          stroke-width="0.5"></line>
+    <line x1="10" y1="10" x2="90" y2="10" stroke="lightblue"
+          stroke-dasharray="2,1" stroke-linecap="round"
+          stroke-width="0.5"></line>
+    <line x1="10" y1="10" x2="90" y2="10" transform="rotate(-7 50 10)"
+          stroke="blue"></line>
+    <!-- TODO: How to calculate x/y for text? -->
+    <text x="13" y="9" font-size="7" font-style="italic">Work</text>
+    <line x1="15" y1="3" x2="80" y2="3" stroke="green"
+          marker-end="url(#arrow)"></line>
+    <text x="74" y="16" font-size="7" font-style="italic">Env</text>
+    <line x1="85" y1="17" x2="20" y2="17" stroke="green"
+          marker-end="url(#arrow)"></line>
+    <rect x="10" y="0" width="80" height="20" stroke="navy"
+          fill="transparent"></rect>
+    <text x="10" y="9" transform="rotate(-90 10 10)" font-size="10"
+          style="text-anchor: middle">Dev
+    </text>
+    <text x="90" y="9" transform="rotate(90 90 10)" font-size="10"
+          style="text-anchor: middle">Prod
+    </text>
+</svg>
