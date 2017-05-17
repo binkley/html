@@ -10,5 +10,6 @@
 * [On pipelines](on-pipelines.html) - in progress
 * [Quick diff tip, make, et al](quick-diff-tip-make-et-al.html)
 * [Quick Kotlin idiom: naming things](quick-kotlin-idiom-naming-things.html)
+* [SVG takeaways](svg-takeaways.html)
 * [Two BDD styles in Kotlin](two-bdd-styles-in-kotlin.html)
 * [WSL, first experiences](wsl-first-experiences.html)
