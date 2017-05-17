@@ -1,11 +1,11 @@
 <script>
     class HTMLTlDrElement extends HTMLSectionElement {
         get style() {
-            return "font-style: italic;" + this.style
+            return "font-style: italic; font-size: large" + this.style
         }
     }
 
-    customElements.define('tl-dr', HTMLTlDrElement, {extends: 'section'})
+    customElements.define('tl-dr', HTMLTlDrElement, {extends: "section"})
 </script>
 
 <nav style="float: left">
@@ -31,7 +31,8 @@
 </nav>
 
 <!-- TODO: How to move styling and "tl;dr" prefix into custom element? -->
-<tl-dr id="introduction" style="font-style: italic; float: right">
+<section is="tl-dr" id="introduction"
+         style="font-style: italic; float: right">
     <p><span style="font-style: normal; font-weight: bold">tl;dr</span>
         &mdash; The build pipeline is a key techniques to improving software
         delivery. It provides two benefits that boost productivity and reduce
@@ -46,7 +47,7 @@
             href="https://www.infoq.com/articles/Continuous-Delivery-Maturity-Model"
             title="The Continuous Delivery Maturity Model">various maturity
         models</a>.</p>
-</tl-dr>
+</section>
 
 <section id="pipeline-benefits">
     <h3>Pipeline benefits</h3>
