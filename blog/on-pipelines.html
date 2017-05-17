@@ -1,9 +1,11 @@
 <script>
-    window.customElements.define('tl-dr', class extends HTMLSectionElement {
+    class HTMLTlDrElement extends HTMLSectionElement {
         get style() {
             return "font-style: italic;" + this.style
         }
-    }, {extends: 'section'})
+    }
+
+    customElements.define('tl-dr', HTMLTlDrElement, {extends: 'section'})
 </script>
 
 <nav style="float: left">
