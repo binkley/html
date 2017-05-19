@@ -1,8 +1,3 @@
-<a href="https://unlicense.org">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/PD-icon.svg"
-         title="Public Domain" width="5%" height="5%">
-</a>
-
 # Web Pages
 
 * [Blog posts](blog/)
