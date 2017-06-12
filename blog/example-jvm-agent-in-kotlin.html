@@ -1,0 +1,95 @@
+<p>Oleg Shelajev wrote <a
+        href="https://zeroturnaround.com/rebellabs/how-to-inspect-classes-in-your-jvm/"
+        title="How-to guide to writing a javaagent">excellent tutorial
+    post</a> on writing JVM agents. These are bits of code which run <em>before</em>
+    your <code>main()</code> method. Why do this? It permits <a
+            href="https://docs.oracle.com/javase/8/docs/api/java/lang/instrument/Instrumentation.html">some
+        interesting tricks</a>, chiefly modifying classes as they are loaded,
+    but also estimating the actual memory used by Java objects.</p>
+
+<p>I gave this a try myself, but rather than writing my agent in Java, I wrote
+    it in Kotlin. It was straight-forward, with only one gotcha.</p>
+
+<h3>AgentX.kt</h3>
+
+<pre class="code">@file:JvmName("AgentX")
+
+package hm.binkley.labs.skratch.jvmagent
+
+import java.lang.instrument.Instrumentation
+
+fun premain(arguments: String?, instrumentation: Instrumentation) {
+    println("Hello from AgentX 'premain'!")
+}
+
+fun main(args: Array&lt;String&gt;) {
+    println("Hello from AgentX 'main'!")
+}</pre>
+
+<p>OK, the non-gotcha. You can declare functions at the <em>package</em>
+    level. This acts just like static methods in Java, with simpler syntax (no
+    potentially artificial wrapper class to hold the static method). The two
+    obvious examples in the above code are <code>main()</code> and <code>premain()</code>.
+</p>
+
+<p>But <a
+        href="https://kotlinlang.org/docs/reference/java-to-kotlin-interop.html#package-level-functions"
+        title="Calling Kotlin from Java">when calling Kotlin from Java</a>,
+    you use a wrapping class name in the the fully-qualified method name. My
+    Kotlin file is named "AgentX.kt", so the default class name for Java is
+    "AgentXKt". I'm lazy, wanted to save some typing, so I used a Kotlin
+    package-level annotation to name the wrapping class just "AgentX".</p>
+
+<h3>Output</h3>
+
+<p>The JVM requires an absolute path to any agent jar, and I'm running Cygwin,
+    so a little help to get a full path. Similarly, I used <a
+            href="https://maven.apache.org/plugins/maven-shade-plugin/"
+            title="Apache Maven Shade Plugin">the Maven shade plugin</a> to
+    build a single uber-jar holding my own classes, and those of my
+    dependencies (the Kotlin standard library).</p>
+
+<pre class="code">$ java -javaagent:$(cygpath -m $PWD/target/skratch-0-SNAPSHOT.jar) -jar target/skratch-0-SNAPSHOT.jar
+Hello from AgentX 'premain'!
+Hello from AgentX 'main'!</pre>
+
+<p>Project is here: <a href="https://github.com/binkley/skratch">https://github.com/binkley/skratch</a>.
+</p>
+
+<h3>Gotcha</h3>
+
+<p>Enough preamble, now the gotcha. Unlike Java, Kotlin helps you <a
+        href="https://kotlinlang.org/docs/reference/null-safety.html"
+        title="Null Safety">protect yourself from <code>null</code>s</a>
+    without boilerplate code. So in <code>premain()</code> for the "arguments"
+    parameter, you need to use <strong><code>String?</code></strong> rather
+    than <code>String</code> as the parameter type as the JVM may pass you a
+    <code>null</code>. The first time I tried the code, I didn't realize this
+    and it blew up:</p>
+
+<pre class="code">$ java -javaagent:$(cygpath -m $PWD/target/skratch-0-SNAPSHOT.jar) -cp target/skratch-0-SNAPSHOT.jar hm.binkley.labs.skratch.jvmagent.AgentX
+java.lang.reflect.InvocationTargetException
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:498)
+        at sun.instrument.InstrumentationImpl.loadClassAndStartAgent(InstrumentationImpl.java:386)
+        at sun.instrument.InstrumentationImpl.loadClassAndCallPremain(InstrumentationImpl.java:401)
+Caused by: java.lang.IllegalArgumentException: Parameter specified as non-null is null: method hm.binkley.labs.skratch.jvmagent.AgentX.premain, parameter arguments
+        at hm.binkley.labs.skratch.jvmagent.AgentX.premain(AgentX.kt)
+        ... 6 more
+FATAL ERROR in native method: processing of -javaagent failed</pre>
+
+<p>Interesting! Kotlin found the issue at runtime. It can't find it at compile
+    time as the JVM API for "premain" is pure convention without an interface
+    or class to inspect.</p>
+
+<p>Let's try running the agent a different way. The command-line lets us pass
+    options, and these become the "arguments" parameter:</p>
+
+<pre class="code">$ java -javaagent:$(cygpath -m $PWD/target/skratch-0-SNAPSHOT.jar)= -cp target/skratch-0-SNAPSHOT.jar hm.binkley.labs.skratch.jvmagent.AgentX
+Hello from AgentX 'premain'!
+Hello from AgentX 'main'!</pre>
+
+<p>Sneaky. The mere presence of the "=" on the command line turns the
+    "arguments" parameter from <code>null</code> to an empty string.</p>
