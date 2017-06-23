@@ -1,3 +1,12 @@
+<p><strong>WORKAROUND:</strong> Thanks to comment by <a
+        href="https://plus.google.com/u/0/111012722058314768782">Zart
+    Colwing</a>, there is a workaround. Add
+    <code>-Djansi.passthrough=true</code> to <code>MAVEN_OPTS</code>. It is
+    not enough to add the flag to the command line; it needs to be seen by
+    JANSI before maven begins parsing the command line.</p>
+
+<h3>Post</h3>
+
 <p>I'm quite happy Maven 3.5.0 has added color logging!</p>
 
 <p>With earlier versions of maven, I used Jean-Christophe Guy's <a
@@ -44,8 +53,8 @@ os.name = Windows 10</pre>
     (for example, "Bob") as long as it doesn't contain "win". I picked
     "Cygwin" for explicitness.</p>
 
-<p><strong>UPDATE</strong>: I have to rethink this.  Sure I get color now,
-    but at the expense of <code>maven test</code> failing as maven no longer
+<p><strong>UPDATE</strong>: I have to rethink this. Sure I get color now, but
+    at the expense of <code>maven test</code> failing as maven no longer
     believes I'm on Windows, so is unhappy at the lack of a
-    <code>/bin/sh</code> and general UNIX filesystem.  One step forward, two
+    <code>/bin/sh</code> and general UNIX filesystem. One step forward, two
     steps back.</p>
