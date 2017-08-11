@@ -1,6 +1,7 @@
 # Blog Posts
 
 * [Automated Acceptance Criteria](automated-acceptance-criteria.html) - in progress
+* [Cygwin terminal in IntelliJ](cygwin-terminal-in-intellij.html)
 * [DDD, _A Handmaid's Tale_](ddd-a-handmaids-tale.html)
 * [Followup on Bash long options](followup-on-bash-long-options.html)
 * [Frequent commits](frequent-commits.html)

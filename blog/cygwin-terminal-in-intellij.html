@@ -1,0 +1,42 @@
+<p>IntelliJ sports an excellent terminal emulator (the "Terminal" tab at
+    bottom of the editor). By default it brings up a terminal native to your
+    Operating System: <code>CMD.EXE</code> on Windows, <code>$SHELL</code> on
+    Linux and Mac.</p>
+
+<p>However I prefer Cygwin when I work on Windows. WSL is incredible, but
+    there are still interoperability issues between its filesystem and
+    Windows-native programs, and IntelliJ (which relies on
+    <code>java.exe</code>, a Windows-native program) <a
+            href="https://youtrack.jetbrains.com/issue/IDEA-171457"
+            title="Support for WSL project ">is still working on it</a>.</p>
+
+<p>So, how to open a Cygwin terminal in IntelliJ? Setting the program to start
+    in <code>Settings|Tools|Terminal|Shell path</code>, the most obvious thing
+    to do, does not quite work:</p>
+
+<pre class="code">C:\cygwin64\bin\bash.exe</pre>
+
+<p>This is a non-interactive shell, and does not source your profile. The next
+    try is:</p>
+
+<pre class="code">C:\cygwin64\bin\bash.exe --login -i</pre>
+
+<p>This produces an error from IntelliJ that it cannot the program correctly.
+    A little checking says the leading command needs to be quoted, else
+    IntelliJ treats the entire line as the name of the command, not as a
+    command followed by flags. OK:</p>
+
+<pre class="code">"C:\cygwin64\bin\bash.exe" --login -i</pre>
+
+<p>Hey, I have a shell! Unfortunately, it starts in my home directory, not in
+    my project root. Starting in the project root is one of the nicer features
+    of the terminal in IntelliJ. Finally, two changes. First the IntelliJ
+    setting:</p>
+
+<pre class="code">"C:\cygwin64\bin\bash" -c "exec /usr/bin/env INTELLIJ=true $SHELL --login -i"</pre>
+
+<p>And an addition to my <code>~/.bashrc</code>:</p>
+
+<pre class="code">${INTELLIJ-false} && cd ${OLDPWD-.}</pre>
+
+<p>Ipso presto!</p>
