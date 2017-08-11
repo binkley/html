@@ -1,0 +1,93 @@
+<p>I cannot tell you how to write <em>good</em> Java, but I can help you write
+    <strong>clean</strong> Java. As usual, automation is key. It's all about
+    the tooling.</p>
+
+<p>The best thing about good tooling is that they work together: each covers a
+    different area, does not impeded another tool, and fixing one complaint a
+    tool reveals often fixes complaints from other tools.</p>
+
+<p>This advice applies to any programming language, not just Java. Java,
+    having the most mature ecosystem, is instructive.</p>
+
+<h3 id="the-tools">The tools</h3>
+
+<dl>
+    <dt><em>Use good source control</em></dt>
+    <dd><a href="https://git-scm.com/" title="Git">Git</a> is your best
+        choice. Use either <a href="https://trunkbaseddevelopment.com/"
+                              title="Trunk Based Development">trunk-based
+            development</a> with <a
+                href="https://trunkbaseddevelopment.com/feature-flags/"
+                title="Feature flags - Trunk Based Development">feature
+            toggles (feature flags)</a>, or <a
+                href="https://www.atlassian.com/git/tutorials/comparing-workflows#gitflow-workflow">gitflow</a>
+        patterns, depending on your needs and organization. Require full
+        builds and testing before pushing to a shared repository; <a
+                href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks"
+                title="Git - Git Hooks">hooks</a> can help together with your
+        build tool.
+    </dd>
+    <dt><em>Use good build automation</em></dt>
+    <dd><a href="https://maven.apache.org/" title="Welcome to Apache Maven">Maven</a>
+        or <a href="https://gradle.org/" title="Gradle Build Tool">Gradle</a>
+        are your best choices; either is excellent. Teach the tool to be
+        strict and fail builds if anything is not just right. Treat your build
+        configuration as code, part of the same repository and held to the
+        same hygiene standards. Keep your local build fast.
+    </dd>
+    <dt><em>Use a good editor</em></dt>
+    <dd><a href="https://www.jetbrains.com/idea/"
+           title="IntelliJ IDEA: The Java IDE for Professional Developers by JetBrains">IntelliJ</a>
+        is the best choice. Use <a
+                href="https://www.jetbrains.com/help/idea/code-inspection.html"
+                title="Code Inspection">inspections</a>, <a
+                href="https://www.jetbrains.com/help/idea/intention-actions.html"
+                title="Intention Actions">intentions</a>, and <a
+                href="https://www.jetbrains.com/help/idea/reformatting-source-code.html"
+                title="Reformatting Source Code">reformatting</a> obsessively:
+        code diffs should only show real changes, not whitespace or
+        formatting. Use <a href="https://plugins.jetbrains.com/"
+                           title="JetBrains Plugin Repository">plugins</a> to
+        ease integrating IntelliJ with other tooling.
+    </dd>
+    <dt><em>Keep your style consistent</em></dt>
+    <dd><a href="http://checkstyle.sourceforge.net/" title="Checkstyle">Checkstyle</a>
+        is your best choice; other choices are needed for non-Java JVM
+        languages. Fail your build if checkstyle complains. Keep your IntelliJ
+        formatting and Checkstyle rules consistent. Generally, choose either
+        <a href="http://checkstyle.sourceforge.net/sun_style.html"
+           title="checkstyle &#x2013; Sun's Java Style">Sun</a> or <a
+                href="http://checkstyle.sourceforge.net/google_style.html"
+                title="checkstyle &#x2013; Google's Style">Google</a> coding
+        standards, and be leary of deviating from them; if unsure, pick Sun.
+    </dd>
+    <dt><em>Fully test your code</em></dt>
+    <dd><a href="http://www.eclemma.org/jacoco/"
+           title="EclEmma - JaCoCo Java Code Coverage Library">JaCoCo</a>
+        works well. Fail your build if coverage drops below a threshhold;
+        rachet up the threshhold as coverage improves. Start low and aim for a
+        95%+ threshhold. Follow <a
+                href="https://testing.googleblog.com/2015/04/just-say-no-to-more-end-to-end-tests.html"
+                title="Google Testing Blog: Just Say No to More End-to-End Tests">the
+            <em>Test Pyramid</em></a>; save your end-to-end tests for CI, or
+        run locally only once before pushing commits.
+    </dd>
+    <dt><em>Be zealous in looking for problems</em></dt>
+    <dd><a href="http://findbugs.sourceforge.net/"
+           title="FindBugs&trade; - Find Bugs in Java Programs">FindBugs</a>
+        or <a href="https://sourceforge.net/projects/pmd/" title="PMD">PMD</a>
+        are your best choices (pick one); other choices may work better for
+        non-Java JVM languages. Fail your build if findbugs or PMD complains.
+        Be judicious in disabling complaints (for example, FindBugs
+        "experimental" checks).
+    </dd>
+    <dt><em>Use code generation</em></dt>
+    <dd><a href="https://projectlombok.org/" title="Project Lombok">Lombok</a>
+        is your first choice. <a
+                href="https://medium.com/@iammert/annotation-processing-dont-repeat-yourself-generate-your-code-8425e60c6657"
+                title="Annotation Processing : Don’t Repeat Yourself, Generate Your Code.">Add
+            others as needed</a> (or build domain-specific code generators).
+        Generated code does not need test coverage, style checks, or bug
+        detection if the generator is clean and well-tested: trust it.
+    </dd>
+</dl>
