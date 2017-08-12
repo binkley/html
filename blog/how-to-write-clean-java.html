@@ -74,12 +74,13 @@
     </dd>
     <dt><em>Be zealous in looking for problems</em></dt>
     <dd><a href="http://findbugs.sourceforge.net/"
-           title="FindBugs&trade; - Find Bugs in Java Programs">FindBugs</a>
-        or <a href="https://sourceforge.net/projects/pmd/" title="PMD">PMD</a>
-        are your best choices (pick one); other choices may work better for
-        non-Java JVM languages. Fail your build if findbugs or PMD complains.
-        Be judicious in disabling complaints (for example, FindBugs
-        "experimental" checks).
+           title="FindBugs&trade; - Find Bugs in Java Programs">FindBugs</a>,
+        <a href="https://sourceforge.net/projects/pmd/" title="PMD">PMD</a>,
+        or <a href="http://errorprone.info/" title="Error Prone">Error
+            Prone</a> are your best choices (pick one); other choices may work
+        better for non-Java JVM languages. Fail your build if your choice
+        complains. Be judicious in disabling complaints (for example, FindBugs
+        "experimental" checks, should likely be disabled).
     </dd>
     <dt><em>Use code generation</em></dt>
     <dd><a href="https://projectlombok.org/" title="Project Lombok">Lombok</a>
@@ -91,3 +92,8 @@
         detection if the generator is clean and well-tested: trust it.
     </dd>
 </dl>
+
+<h3>Update</h3>
+
+<p><a href="https://plus.google.com/+DanWallach">Dan Wallach</a> reminded me
+    of Error Prone, added above.</p>
