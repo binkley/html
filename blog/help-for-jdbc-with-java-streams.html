@@ -1,0 +1,114 @@
+<p>We wanted to use JDBC with Java Streams, but encountered several
+    difficulties. Fortunately we found solutions with rather small bits of
+    code.</p>
+
+<p><strong>TODO: SOME BACKGROUND ON JDBC (since 1.1) AND STREAMS (since 1.8),
+    MAYBE LINK TO OPINION POST ON LACK OF SUPPORT</strong></p>
+
+<h3>Checked exceptions</h3>
+
+<p>The main obstacle was the JDBC API throwing <code>SQLException</code> for
+    all API methods used in our code. <code>SQLException</code> is a <em>checked
+        exception</em>, so must be declared in our method signatures, or
+    caught otherwise. However the Streams API only accepts methods which
+    declare to throw <em>no</em> checked exceptions, so something simple like
+    this will not compile:</p>
+
+<pre class="code">stream(results).
+        map(row -&gt; row.getString("label")).  // checked exception
+        forEach(this::processLabel);</pre>
+
+<p>The call to <code>ResultSet.getString(String)</code> throws a checked
+    exception. The usual approach is to wrap the call, and handle the
+    exception in the wrapping method:</p>
+
+<pre class="code">method String streamGetLabel(final ResultSet results) {
+    try {
+        return results.getString("label");
+    } catch (final SQLException e) {
+        throw new UncheckedIOException(e);
+    }
+}</pre>
+
+<p>(Here <code>UncheckedIOException</code> is an unchecked exception wrapper
+    we wrote for <code>SQLException</code>, similar to <code>UncheckedIOException</code>
+    in the JDK for <code>IOException</code>.) </p>
+
+<p>Then the stream becomes:</p>
+
+<pre class="code">stream(results).
+        map(this::streamGetLabel).
+        forEach(this::processLabel);</pre>
+
+<p>This is OK, however needing to write a wrapper method for each time we
+    wanted to use JDBC in a stream became tedious.</p>
+
+<h4>Solution</h4>
+
+<p>First we wrote a SAM (<strong>TODO: REFERENCE</strong>) interface as a
+    lookalike for the JDK <code>Function</code> interface: this is what <code>Stream.map(Function)</code>
+    wants.</code>  The lookalike is different in that it throws <code>SQLException</code>:
+</p>
+
+<pre class="code">@FunctionalInterface
+public interface SQLFunction&lt;T, R&gt; {
+    R apply(final T t) throws SQLException;
+
+    // Other default methods
+}</pre>
+
+<p>Then we used this in a closed <code>Function</code> implementation to wrap
+    and delegate to the lookalike, and throw
+    <code>UncheckedSQLException</code> if the lookalike throws <code>
+        SQLException</code>:</p>
+
+<pre class="code">@RequiredArgsConstructor(staticName = "applyUnchecked")
+public final class UncheckedSQLFunction&lt;T, R&gt;
+        implements Function&lt;T, R&gt; {
+    private final SQLFunction&lt;T, R&gt; wrapped;
+
+    @Override
+    public R apply(final T t) {
+        try {
+            return wrapped.apply(t);
+        } catch (final SQLException e) {
+            throw new UncheckedSQLException(e);
+        }
+    }
+}</pre>
+
+<p>(Here we use the excellent Lombok (<strong>TODO: REFERENCE</strong> to
+    generate our constructor, and give us a static convenience method,
+    "applyUnchecked".)</p>
+
+<p>Finally some static import, and our example streams use becomes:</p>
+
+<pre class="code">stream(results).
+        map(applyUnchecked(row -> row.getString("label"))).
+        forEach(this::processLabel);</pre>
+
+<p>We wrote similar lookalikes and wrappers for <code>Predicate</code> and
+    <code>Consumer</code>. It would be easy enough to write them for other
+    Java functional interfaces, such as <code>BiFunction</code>.</p>
+
+<h3>Streaming result sets</h3>
+
+<p>The next difficulty we tackled was how to loop over <code>ResultSet </code>,
+    and use them with Streams.</p>
+
+<p>(A side note: <code>ResultSet</code> is not a <em>set</em> but a
+    <em>list</em>: rows are ordered, and they can duplicate each other in
+    their column data. However, I believe they were named after the SQL
+    concept of sets, not the Java one.)</p>
+
+<h3>Transactions</h3>
+
+<h3>Exception handling</h3>
+
+<h3>Conclusion</h3>
+
+<p>There is nothing we did that was difficult or complex: simple one-liner
+    interfaces, simple wrapper implementations of Java funcional interfaces,
+    some rote following of JDBC best practice. The main difficulty was
+    conceptual: seeing the duplication of many, small wrapper methods, and
+    pulling out their commonality.</p>
