@@ -45,16 +45,18 @@
 
 <h4>Solution</h4>
 
-<p>First we wrote a SAM (<strong>TODO: REFERENCE</strong>) interface as a
-    lookalike for the JDK <code>Function</code> interface: this is what <code>Stream.map(Function)</code>
-    wants.</code>  The lookalike is different in that it throws <code>SQLException</code>:
-</p>
+<p>First we wrote a SAM (more on <a
+        href="https://zeroturnaround.com/rebellabs/java-8-the-first-taste-of-lambdas/"
+        title="Java 8: The First Taste of Lambdas">SAM interfaces/classes</a>)
+    interface as a lookalike for the JDK <code>Function</code> interface: this
+    is what <code>Stream.map(Function)</code> wants.</code>The lookalike is
+    different in that it throws <code>SQLException</code>: </p>
 
 <pre class="code">@FunctionalInterface
 public interface SQLFunction&lt;T, R&gt; {
     R apply(final T t) throws SQLException;
 
-    // Other default methods
+    // Other default methods - no more abstract methods
 }</pre>
 
 <p>Then we used this in a closed <code>Function</code> implementation to wrap
@@ -77,9 +79,11 @@ public final class UncheckedSQLFunction&lt;T, R&gt;
     }
 }</pre>
 
-<p>(Here we use the excellent Lombok (<strong>TODO: REFERENCE</strong> to
-    generate our constructor, and give us a static convenience method,
-    "applyUnchecked".)</p>
+<p>(Here we use the excellent <a
+        href="https://projectlombok.org/features/constructor"
+        title="@NoArgsConstructor, @RequiredArgsConstructor, @AllArgsConstructor">Lombok
+    library</a> to generate our constructor, and give us a static convenience
+    method, "applyUnchecked".)</p>
 
 <p>Finally some static import, and our example streams use becomes:</p>
 
