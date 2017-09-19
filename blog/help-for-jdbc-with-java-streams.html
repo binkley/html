@@ -2,10 +2,7 @@
     difficulties. Fortunately we found solutions with rather small bits of
     code.</p>
 
-<p><strong>TODO: SOME BACKGROUND ON JDBC (since 1.1) AND STREAMS (since 1.8),
-    MAYBE LINK TO OPINION POST ON LACK OF SUPPORT</strong></p>
-
-<h3>Checked exceptions</h3>
+<h3 id="checked-exceptions">Checked exceptions</h3>
 
 <p>The main obstacle was the JDBC API throwing <code>SQLException</code> for
     all API methods used in our code. <code>SQLException</code> is a <em>checked
@@ -43,7 +40,7 @@
 <p>This is OK, however needing to write a wrapper method for each time we
     wanted to use JDBC in a stream became tedious.</p>
 
-<h4>Solution</h4>
+<h4 id="checked-exceptions-solution">Solution</h4>
 
 <p>First we wrote a SAM (more on <a
         href="https://zeroturnaround.com/rebellabs/java-8-the-first-taste-of-lambdas/"
@@ -61,8 +58,8 @@ public interface SQLFunction&lt;T, R&gt; {
 
 <p>Then we used this in a closed <code>Function</code> implementation to wrap
     and delegate to the lookalike, and throw
-    <code>UncheckedSQLException</code> if the lookalike throws <code>
-        SQLException</code>:</p>
+    <code>UncheckedSQLException</code> if the lookalike throws <code>SQLException</code>:
+</p>
 
 <pre class="code">@RequiredArgsConstructor(staticName = "applyUnchecked")
 public final class UncheckedSQLFunction&lt;T, R&gt;
@@ -101,7 +98,7 @@ public final class UncheckedSQLFunction&lt;T, R&gt;
     <code>Consumer</code>. It would be easy enough to write them for other
     Java functional interfaces, such as <code>BiFunction</code>.</p>
 
-<h3>Streaming result sets</h3>
+<h3 id="streaming-result-sets">Streaming result sets</h3>
 
 <p>The next difficulty we tackled was how to loop over <code>ResultSet</code>,
     and use them with Streams.</p>
@@ -136,6 +133,8 @@ public final class UncheckedSQLFunction&lt;T, R&gt;
     </tr>
 </table>
 
+<h4 id="streaming-result-sets-solution">Solution</h4>
+
 <p>To provide a <code>ResultSet</code> as an <em>iterator</em>:</p>
 
 <pre class="code">final List&lt;String&gt; values = new ArrayList<>();
@@ -154,14 +153,113 @@ public final class UncheckedSQLFunction&lt;T, R&gt;
     <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html#characteristics--">the
         characteristics</a>: immutable, nonnull, and ordered.</p>
 
-<h3>Transactions</h3>
+<h3 id="transactions">Transactions</h3>
 
-<h3>Exception handling</h3>
+<p>We found JDBC transactions to be tricky. Fundamentally they are tied to a
+    <em>connection</em>; there is no proper nesting. (To simulate nesting, use
+    separate connections. Even then, there is no guarantee of ordering from
+    the database engine.) And they have a baroque API, relying on diddling of
+    the "auto-commit" setting with care needed to restore its setting after
+    the transaction concludes. Several bugs ensued before we switched to using
+    small helper interfaces and methods.</p>
+
+<p>Further, some programming languages do not distinguish <code>void</code>
+    from other return types (e.g., <code>Unit</code> type): Java is not one of
+    them. Likewise for user vs primitive types (<code>Boolean</code> vs <code>boolean</code>).
+    Hence, there are separate transaction blocks for consumers, functions, and
+    predicates.</p>
+
+<h4 id="transactions-solution">Solution</h4>
+
+<p>One example explains them all. Consider functions and the
+    <code>SQLFunction</code> lookalike interface:</p>
+
+<pre class="code">@RequiredArgsConstructor(staticName = "applyTransacted")
+public final class TransactedFunction&lt;T, R&gt;
+        implements SQLFunction&lt;T, R&gt; {
+    private final Connection connection;
+    private final SQLFunction&lt;T, R&gt; wrapped;
+
+    @Override
+    public R apply(final T in)
+            throws SQLException {
+        connection.setAutoCommit(false);
+        try {
+            final R out = wrapped.apply(in);
+            connection.commit();
+            return out;
+        } catch (final SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+        }
+    }
+}</pre>
+
+<p>(The pattern is the same for other collection operations.)</p>
+
+<p>With a helper and static importing:</p>
+
+<pre class="code">final Integer value = applyTransacted(connection, in -> 0).apply("string");</pre>
+
+<p>Or when the transaction fails:</p>
+
+<pre class="code">applyTransacted(connection, in -> {
+        throw new SQLException("Something went wrong");
+    }).apply("string");</pre>
+
+<h3 id="some-convenience">Some convenience</h3>
+
+<p>Many places in these examples are improved with helper functions, or for
+    transactions, with <a href="https://en.wikipedia.org/wiki/Currying">currying</a>
+    (similar to <a href="https://en.wikipedia.org/wiki/Builder_pattern">the
+        builder pattern</a>). Hence, the wide use of Lombok static
+    constructors. Transactions are another example as they need a <code>Connection</code>
+    for begin/commit/rollback.</p>
+
+<h4 id="some-convenience-solution">Solution</h4>
+
+<p>A simple helper curries connection for transactions:</p>
+
+<pre class="code">@RequiredArgsConstructor(staticName = "with")
+public final class WithConnection {
+    private final Connection connection;
+
+    public &lt;T&gt; Predicate&lt;T&gt; testTransacted(final SQLPredicate&lt;T&gt; wrapped) {
+        return UncheckedSQLPredicate.testUnchecked(
+                TransactedPredicate.&lt;T&gt;testTransacted(connection, wrapped));
+    }
+
+    public &lt;T, R&gt; Function&lt;T, R&gt; applyTransacted(
+            final SQLFunction&lt;T, R&gt; wrapped) {
+        return UncheckedSQLFunction.applyUnchecked(
+                TransactedFunction.&lt;T, R&gt;applyTransacted(connection,
+                        wrapped));
+    }
+
+    public &lt;T&gt; Consumer&lt;T&gt; acceptTransacted(final SQLConsumer&lt;T&gt; wrapped) {
+        return UncheckedSQLConsumer.acceptUnchecked(
+                TransactedConsumer.&lt;T&gt;acceptTransacted(connection, wrapped));
+    }
+}</pre>
+
+<p>Example use:</p>
+
+<pre class="code">final Optional&lt;Integer&gt; value = Stream.of(0).
+        filter(with(connection).testTransacted(in -&gt; true)).
+        findFirst();</pre>
+
+<p>(Yes, we might also describe the code as <a
+        href="https://en.wikipedia.org/wiki/Partial_application"><em>partial
+    application</em></a>. The "object-oriented" implementation confuses
+    matters with the hidden <code>this</code> reference.)</p>
 
 <h3>Conclusion</h3>
 
 <p>There is nothing we did that was difficult or complex: simple one-liner
     interfaces, simple wrapper implementations of Java funcional interfaces,
-    some rote following of JDBC best practice. The main difficulty was
-    conceptual: seeing the duplication of many, small wrapper methods, and
-    pulling out their commonality.</p>
+    some rote JDBC best practices. The main difficulty was conceptual: seeing
+    the duplication of many, small wrapper methods, and pulling out their
+    commonality. This is a good pattern to keep in mind throughout your
+    code.</p>

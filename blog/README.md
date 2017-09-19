@@ -5,8 +5,7 @@
 * [DDD, _A Handmaid's Tale_](ddd-a-handmaids-tale.html)
 * [Followup on Bash long options](followup-on-bash-long-options.html)
 * [Frequent commits](frequent-commits.html)
-* [Help for JDBC with Java streams](help-for-jdbc-with-java-streams.html) - in
-  progress
+* [Help for JDBC with Java streams](help-for-jdbc-with-java-streams.html)
 * [How to write clean Java](how-to-write-clean-java.html)
 * [Kotlinc on Cygwin](kotlinc-on-cygwin.html)
 * [Maven color logging on Cygwin](maven-color-logging-on-cygwin.html)
