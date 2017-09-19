@@ -85,10 +85,16 @@ public final class UncheckedSQLFunction&lt;T, R&gt;
     library</a> to generate our constructor, and give us a static convenience
     method, "applyUnchecked".)</p>
 
-<p>Finally some static import, and our example streams use becomes:</p>
+<p>Finally some static importing, and our example streams use becomes:</p>
 
 <pre class="code">stream(results).
         map(applyUnchecked(row -> row.getString("label"))).
+        forEach(this::processLabel);</pre>
+
+<p>Or with more help:</p>
+
+<pre class="code">stream(results).
+        map(getString("label")).
         forEach(this::processLabel);</pre>
 
 <p>We wrote similar lookalikes and wrappers for <code>Predicate</code> and
@@ -97,13 +103,56 @@ public final class UncheckedSQLFunction&lt;T, R&gt;
 
 <h3>Streaming result sets</h3>
 
-<p>The next difficulty we tackled was how to loop over <code>ResultSet </code>,
+<p>The next difficulty we tackled was how to loop over <code>ResultSet</code>,
     and use them with Streams.</p>
 
 <p>(A side note: <code>ResultSet</code> is not a <em>set</em> but a
     <em>list</em>: rows are ordered, and they can duplicate each other in
-    their column data. However, I believe they were named after the SQL
-    concept of sets, not the Java one.)</p>
+    their column data. However, they were named after the SQL concept of sets,
+    not the Java one.)</p>
+
+<p>Fundamentally, a <code>ResultSet</code> is not an <a
+        href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html"><em>iterator</em></a>,
+    but is close:</p>
+
+<table>
+    <tr>
+        <th>Iterator</th>
+        <th>ResultSet</th>
+        <th>Returns</th>
+        <th>&nbsp;</th>
+    </tr>
+    <tr>
+        <td><code>hasNext()</code></td>
+        <td><code>next()</code></td>
+        <td><code>boolean</code></td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td><code>next()</code></td>
+        <td><code>this</code></td>
+        <td><code>ResultSet</code></td>
+        <td>(Yes, the <code>ResultSet</code> itself is the equivalent)</td>
+    </tr>
+</table>
+
+<p>To provide a <code>ResultSet</code> as an <em>iterator</em>:</p>
+
+<pre class="code">final List&lt;String&gt; values = new ArrayList<>();
+        for (final ResultSet row : iterable(results)) {
+            values.add(row.getString("value"));
+        }</pre>
+
+<p>Moreso, to provide one as a <em>stream</em>:</p>
+
+<pre class="code">final List&lt;String&gt; values = stream(results).
+                map(getString("value")).
+                collect(toList());</pre>
+
+<p>Any SQL failures are thrown as <em>unchecked exceptions</em>. The stream
+    has
+    <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html#characteristics--">the
+        characteristics</a>: immutable, nonnull, and ordered.</p>
 
 <h3>Transactions</h3>
 
