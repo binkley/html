@@ -1,0 +1,198 @@
+<h3>The landscape</h3>
+
+<p>I'm helping someone with a scripting problem on an old system and an old
+    shell. How old? Try IBM AIX 6.1, first released in 2007, and ksh93
+    "e" released in ... 1993. At least the AIX is a version of 6.1 from 2014!
+    (Kudos to IBM for treating long-term support seriously.)</p>
+
+<p>A second point to ponder. The goal is to improve remote
+    scripting&mdash;running scripts on a remote machine. In this
+    environment, <code>ssh</code> exists but is not used. The remote execution
+    tool chosen is <code>rexec</code>, <a
+            href="https://books.google.com/books?id=_-1jwRwNaEoC&lpg=PA198&ots=KxAUu0sVYq&dq=rsh%20rexec%20dangerous&pg=PA198#v=onepage&q=rsh%20rexec%20dangerous&f=false">considered
+        one of the most
+        dangerous tools possible</a>. But my remit is not to address the
+    insecurity, just to improve the scripting. (They know this is a bad,
+    and are actively working to eventually resolve.)</p>
+
+<p>So, given these constraints, what problem am I solving?</p>
+
+<h3>Example problem</h3>
+
+<p>This environment makes extensive use of remotely executed scripts to
+    wire together a distributed, locally-hosted system. Current scripts
+    duplicate the same approach, each implemented as a one-off: Copy a
+    script to a remote machine with <code>rcp</code>; use
+    <code>rexec</code> to invoke the script, capturing the output to a
+    file on the remote host; copy the captured file back to the local host;
+    process the output file; sometimes clean up the remote host afterwards.
+</p>
+
+<p>Some gotchas to watch out for with <code>ksh93e</code> or
+    <code>rexec</code>:</p>
+
+<ul>
+    <li>Function tracing - Using the standard <code>xtrace</code> setting
+        to trace script execution in <code>ksh93</code> has <a
+                href="https://stackoverflow.com/a/2274727/250924">problems
+            with tracing functions</a>, and requires using <em>old</em>-style
+        function syntax
+    </li>
+
+    <li>Variable scope - To keep variables local to a function in
+        <code>ksh93</code>, you must <a
+                href="https://stackoverflow.com/a/12004099/250924">use the
+            <em>new</em>-style function syntax</a> (note the conflict with
+        tracing)
+    </li>
+
+    <li>Exit broken with trap - When calling <code>exit</code> to quit a
+        remote script, <code>trap</code> does not get a correct
+        <code>$?</code> variable (it is always 0, as <code>exit</code>
+        succeeded in returning a non-0 exit status). Instead one must "set"
+        <code>$?</code> with the code of a failing command, and then leave
+        with a plain call to <code>exit</code></li>
+
+    <li>No pipefail - Release "e" of ksh93 just does not know anything
+        about <code>set -o pipefail</code>, and there is no uninstrusive
+        workaround. This now common feature showed up <a
+                href="http://www.kornshell.com/doc/faq.html">in release
+            "g"</a></li>
+
+    <li>No exit code - Would you believe <code>rexec</code> does not
+        itself <a
+                href="https://www.unix.com/unix-for-dummies-questions-and-answers/20824-exit-codes-rexec.html">exit
+            with the exit code of the remote command</a>, never has, and
+        never will? It always exits 0 if the remote command could be started.
+    </li>
+
+    <li>Buffered <code>stderr</code> - Empirically, <code>rexec</code> (at
+        least the version with this AIX) <em>buffers</em> the <code>stderr
+        </code> stream of remote commands, and only flushes when <code>
+            rexec</code> exits, so the sense of ordering between <code>
+            stdout</code>, <code>stderr</code> and the command-line prompt is
+        ever worse than usual (the actual handling <a
+                href="http://www.manpagez.com/man/8/rexecd/">is
+            unspecified</a>)
+    </li>
+</ul>
+
+<p>This problem and environment triggers a memory: The last time I worked
+    on AIX was in 1994, and it was almost the same problem! I really
+    thought I had escaped those days.</p>
+
+<h3>A solution</h3>
+
+<p>So I refactored. I couldn't change the use of <code>rexec</code>&mdash;this
+    environment is not ready for SSH key management&mdash;, I couldn't
+    replace KSH93 with BASH or replace AIX with Linux, but I could do
+    something about the imperfect duplication and random detritus files.</p>
+
+<h4>The solution</h4>
+
+<p>Note the need to call a <code>fail</code> function instead of
+    <code>exit</code> directly because of poor interaction with
+    <code>trap</code>.</p>
+
+<p>Assuming some help, such as a global <code>progname</code> variable
+    (which could simply be <code>$0</code>), and avoiding remote
+    temporary files:</p>
+
+<pre class="code">_transfer_exit_code() {
+    while read line
+    do
+        case $line in
+            ^[0-9] | ^[1-9][0-9] | ^11[0-9] | ^12[0-7] ) return ${line#^} ;;
+            * ) printf '%s\n' "$line" ;;
+        esac
+    done
+    return 1  # ksh93e lacks pipefail; we get here when 'rscript' failed
+}
+
+rscript() {
+    case $# in
+        0 | 1 )
+            echo "$progname: BUG: Usage: rexec SCRIPT-NAME HOSTNAME [ARGS]..." &gt;&amp;2 ;;
+        * ) script_name=$1 ; shift
+            hostname=$1 ; shift ;;
+    esac
+    # Trace callers script if we ourselves are being traced
+    case $- in
+        *x* ) _set_x='set -x' ;;
+    esac
+
+    rexec $hostname /usr/bin/ksh93 -s "$@" &lt;&lt;EOS | _transfer_exit_code
+set - "$@"  # Only reasonable way to pass through function arguments
+
+# Work around AIX ksh93 return code of exit ignored by trap
+fail() {
+    return \$1
+}
+
+# Our hook to capture the exit code for rexec who dumbly swallows it
+trap 'rc=\$?; echo ^\$rc; exit \$rc' EXIT
+
+PS4='+$script_name:\$(( LINENO - 14 )) (\$SECONDS) '
+$_set_x
+
+# The callers script
+$(cat)
+EOS
+}</pre>
+
+<h4>Example use</h4>
+
+<pre class="">#!/usr/bin/ksh93
+
+progname=${0##*/}
+
+PS4='+$progname:$LINENO ($SECONDS) '
+
+usage() {
+    echo "Usage: $0 [-d] HOSTNAME"
+}
+
+. rexec.ksh
+
+debug=false
+while getopts :d opt
+do
+    case $opt in
+        d ) debug=true ;;
+        * ) usage &gt;&amp;2 ; exit 2 ;;
+    esac
+done
+shift $(( OPTIND - 1 ))
+
+case $# in
+    1 ) hostname=$1 ;;
+    * ) usage &gt;&amp;2 ; exit 2 ;;
+esac
+
+$debug &amp;&amp; set -x
+
+script_name=My-Remote-Script
+
+tmp=${TMPDIR-/tmp}/$progname.$RANDOM
+trap 'rm -f $tmp' EXIT
+
+rscript $script_name $hostname Katy &lt;&lt;'EOS' &gt;$tmp
+echo $#: $1
+fail 3
+EOS
+
+case $? in
+    3 ) ;;
+    * ) echo "$0: Did not pass through exit code" &gt;&amp;2 ; exit 1 ;;
+esac
+
+case "$(&lt;$tmp)" in
+    '1: Katy' ) ;;
+    * ) echo "$0: Did not pass through arguments" &gt;&amp;2 ; exit 1 ;;
+esac</pre>
+
+<h4>Source</h4>
+
+<p>The code is <a
+        href="https://github.com/binkley/shell/tree/master/ksh">in GitHub</a>.
+</p>
