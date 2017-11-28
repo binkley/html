@@ -126,6 +126,10 @@
                 manually manage memory. And Go's pedigree includes Rob Pike
                 and Dennis Ritchie: they know how to write usable, practical
                 programming languages.</p>
+
+            <p>(A <a href="http://www.toves.org/books/gc/"
+                     title="Garbage collection">quick primer (2011)</a> on
+                garbage collection.)</p>
         </section>
 
         <section id="static-type-inference">
@@ -183,9 +187,15 @@
             <li>String formatting to build the output message</li>
         </ul>
 
-        <p>Java in a file named <code>MyStuff.java:</code></p>
+        <p>This doesn't, of course, give a full sense of how these languages
+            in their full spectrum, but does give a first taste.</p>
 
-        <pre class="code">package my.stuff;
+        <section id="java-sample">
+            <h4>Java</h4>
+
+            <p>Java in a file named <code>MyStuff.java:</code></p>
+
+            <pre class="code">package my.stuff;
 
 public final class MyStuff {
     public static final String LANGUAGE = "Java";
@@ -194,18 +204,26 @@ public final class MyStuff {
         System.out.println(String.format("Hello, World, from %s", language));
     }
 }</pre>
+        </section>
 
-        <p>Kotlin in a file named <code>my-program.kt:</code></p>
+        <section id="kotlin-sample">
+            <h4>Kotlin</h4>
 
-        <pre class="code">package my.stuff
+            <p>Kotlin in a file named <code>my-program.kt:</code></p>
+
+            <pre class="code">package my.stuff
 
 const val LANGUAGE = "Kotlin"
 
 fun main(args: Array&lt;String&gt;) = println("Hello, World, from $LANGUAGE")</pre>
+        </section>
 
-        <p>But also compare Go to C++:</p>
+        <section id="go-sample">
+            <h4>Go</h4>
 
-        <pre class="code">package main
+            <p>But also compare Go to C++:</p>
+
+            <pre class="code">package main
 
 import "fmt"
 
@@ -214,10 +232,14 @@ const Language = "Go"
 func main() {
     fmt.Println("Hello, World, from", Language)
 }</pre>
+        </section>
 
-        <p>And C++:</p>
+        <section id="cpp-sample">
+            <h4>C++</h4>
 
-        <pre class="code">#include &lt;iostream&gt;
+            <p>And C++:</p>
+
+            <pre class="code">#include &lt;iostream&gt;
 
 int
 main()
@@ -226,19 +248,26 @@ main()
 
   return 0;
 }</pre>
+        </section>
 
-        <p>And for completeness, Python compared to Perl:</p>
+        <section id="python-sample">
+            <h4>Python</h4>
 
-        <pre class="code">#!/usr/bin/python
+            <p>And for completeness, Python compared to Perl:</p>
+
+            <pre class="code">#!/usr/bin/python
 
 language = 'Python'
 
 print('Hello, World, from {}'.format(langauge))
 </pre>
+        </section>
+        <section id="perl-sample">
+            <h4>Perl</h4>
 
-        <p>Any Perl:</p>
+            <p>Any Perl:</p>
 
-        <pre class="code">#!/usr/bin/perl
+            <pre class="code">#!/usr/bin/perl
 
 use strict;
 use warnings;
@@ -246,6 +275,7 @@ use warnings;
 my $language = "Perl";
 
 printf("Hello, World, from %s\n", $language);</pre>
+        </section>
     </section>
 
     <section id="see-also">
