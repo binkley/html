@@ -1,0 +1,287 @@
+<article>
+    <section id="the-stack">
+        <h3>The stack</h3>
+
+        <p>After reading Eric S. Raymond (<em>ESR</em>)'s posts on the
+            post-"C" world, I realized that I, too, live in that world. What
+            would my ideal language stack look like for 2018?</p>
+
+        <p>For context, here are the posts I have in mind:</p>
+
+        <ol>
+            <li><a href="http://esr.ibiblio.org/?p=7711"
+                   title="The long goodbye to C"><cite>The long goodbye to
+                C</cite></a></li>
+            <li><a href="http://esr.ibiblio.org/?p=7724"
+                   title="The big break in computer languages"><cite>The big
+                bread in computer languages</cite></a></li>
+            <li><a href="http://esr.ibiblio.org/?p=7745"
+                   title="Language engineering for great justice"><cite>Language
+                engineering for great justice</cite></a></li>
+        </ol>
+
+        <p>Read them? Good. So this is the language stack I have in mind:</p>
+
+        <ul>
+            <li id="python"><a href="https://www.python.org/"
+                               title="Python is a programming language that lets you work quickly and integrate systems more effectively">Python</a><sup><a
+                    href="#fn1">1</a></sup> &mdash; By default
+            </li>
+            <li id="kotlin-jvm"><a href="https://kotlinlang.org/"
+                                   title="Statically typed programming language for modern multiplatform applications">Kotlin</a>
+                (JVM)<sup><a href="#fn2">2</a></sup>
+                &mdash; When you need it
+            </li>
+            <li id="go"><a href="https://golang.org/"
+                           title="Go is an open source programming language that makes it easy to build simple, reliable, and efficient software">Go</a>
+                &mdash; When you must
+            </li>
+        </ul>
+
+        <p>Each of these languages hits a sweet spot, and displaces an earlier
+            language (itself a sweet spot of its time):</p>
+
+        <ul>
+            <li id="bash-and-perl">Bash and Perl<sup><a
+                    href="#fn3">3</a></sup> &rarr; Python
+            </li>
+            <li>Java &rarr; Python and Kotlin</li>
+            <li>"C" or C++ &rarr; Kotlin and Go</li>
+        </ul>
+
+        <p>The interesting general trend here: Not just replace a language
+            with a more modern equivalent, but also move functionality higher
+            up the language stack. As <em>ESR</em> points out, Moore's law and
+            improving language engineering have raised the bar. His posts
+            focus on Go replacing "C" (for now: there are other options in the
+            near future); I've expanded this across the server-side.</p>
+    </section>
+
+    <section id="what-makes-a-modern-language">
+        <h3>What makes a "modern" language?</h3>
+
+        <p>I'm looking for specific things in a "modern" language,
+            chiefly:</p>
+
+        <section id="good-community">
+            <h4>Good community</h4>
+
+            <p>Varying and strong:</p>
+
+            <ul>
+                <li><a href="https://www.python.org/community/">Python</a>
+                </li>
+                <li><a href="https://kotlinlang.org/community/">Kotlin</a>
+                </li>
+                <li><a href="https://golang.org/help/">Go</a></li>
+            </ul>
+
+            <p>You can explore the figures <a
+                    href="https://www.tiobe.com/tiobe-index/"
+                    title="TIOBE Index for November 2017">at TIOBE</a> and
+                <a
+                        href="https://insights.stackoverflow.com/survey/2017#technology-programming-languages"
+                        title="Stack Overflow Developer Survey 2017">StackOverflow</a>.
+            </p>
+
+            <p>Kotlin is the interesting case. Though low in the rankings,
+                because of 100% interoperability running on the JVM, it's easy
+                to <a
+                        href="https://kotlinlang.org/docs/reference/java-interop.html"
+                        title="Calling Java code from Kotlin">call Java from
+                    Kotlin</a> and <a
+                        href="https://kotlinlang.org/docs/reference/java-to-kotlin-interop.html"
+                        title="Calling Kotlin from Java">call Kotlin from
+                    Java</a>, so the whole Java ecosystem is available to
+                Kotlin natively.</p>
+
+            <p>Further, Google <a
+                    href="https://developer.android.com/kotlin/"
+                    title="Kotlin and Android">fully supports Kotlin on
+                Android</a> as a first-class language, so there is a wealth of
+                interoperability there. (The story for iOS is more nuanced,
+                with Kotlin/Native including that platform as a target; again,
+                in progress.)</p>
+
+            <p>Lastly, Kotlin/Native is bringing <a
+                    href="https://github.com/JetBrains/kotlin-native/blob/master/LIBRARIES.md"
+                    title="Kotlin/Native libraries">similar
+                interoperability</a> between Kotlin and Go (but this is in
+                progress).</p>
+        </section>
+
+        <section id="garbage-collection">
+            <h4>Garbage collection</h4>
+
+            <p>Among Go's advantages over "C" and C++ is <a
+                    href="https://groups.google.com/d/msg/golang-nuts/KJiyv2mV2pU/wdBUH1mHCAAJ"
+                    title="Why golang garbage-collector not implement Generational and Compact gc?">solid
+                garbage collection</a> out of the box, though Boehm <a
+                    href="http://www.hboehm.info/gc/"
+                    title="A garbage collector for C and C++">a valiant
+                effort</a>. It's only been since <a
+                    href="https://www.seas.harvard.edu/courses/cs252/2016fa/16.pdf"
+                    title="[PDF] Origins of Garbage Collection"><em>1959</em></a>.
+                No modern programmer&mdash;short of special cases&mdash;should
+                manually manage memory. And Go's pedigree includes Rob Pike
+                and Dennis Ritchie: they know how to write usable, practical
+                programming languages.</p>
+        </section>
+
+        <section id="static-type-inference">
+            <h4>Static type inference</h4>
+
+            <p>Kotlin really demonstrates where Java could improve by leaps
+                rather than <a href="http://openjdk.java.net/jeps/286"
+                               title="JEP 286: Local-Variable Type Inference">baby
+                    steps</a>: automatic type inference. At least Java is
+                heading in the right direction. Don't tell the computer <em>how</em>
+                to run your program when it can figure this our for itself!
+                Keep your focus on <em>what</em> the program is for.</p>
+
+            <p>Interestingly, only two of Python, Kotlin and Go have static
+                typing out of the box. Python has built-in support for typing,
+                and <a href="http://mypy-lang.org/"
+                       title='Mypy is an experimental optional static type checker for Python that aims to combine the benefits of dynamic (or "duck") typing and static typing'>an
+                    excellent optional implementation</a>, <code>mypy</code>,
+                however this is <em>type declaration</em> not <em>type
+                    inference</em>, so it loses a bit there. And none of the
+                common alternatives (Ruby, Perl, PHP, etc.) have type
+                inference either. I'll need to check again in 5 years, and
+                possibly update this choice.</p>
+        </section>
+
+        <section id="rich-ecosystem">
+            <h4>Rich ecosystem</h4>
+
+            <p>Of the languages, Kotlin is a standout here. Because it is
+                a JVM language, it is 100% compatible with Java, and can fully
+                use the rich world of Java libraries and frameworks. The
+                only weakness for Kotlin is tooling: because more advanced
+                tools may make assumptions about bytecode, Kotlin's particular
+                choices of emitted bytecode sometimes confuse them.</p>
+        </section>
+
+        <section id="consision-and-convenience">
+            <h4>Concision and convenience</h4>
+
+            <p>A common thread in recent langauge development is <em>lower
+                ceremony</em>: fewer punctuation marks and boilerplate; make
+                the machine do more work, you do less. Kotlin provides the
+                most obvious example. Compare it to Java:</p>
+        </section>
+    </section>
+
+    <section id="code-samples">
+        <h3>Code samples</h3>
+
+        <p>The classic "Hello, World!" showing three things:</p>
+
+        <ul>
+            <li>Writing a "main" callable from the command line</li>
+            <li>Using standard output to print to console</li>
+            <li>String formatting to build the output message</li>
+        </ul>
+
+        <p>Java in a file named <code>MyStuff.java:</code></p>
+
+        <pre class="code">package my.stuff;
+
+public final class MyStuff {
+    public static final String LANGUAGE = "Java";
+
+    public static void main(final String... args) {
+        System.out.println(String.format("Hello, World, from %s", language));
+    }
+}</pre>
+
+        <p>Kotlin in a file named <code>my-program.kt:</code></p>
+
+        <pre class="code">package my.stuff
+
+const val LANGUAGE = "Kotlin"
+
+fun main(args: Array&lt;String&gt;) = println("Hello, World, from $LANGUAGE")</pre>
+
+        <p>But also compare Go to C++:</p>
+
+        <pre class="code">package main
+
+import "fmt"
+
+const Language = "Go"
+
+func main() {
+    fmt.Println("Hello, World, from", Language)
+}</pre>
+
+        <p>And C++:</p>
+
+        <pre class="code">#include &lt;iostream&gt;
+
+int
+main()
+{
+  std::cout &lt;&lt; "Hello, World!" &lt;&lt; std::endl;
+
+  return 0;
+}</pre>
+
+        <p>And for completeness, Python compared to Perl:</p>
+
+        <pre class="code">#!/usr/bin/python
+
+language = 'Python'
+
+print('Hello, World, from {}'.format(langauge))
+</pre>
+
+        <p>Any Perl:</p>
+
+        <pre class="code">#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+my $language = "Perl";
+
+printf("Hello, World, from %s\n", $language);</pre>
+    </section>
+
+    <section id="see-also">
+        <h3>See also</h3>
+
+        <ul>
+            <li><a href="mixing-kotlin-and-go.html"
+                   title="Mixing Kotlin and Go"><cite>Mixing Kotlin and
+                Go</cite></a></li>
+        </ul>
+    </section>
+
+    <footer id="footnotes">
+        <h3>Footnotes</h3>
+
+        <p id="fn1"><a href="#python">[1]</a> <a
+                href="https://hackernoon.com/javascript-vs-python-in-2017-d31efbb641b4"
+                title="JavaScript vs. Python in 2017">A
+            surprising take</a> on Python versus JavaScript from Michael
+            Bolin.</p>
+
+        <p id="fn2"><a href="#kotlin-jvm">[2]</a> In contrast to
+            <em>ESR</em>'s
+            thoughtful posts, a nice Steve Yegge <a
+                    href="https://steve-yegge.blogspot.com/2017/05/why-kotlin-is-better-than-whatever-dumb.html"
+                    title="Why Kotlin Is Better Than Whatever Dumb Language You're Using">rant
+                in favor of Kotlin</a>. (I enjoy both their writing
+            styles.)
+        </p>
+
+        <p id="fn3"><a href="#bash-and-perl">[3]</a> YMMV &mdash; I use
+            Perl
+            as a example, but it could be Ruby or PHP or similar. And some
+            might prefer Node.js to Python (but don't: see <a href="#fn1">footnote
+                1</a>. The exact choice is a matter of
+            preference: I prefer Python, and some would keep Ruby (for
+            example).</p>
+    </footer>
+</article>

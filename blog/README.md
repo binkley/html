@@ -1,5 +1,6 @@
 # Blog Posts
 
+* [A language stack for 2018](a-language-stack-for-2018.html)
 * [Automated Acceptance Criteria](automated-acceptance-criteria.html) - in progress
 * [Cygwin terminal in IntelliJ](cygwin-terminal-in-intellij.html)
 * [DDD, _A Handmaid's Tale_](ddd-a-handmaids-tale.html)
@@ -10,6 +11,7 @@
 * [Kotlinc on Cygwin](kotlinc-on-cygwin.html)
 * [Maven color logging on Cygwin](maven-color-logging-on-cygwin.html)
 * [Maven logging and the command line](maven-logging-and-the-command-line.html)
+* [Mixing Kotlin and Go](mixing-kotlin-and-go.html)
 * [Old scripting](old-scripting.html)
 * [On pipelines](on-pipelines.html) - in progress
 * [Quick diff tip, make, et al](quick-diff-tip-make-et-al.html)
