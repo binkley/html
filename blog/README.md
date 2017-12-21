@@ -14,8 +14,10 @@
 * [Mixing Kotlin and Go](mixing-kotlin-and-go.html)
 * [Old scripting](old-scripting.html)
 * [On pipelines](on-pipelines.html) - in progress
+* [Push early, push often, push on green](push-early-push-often-push-on-green.html)
 * [Quick diff tip, make, et al](quick-diff-tip-make-et-al.html)
 * [Quick Kotlin idiom: naming things](quick-kotlin-idiom-naming-things.html)
 * [SVG takeaways](svg-takeaways.html)
+* [Thoughts on story writing](thoughts-on-story-writing.html)
 * [Two BDD styles in Kotlin](two-bdd-styles-in-kotlin.html)
 * [WSL, first experiences](wsl-first-experiences.html)
