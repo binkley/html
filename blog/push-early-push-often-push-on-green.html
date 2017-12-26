@@ -3,7 +3,10 @@
         <p>(This post follows up on <a
                 href="https://binkley.blogspot.com/2017/03/frequent-commits.html"
                 title="Frequent commits"><cite>Frequent commits</cite></a>, a
-            post about git command line help for TDD.)</p>
+            post about git command line help for TDD. I assume you are already
+            following <a
+                    href="https://agileinaflash.blogspot.com/2009/03/tdd-process-smells.html"
+                    title="TDD Process Smells">good TDD practices</a>.)</p>
     </section>
 
     <section id="prologue">
@@ -12,40 +15,76 @@
         <p>I'm chatting with a colleague who is <a
                 href="https://www.thoughtworks.com/insights/blog/road-agile-practitioner-agile-coach"
                 title="The Road from an Agile Practitioner to an Agile Coach">new
-            in her role as an <em>Agile Coach</em></a>; she comes from a PM
-            background. We were talking about ways to organize a team's story
+            in her role as an <em>Agile Coach</em></a> (she comes from a PM
+            background). We were talking about ways to organize a team's story
             board (card wall), and turned to <a
                     href="https://www.thoughtworks.com/insights/blog/defect-prevention-using-agile-techniques"
                     title="Defect Prevention Using Agile Techniques"><em>Desk
                 Checks</em></a> and when they fit into a story's life.</p>
 
-        <p>An interesting remark by her: a team she had once been on had
-            agreed to share work (push) only after the desk check was
-            successful. That is, they did not push code until a story was
-            almost done: work lay fallow on individuals' machines pending desk
-            check.</p>
+        <p>An interesting remark by her: a previous team of hers had agreed to
+            share work (push) only after the desk check was successful; that
+            is, they did not push code until a story was almost done: work lay
+            fallow on individuals' machines for potentially days at a
+            stretch.</p>
 
-        <p>I was floored. The team she had been on was a strong agile team
-            with experienced members. Why would they wait to push until days
-            of work had passed? What did they do about merge conflicts,
-            complex refactorings, integration failures in the pipeline, <i>et
-                al</i>?</p>
+        <p>I was surprised. Hers was a strong agile team with experienced
+            members. Why would they wait days to push&mdash;what did they do
+            about merge conflicts, complex refactorings, integration failures
+            in the pipeline, <i>et al</i>?
+        </p>
     </section>
 
-    <section id="source-of-my-dismay">
-        <h3>Source of my dismay</h3>
+    <section id="lecture">
+        <h3>Lecture</h3>
 
-        <p>In my way of thinking, this was clearly a <a
+        <p>To me this was clearly a <a
                 href="https://martinfowler.com/bliki/CodeSmell.html"
                 title="Code Smell"><em>smell</em></a>. Martin Fowler
-            specifically <a
+            specifically addresses this in <a
                     href="https://martinfowler.com/articles/continuousIntegration.html#EveryoneCommitsToTheMainlineEveryDay"
-                    title="Everyone Commits To the Mainline Every Day">addresses
-                this</a>.</p>
-    </section>
+                    title="Everyone Commits To the Mainline Every Day"><cite>Everyone
+                Commits To the Mainline Every Day</cite></a>, and I would go
+            further: <em>Push commits at <strong>the earliest responsible
+                moment</strong></em>. This is opposite the advice for
+            refactoring, or especially <a
+                    href="https://www.slideshare.net/ThoughtWorks/neal-ford-emergent-design-and-evolutionary-architecture"
+                    title="emergent design &amp; evolutionary architecture"><em>emergent
+                design</em></a>, where the <a
+                    href="https://en.wikipedia.org/wiki/Rule_of_three_(computer_programming)">"Rule
+                of 3"</a> and <a
+                    href="https://blog.codinghorror.com/the-last-responsible-moment/"
+                    title="The Last Responsible Moment"><cite>last responsible
+                moment</cite></a> cautions waiting for more information before
+            committing to a course of action.</p>
 
-    <section id="a-better-place">
-        <h3>A better place</h3>
+        <p>And you can see why early pushes differ from the other two: waiting
+            will not get your more information. On the contrary, waiting will
+            only increase <a
+                    href="https://en.wikipedia.org/wiki/Software_entropy"
+                    title="Software entropy">the entropy of the code base</a>!
+        </p>
+
+        <p>Consider this work cycle:</p>
+
+        <ol>
+            <li>Local commit</li>
+            <li>Fetch commits from remote</li>
+            <li>Merge, if needed</li>
+            <li>Local commit again, if needed</li>
+            <li style="margin-top: 1em">Push commits to remote</li>
+        </ol>
+
+        <p>I've grouped these to emphasize what is <em>local to you</em> (the
+            first four) and what is <em>global to your team</em> (the last
+            one).</p>
+
+        <p>Considered only <em>locally</em>, you and your team minimized
+            entropy with <em>frequent pulls</em>, so you can catch merge
+            conflicts early and resolve them when they are small. But
+            considered <em>globally</em>, this implies you have <em>frequent
+                pushes</em> so that those local pulls have only small changes
+            in them.</p>
     </section>
 
     <section id="epilogue">
@@ -54,10 +93,4 @@
         <p>So my colleague and I had a great session together, me
             explaining the world from a dev perspective.</p>
     </section>
-
-    <footer id="footnotes">
-        <h3>Footnotes</h3>
-
-        <p id="fn1"><a href="#XXX">[1]</a> A placeholder footnote.</p>
-    </footer>
 </article>
