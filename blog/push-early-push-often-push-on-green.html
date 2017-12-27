@@ -6,7 +6,9 @@
             post about git command line help for TDD. I assume you are already
             following <a
                     href="https://agileinaflash.blogspot.com/2009/03/tdd-process-smells.html"
-                    title="TDD Process Smells">good TDD practices</a>.)</p>
+                    title="TDD Process Smells">good TDD practices</a>. Also,
+            please recall git normally requires pulling before pushing if your
+            repo is behind on commits from the remote.)</p>
     </section>
 
     <section id="prologue">
@@ -38,6 +40,8 @@
     <section id="lecture">
         <h3>Lecture</h3>
 
+        <h4>Entropy</h4>
+
         <p>To me this was clearly a <a
                 href="https://martinfowler.com/bliki/CodeSmell.html"
                 title="Code Smell"><em>smell</em></a>. Martin Fowler
@@ -63,7 +67,52 @@
             only increase <a
                     href="https://en.wikipedia.org/wiki/Software_entropy"
                     title="Software entropy">the entropy of the code base</a>!
+            Commits <em>lie fallow</em> in the local repo, increasing the size
+            of potential merge conflicts for others.</p>
+
+        <table>
+            <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Benefit from more information?</th>
+                <th>Principle</th>
+                <th>Entropy from waiting</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Early push</td>
+                <td>None available</td>
+                <td>Earliest responsible moment</td>
+                <td>Rises from fallow commits</td>
+            </tr>
+            <tr>
+                <td>Refactoring</td>
+                <td>Get more code examples</td>
+                <td>Rule of 3</td>
+                <td>Falls after refactoring</td>
+            </tr>
+            <tr>
+                <td>Architecture decision</td>
+                <td>Learn more about system</td>
+                <td>Last responsible moment</td>
+                <td>Falls if responsible</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p>(The "information" in the case of pushes are the pulled commits
+            themselves.)</p>
+
+        <p>I've definitely experienced this firsthand, when I'd eventually
+            discard my local commits after waiting too long, and letting them
+            grow too much in a different direction from how the rest of the
+            team progressed. <a
+                    href="http://www.allaboutlean.com/muda-mura-muri/"
+                    title="Muda, Mura, Muri: The Three Evils of Manufacturing"><strong>Waste!</strong></a>
         </p>
+
+        <h4>Complexity</h4>
 
         <p>Consider this work cycle:</p>
 
@@ -79,12 +128,143 @@
             first four) and what is <em>global to your team</em> (the last
             one).</p>
 
-        <p>Considered only <em>locally</em>, you and your team minimized
-            entropy with <em>frequent pulls</em>, so you can catch merge
-            conflicts early and resolve them when they are small. But
-            considered <em>globally</em>, this implies you have <em>frequent
-                pushes</em> so that those local pulls have only small changes
-            in them.</p>
+        <p>Considered only <em>locally</em>, you minimize entropy with <em>frequent
+            pulls</em> for yourself, and likewise for your teammates
+            individually, so you can catch merge conflicts early and resolve
+            them when they are small. But considered <em>globally</em>, you
+            need <em>frequent pushes</em> so those local pulls have only small
+            changes in them. <em>The longer you wait to push, the more work
+                for those who pull.</em></p>
+
+        <table>
+            <caption>Early push</caption>
+            <thead>
+            <tr>
+                <th>You</th>
+                <th>Rest of team</th>
+                <th>Work for others</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>You commit</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>You push</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>They pull</td>
+                <td>Less complexity of merge (1 commit)</td>
+            </tr>
+            <tr>
+                <td>You commit</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>You push</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>They pull</td>
+                <td>Less complexity of merge (1 commit)</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p>Each single push can be treated on it's own. There are two
+            opportunities for merge conflict, but each is a small amount of
+            work.</p>
+
+        <table>
+            <caption>Late push<sup><a href="#fn1">[1]</a></sup></caption>
+            <thead>
+            <tr>
+                <th>You</th>
+                <th>Rest of team</th>
+                <th>Work for others</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>You commit</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>They pull</td>
+                <td>No changes to merge</td>
+            </tr>
+            <tr>
+                <td>You commit</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>You push</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>They pull</td>
+                <td>Greater complexity of merge (2 commits)</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p>In each scenario, there are two commits for others to content with.
+            The larger, combined push has a greater opportunity for merge
+            conflict, and a greater chance for a large amount of work, because
+            of the combined interactions of the two commits.</p>
+
+        <p>And as teams work in parallel, there are more opportunities for
+            merge conflicts.</p>
+
+        <h4>Push early, push often, push on green</h4>
+
+        <p>From the above discussion, the safest course is to push early
+            rather than wait as commits pile up locally. But when to push&mdash;what
+            is the "earliest responsible moment"?</p>
+
+        <p>If your codebase is well-tested, and answer presents itself: <em>Push
+            when <strong>tests are green</strong> and <strong>changes alter
+                the complexity</strong></em>.</p>
+
+        <p>The goal is to avoid complex commit interactions that lead to merge
+            conflicts. Tests are the safety net. Further, if all else fails
+            and a commit is bad, it is easy to throw away the last commit
+            until things are right again: only a small amount of work is lost,
+            not days worth.</p>
+
+        <p>Understanding what kind of changes alter complexity takes skill:
+            skills improve with experience and coaching. The cost of early
+            pushes is low, and the occassional penalty of late pushes high, so
+            this would be a good topic for a "team norms" ("dev practices")
+            discussion.</p>
+
+        <p>For example, the team might agree that changes to comments are not
+            in themselves worth a push. At the other end, your refactorings
+            which impact more than one source file almost certainly should be
+            pushed early: discover their impact on others before you add more
+            refactorings.</p>
+
+        <p>A good work cycle:</p>
+
+        <ol>
+            <li>Pull</li>
+            <li>Build, run tests</li>
+            <li style="margin-top: 1em">Edit sources</li>
+            <li>Build, run tests</li>
+            <li>Commit</li>
+            <li>Pull and push</li>
+        </ol>
+
+        <p>After a preliminary sanity check (#1 and #2), get in the the cycle
+            of #3 to #6.</p>
     </section>
 
     <section id="epilogue">
@@ -92,5 +272,40 @@
 
         <p>So my colleague and I had a great session together, me
             explaining the world from a dev perspective.</p>
+    </section>
+
+    <section id="further-reading">
+        <h3>Further reading</h3>
+
+        <ul>
+            <li>Seth Robertson posted <a
+                    href="https://sethrobertson.github.io/GitBestPractices/"
+                    title="Commit Often, Perfect Later, Publish Once: Git Best Practices">a
+                wonderful list of git best practices</a>. Do not confuse
+                "publish once" with "wait to push": it means "don't publish
+                the same commit twice" (which does sometimes happen
+                accidentally, even for experts, from merging or rebasing).
+            </li>
+        </ul>
+    </section>
+
+    <section id="footnotes">
+        <h3>Footnotes</h3>
+
+        <p id="fn1"><sup>[1]</sup> The simple statement, "a greater chance for
+            a large amount of work", has rather complex reasoning behind it,
+            beyond the scope of this post.</p>
+        <p>For example, any particular commit
+            can be viewed as applying an exponent to the overall complexity of
+            a program. A neutral change (say, correcting a typo in a comment)
+            has the exponent <em>1</em>: it does not change the overall
+            complexity; a positive change (say, removing code duplication) has
+            an exponent between <em>0</em> and <em>1</em>: it lowers the
+            overall complexity; a negative change (say, adding a new
+            dependency) has an exponent greater than <em>1</em>: it raises the
+            overall complexity.</p>
+        <p>Consider then that these complexity changes are not simple numbers,
+            but distributions ("odds"), and change with time ("bitrot"), and
+            involve more than the code (people or requirments changes).</p>
     </section>
 </article>
