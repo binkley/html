@@ -24,16 +24,14 @@
                     title="Defect Prevention Using Agile Techniques"><em>Desk
                 Checks</em></a> and when they fit into a story's life.</p>
 
-        <p>An interesting remark by her: a previous team of hers had agreed to
-            share work (push) only after the desk check was successful; that
-            is, they did not push code until a story was almost done: work lay
-            fallow on individuals' machines for potentially days at a
-            stretch.</p>
+        <p>An interesting remark by her: a team had agreed to share work
+            (push) only after the desk check was successful; that is, they did
+            not push code until a story was almost done: work lay fallow on
+            individuals' machines for potentially days at a stretch.</p>
 
-        <p>I was surprised. Hers was a strong agile team with experienced
-            members. Why would they wait days to push&mdash;what did they do
-            about merge conflicts, complex refactorings, integration failures
-            in the pipeline, <i>et al</i>?
+        <p>I was surprised. Why would they wait days to push&mdash;what did
+            they do about merge conflicts, complex refactorings, integration
+            failures in the pipeline, <i>et al</i>?
         </p>
     </section>
 
@@ -270,8 +268,17 @@
     <section id="epilogue">
         <h3>Epilogue</h3>
 
-        <p>So my colleague and I had a great session together, me
-            explaining the world from a dev perspective.</p>
+        <p>I checked other teams: it is minority practice to wait until a
+            successful desk check to push changes. That's a relief. Hopefully
+            this practice can be made more rare.</p>
+
+        <p>One rational reason&mdash;itself a smell&mdash;is when tests take
+            too long to run frequently. When I design a pipeline, I recommend
+            breaking out "unit" tests from "integration" tests for this exact
+            reason: even when integration tests run long, the initial CI stage
+            with just unit tests should be fast enough to give quick feedback
+            on frequent pushes, and encourage <em>Push early, Push often, Push
+                on (local) green</em>.</p>
     </section>
 
     <section id="further-reading">
@@ -281,10 +288,7 @@
             <li>Seth Robertson posted <a
                     href="https://sethrobertson.github.io/GitBestPractices/"
                     title="Commit Often, Perfect Later, Publish Once: Git Best Practices">a
-                wonderful list of git best practices</a>. Do not confuse
-                "publish once" with "wait to push": it means "don't publish
-                the same commit twice" (which does sometimes happen
-                accidentally, even for experts, from merging or rebasing).
+                wonderful list of git best practices</a>.<sup><a href="#fn2">[2]</a></sup>
             </li>
         </ul>
     </section>
@@ -307,5 +311,10 @@
         <p>Consider then that these complexity changes are not simple numbers,
             but distributions ("odds"), and change with time ("bitrot"), and
             involve more than the code (people or requirments changes).</p>
+
+        <p id="fn2"><sup>[2]</sup> In Seth's post, do not confuse "publish
+            once" with "wait to push": it means "don't publish the same commit
+            twice" (which does sometimes happen accidentally, even for
+            experts, from merging or rebasing).</p>
     </section>
 </article>
