@@ -1,6 +1,6 @@
 # Blog Posts
 
-* [A language stack for 2018](a-language-stack-for-2018.html)
+* [A language stack for 2018](a-language-stack-for-2018.html) - in progress
 * [Automated Acceptance Criteria](automated-acceptance-criteria.html) - in progress
 * [Cygwin terminal in IntelliJ](cygwin-terminal-in-intellij.html)
 * [DDD, _A Handmaid's Tale_](ddd-a-handmaids-tale.html)
@@ -18,6 +18,6 @@
 * [Quick diff tip, make, et al](quick-diff-tip-make-et-al.html)
 * [Quick Kotlin idiom: naming things](quick-kotlin-idiom-naming-things.html)
 * [SVG takeaways](svg-takeaways.html)
-* [Thoughts on story writing](thoughts-on-story-writing.html)
+* [Thoughts on story writing](thoughts-on-story-writing.html) - in progress
 * [Two BDD styles in Kotlin](two-bdd-styles-in-kotlin.html)
 * [WSL, first experiences](wsl-first-experiences.html)
