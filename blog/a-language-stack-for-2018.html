@@ -52,7 +52,7 @@
 
         <ul>
             <li id="bash-and-perl">Bash and Perl<sup><a
-                    href="#fn3">3</a></sup> &rarr; <strong>Python</strong>
+                    href="#fn4">4</a></sup> &rarr; <strong>Python</strong>
             </li>
             <li>Java &rarr; <strong>Python and Kotlin</strong></li>
             <li>"C" and C++ &rarr; <strong>Kotlin and Go</strong></li>
@@ -181,24 +181,21 @@
                      title="Garbage collection">quick primer (2011)</a> on
                 garbage collection.)</p>
 
-            <p>Among <strong>Go</strong>'s advantages over "C" and C++ is <a
-                    href="https://groups.google.com/d/msg/golang-nuts/KJiyv2mV2pU/wdBUH1mHCAAJ"
-                    title="Why golang garbage-collector not implement Generational and Compact gc?">solid
-                garbage collection</a> out of the box, though Boehm <a
-                    href="http://www.hboehm.info/gc/"
-                    title="A garbage collector for C and C++">a valiant
-                effort</a>. It's only been since <a
-                    href="https://www.seas.harvard.edu/courses/cs252/2016fa/16.pdf"
-                    title="[PDF] Origins of Garbage Collection"><em>1959</em></a>.
-                No modern programmer&mdash;short of special cases&mdash;should
-                manually manage memory. And Go's pedigree includes Rob Pike
-                and Dennis Ritchie: they know how to write usable, practical
-                programming languages.</p>
-
-            <p>(Consider reading Mike Hearn on <a
-                    href="https://blog.plan99.net/modern-garbage-collection-911ef4f8bd8e"
-                    title="Modern garbage collection">potential
-                problems</a> with Go GC.)</p>
+            <p id="kotlin-gc">Among <strong>Go</strong>'s advantages over "C"
+                and C++ is <a
+                        href="https://groups.google.com/d/msg/golang-nuts/KJiyv2mV2pU/wdBUH1mHCAAJ"
+                        title="Why golang garbage-collector not implement Generational and Compact gc?">solid
+                    garbage collection</a> out of the box<a
+                        href="#fn3"><sup>3</sup>,
+                    though Boehm <a href="http://www.hboehm.info/gc/"
+                                    title="A garbage collector for C and C++">a
+                        valiant effort</a>. It's only been since <a
+                            href="https://www.seas.harvard.edu/courses/cs252/2016fa/16.pdf"
+                            title="[PDF] Origins of Garbage Collection"><em>1959</em></a>.
+                    No modern programmer&mdash;short of special cases&mdash;should
+                    manually manage memory. And Go's pedigree includes Rob
+                    Pike and Dennis Ritchie: they know how to write usable,
+                    practical programming languages.</p>
 
             <p><strong>Kotlin</strong> gets a head start here. It's built
                 on the JVM (when targeting that environment), which has
@@ -436,25 +433,25 @@ echo Hello World, from BASH</pre>
 
         <p id="fn1"><a href="#python">[1]</a> <a
                 href="https://hackernoon.com/javascript-vs-python-in-2017-d31efbb641b4"
-                title="JavaScript vs. Python in 2017">A
-            surprising take</a> on Python versus JavaScript from Michael
-            Bolin.</p>
+                title="JavaScript vs. Python in 2017">A surprising take</a>
+            on Python versus JavaScript from Michael Bolin.</p>
 
         <p id="fn2"><a href="#kotlin-jvm">[2]</a> In contrast to
-            <em>ESR</em>'s
-            thoughtful posts, a nice Steve Yegge <a
+            <em>ESR</em>'s thoughtful posts, a nice Steve Yegge <a
                     href="https://steve-yegge.blogspot.com/2017/05/why-kotlin-is-better-than-whatever-dumb.html"
                     title="Why Kotlin Is Better Than Whatever Dumb Language You're Using">rant
-                in favor of Kotlin</a>. (I enjoy both their writing
-            styles.)
+                in favor of Kotlin</a>. (I enjoy both their writing styles.)
         </p>
 
-        <p id="fn3"><a href="#bash-and-perl">[3]</a> YMMV &mdash; I use
-            Perl
+        <p id="fn3"><a href="#kotlin-gc">[3]</a> Mike Hearn points out <a
+                href="https://blog.plan99.net/modern-garbage-collection-911ef4f8bd8e"
+                title="Modern garbage collection">potential
+            pitfalls</a> with Go GC.</p>
+
+        <p id="fn4"><a href="#bash-and-perl">[4]</a> YMMV &mdash; I use Perl
             as a example, but it could be Ruby or PHP or similar. And some
             might prefer Node.js to Python (but don't: see <a href="#fn1">footnote
-                1</a>. The exact choice is a matter of
-            preference: I prefer Python, and some would keep Ruby (for
-            example).</p>
+                1</a>. The exact choice is a matter of preference: I prefer
+            Python, and some would keep Ruby (for example).</p>
     </footer>
 </article>
