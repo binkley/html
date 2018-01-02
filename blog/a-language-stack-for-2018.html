@@ -46,10 +46,10 @@
 
         <ul>
             <li id="bash-and-perl">Bash and Perl<sup><a
-                    href="#fn3">3</a></sup> &rarr; Python
+                    href="#fn3">3</a></sup> &rarr; <strong>Python</strong>
             </li>
-            <li>Java &rarr; Python and Kotlin</li>
-            <li>"C" or C++ &rarr; Kotlin and Go</li>
+            <li>Java &rarr; <strong>Python and Kotlin</strong></li>
+            <li>"C" and C++ &rarr; <strong>Kotlin and Go</strong></li>
         </ul>
 
         <p>The interesting general trend here: Not just replace a language
@@ -64,6 +64,52 @@
                 title="The Art of Unix Programming, Chapter 14, Section 4, Language Evaluations">evolved
             over time</a>, a sign of someone who has given deep and sustained
             thought to the subject.)</p>
+    </section>
+
+    <section id="about-my-experience-with-these-three-languages">
+        <h3>About my experience with these three languages</h3>
+
+        <p>Some background to give color to these choices.</p>
+
+        <h4>Python</h4>
+
+        <p>I have moderate experience in Python spread out since the
+            mid-90s. At that time, I was undecided between Python, Ruby
+            and Perl. Over my career I worked heavily in Perl (it paid
+            well, then), some in Ruby (mostly at ThoughtWorks), and
+            gravitated strongly to Python, especially after using it
+            heavily at Macquarie commodities trading where Python was
+            central to their business.</p>
+
+        <h4>Kotlin</h4>
+
+        <p>I've been a Kotlin fan since it's early days. It scratches itches
+            that Java persistently gives, and JetBrains is far more
+            pleasant a <a
+                    href="https://en.wikipedia.org/wiki/Benevolent_dictator_for_life">"benevolent
+                dictator"</a> than Oracle. Java has been my primary
+            language since the late 90s, bread and butter in most projects.
+            If JetBrains is successful in keeping Kotlin in its current
+            directions, I expect it to continue displacing Java, and
+            deservedly so.</p>
+
+        <h4>Go</h4>
+
+        <p>This, sadly, is where I am relying on the advice of others more
+            than personal experience. I started programming with "C" and
+            LISP (Emacs), and quickly became an expert (things being relative)
+            in C++. Among other projects, I implemented the then new
+            specification for UNICODE/CJKV support in C++ for INSO (Microsoft
+            Word multilingual spell checker, among other uses).</p>
+
+        <p>However, with <a
+                href="https://www.amazon.com/Lions-Commentary-Unix-John/dp/1573980137"
+                title="How I learned the kernel">Ken Thompson</a> and <a
+                href="https://www.amazon.com/Unix-Programming-Environment-Prentice-Hall-Software/dp/013937681X"
+                title="How I learned the command line">Rob Pike</a> behind
+            it, intelligent luminaries like ESR pitching for it, and
+            colleagues at ThoughtWorks excited to start new Go projects, it's
+            high time I make up this gap.</p>
     </section>
 
     <section id="what-makes-a-modern-language">
@@ -142,6 +188,13 @@
             <p>(A <a href="http://www.toves.org/books/gc/"
                      title="Garbage collection">quick primer (2011)</a> on
                 garbage collection.)</p>
+
+            <p>(If you are in "C" or C++, and want some of the benefits of
+                GC, do consider
+                <a href="http://www.hboehm.info/gc/">the Boehm-Demers
+                    -Weiser garbage collector</a>. No, you won't get the
+                fullest benefits of a language built for GC, but you'll get
+                enough to help a lot, even if just for leak detection.)</p>
         </section>
 
         <section id="static-type-inference">
@@ -175,24 +228,45 @@
         <section id="rich-ecosystem">
             <h4>Rich ecosystem</h4>
 
-            <p>Of the languages, Kotlin is a standout here. Because it is
-                a JVM language, it is 100% compatible with Java, and can fully
-                use the rich world of Java libraries and frameworks. The
-                only weakness for Kotlin is tooling: because more advanced
-                tools may make assumptions about bytecode, Kotlin's particular
-                choices of emitted bytecode sometimes confuse them.</p>
+            <p>Of the languages, <strong>Kotlin</strong> is a standout here.
+                Because it is a JVM language, it is 100% compatible with
+                Java, and can fully use the rich world of Java libraries
+                and frameworks. The only weakness for Kotlin is tooling:
+                because more advanced tools may make assumptions about
+                bytecode, Kotlin's particular choices of emitted bytecode
+                sometimes confuse them.</p>
 
             <p>(JetBrains has surveyed on <a
                     href="https://www.jetbrains.com/research/devecosystem-2017/"
                     title="The State of Developer Ecosystem in 2017">the state
                 of ecosystems</a> for programming languages, related to <a
                     href="#good-community">having a good community</a>.)</p>
+
+            <p>Close behind is <strong>Python</strong>, <a
+                    href="https://docs.python.org/3/tutorial/stdlib.html#batteries-included"
+                    title="Brief Tour of the Standard Library">"batteries
+                included"</a> and all, and is better organized and
+                documented than the JDK. For some problem domains, Python
+                has a richer ecosystem, for example, <a
+                        href="https://www.scipy.org/">SciPy</a> and <a
+                        href="http://www.numpy.org/">NumPy</a> are the
+                best math environment available in any language. (Some
+                specialty languages like <a
+                        href="https://www.mathworks.com/products/matlab.html">MATLAB</a>
+                deserve mention&mdash;an early employer of mine.)</p>
+
+            <p><strong>Go</strong> is, frankly, too new to have developed an
+                equivalent ecosystem, and full-blown package management is
+                still <a
+                        href="https://github.com/golang/go/wiki/PackageManagementTools"
+                        title="PackageManagementTools · golang/go Wiki">a
+                    work in progress</a>.</p>
         </section>
 
         <section id="consision-and-convenience">
             <h4>Concision and convenience</h4>
 
-            <p>A common thread in recent langauge development is <em>lower
+            <p>A common thread in recent language development is <em>lower
                 ceremony</em>: fewer punctuation marks and boilerplate; make
                 the machine do more work, you do less. Kotlin provides the
                 most obvious example. Compare it to Java:</p>
@@ -200,7 +274,7 @@
             <p>(Donnie Berkholz writes <a
                     href="http://redmonk.com/dberkholz/2013/03/25/programming-languages-ranked-by-expressiveness/"
                     title="Programming languages ranked by expressiveness">an
-                interesting post</a> on ranking langauge
+                interesting post</a> on ranking language
                 <em>expressiveness</em>.)</p>
         </section>
     </section>
@@ -288,7 +362,7 @@ main()
 
 language = 'Python'
 
-print('Hello, World, from {}'.format(langauge))
+print('Hello, World, from {}'.format(language))
 </pre>
         </section>
         <section id="perl-sample">
