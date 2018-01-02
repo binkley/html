@@ -1,8 +1,8 @@
 <article>
     <section id="caution">
-        (I talk about myself in the post more than usual. I'm expression
-        opinions more than usual, rather than observations and advice.
-        <em>Caveat lector</em>.)
+        <p>(I talk about myself in the post more than usual. I'm expression
+            opinions more than usual, rather than observations and advice.
+            <em>Caveat lector</em>. My posts are <em>link-rich</em>.)</p>
     </section>
 
     <section id="the-stack">
@@ -177,7 +177,11 @@
         <section id="garbage-collection">
             <h4>Garbage collection</h4>
 
-            <p>Among Go's advantages over "C" and C++ is <a
+            <p>(A <a href="http://www.toves.org/books/gc/"
+                     title="Garbage collection">quick primer (2011)</a> on
+                garbage collection.)</p>
+
+            <p>Among <strong>Go</strong>'s advantages over "C" and C++ is <a
                     href="https://groups.google.com/d/msg/golang-nuts/KJiyv2mV2pU/wdBUH1mHCAAJ"
                     title="Why golang garbage-collector not implement Generational and Compact gc?">solid
                 garbage collection</a> out of the box, though Boehm <a
@@ -191,9 +195,30 @@
                 and Dennis Ritchie: they know how to write usable, practical
                 programming languages.</p>
 
-            <p>(A <a href="http://www.toves.org/books/gc/"
-                     title="Garbage collection">quick primer (2011)</a> on
-                garbage collection.)</p>
+            <p>(Consider reading Mike Hearn on <a
+                    href="https://blog.plan99.net/modern-garbage-collection-911ef4f8bd8e"
+                    title="Modern garbage collection">potential
+                problems</a> with Go GC.)</p>
+
+            <p><strong>Kotlin</strong> gets a head start here. It's built
+                on the JVM (when targeting that environment), which has
+                arguably the world's greatest GC (or at least most tested).
+                It definitely gives you <a
+                        href="https://blog.takipi.com/garbage-collectors-serial-vs-parallel-vs-cms-vs-the-g1-and-whats-new-in-java-8/"
+                        title="Garbage Collectors - Serial vs. Parallel vs. CMS vs. G1 (and what’s new in Java 8)">a
+                    choice of garbage collectors</a>. There's too much to
+                say about GC on the JVM for this post except that it is
+                first-rate.</p>
+
+            <p><strong>Python</strong> has garbage collection. Though not
+                as strong as the JVM, it <a
+                        href="https://www.python.org/dev/peps/pep-0556/"
+                        title="PEP 556 -- Threaded garbage collection">continues
+                    to improve</a>. You are unlikely for GC to become a
+                limiting factor in a Python program; <a
+                        href="https://engineering.instagram.com/dismissing-python-garbage-collection-at-instagram-4dca40b29172"
+                        title="Dismissing Python Garbage Collection at Instagram">you
+                    will know if it does</a>.</p>
 
             <p>(If you are in "C" or C++, and want some of the benefits of
                 GC, do consider
