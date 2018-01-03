@@ -1,3 +1,31 @@
+<style>
+    article {
+        counter-reset: footnotes;
+    }
+
+    a[aria-describedby="footnote-label"] {
+        counter-increment: footnotes;
+        text-decoration: none;
+        color: inherit;
+        cursor: default;
+        outline: none;
+    }
+
+    a[aria-describedby="footnote-label"]::after {
+        content: '[' counter(footnotes) ']';
+        vertical-align: super;
+        font-size: 0.5em; /* TODO: Scalable? Percentage? And following... */
+        margin-left: 2px;
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    a[aria-describedby="footnote-label"]:focus::after {
+        outline: thin dotted;
+        outline-offset: 2px;
+    }
+</style>
 <article>
     <section id="caution">
         <p>(I talk about myself in the post more than usual. I'm expression
@@ -33,12 +61,14 @@
 
         <ul>
             <li id="python"><a href="https://www.python.org/"
-                               title="Python is a programming language that lets you work quickly and integrate systems more effectively">Python</a><sup><a
-                    href="#fn1">1</a></sup> &mdash; By default
+                               title="Python is a programming language that lets you work quickly and integrate systems more effectively">Python</a><a
+                    aria-describedby="footnote-label"
+                    href="#fn1"></a> &mdash; By default
             </li>
             <li id="kotlin-jvm"><a href="https://kotlinlang.org/"
                                    title="Statically typed programming language for modern multiplatform applications">Kotlin</a>
-                (JVM)<sup><a href="#fn2">2</a></sup>
+                (JVM)<a aria-describedby="footnote-label"
+                        href="#fn2"></a>
                 &mdash; When you need it
             </li>
             <li id="go"><a href="https://golang.org/"
@@ -51,7 +81,8 @@
             language (itself a sweet spot of its time):</p>
 
         <ul>
-            <li>Bash and Perl<sup><a href="#fn3">3</a></sup> &rarr;
+            <li>Bash and Perl<a aria-describedby="footnote-label"
+                                href="#fn3"></a> &rarr;
                 <strong>Python</strong></li>
             <li>Java &rarr; <strong>Python and Kotlin</strong></li>
             <li>"C" and C++ &rarr; <strong>Kotlin and Go</strong></li>
@@ -120,8 +151,9 @@
     <section id="what-makes-a-modern-language">
         <h3>What makes a "modern" language?</h3>
 
-        <p>I'm looking for specific things in a "modern" language<sup><a
-                href="#fn4">4</a></sup>, chiefly:</p>
+        <p>I'm looking for specific things in a "modern" language<a
+                aria-describedby="footnote-label" href="#fn4"></a>,
+            chiefly:</p>
 
         <section id="good-community">
             <h4>Good community</h4>
@@ -183,7 +215,8 @@
             <p>Among <strong>Go</strong>'s advantages over "C" and C++ is <a
                     href="https://groups.google.com/d/msg/golang-nuts/KJiyv2mV2pU/wdBUH1mHCAAJ"
                     title="Why golang garbage-collector not implement Generational and Compact gc?">solid
-                garbage collection</a> out of the box<sup><a href="#fn5">5</a></sup>,
+                garbage collection</a> out of the box<a
+                    aria-describedby="footnote-label" href="#fn5"></a>,
                 though Boehm <a href="http://www.hboehm.info/gc/"
                                 title="A garbage collector for C and C++">a
                     valiant effort</a>. It's only been since <a
@@ -428,35 +461,45 @@ echo "Hello World, from $language"</pre>
     </section>
 
     <footer id="footnotes">
-        <h3>Footnotes</h3>
+        <h3 id="footnote-label">Footnotes</h3>
 
-        <p id="fn1">[1] <a
-                href="https://hackernoon.com/javascript-vs-python-in-2017-d31efbb641b4"
-                title="JavaScript vs. Python in 2017">A surprising take</a>
-            on Python versus JavaScript from Michael Bolin.</p>
+        <ol>
+            <li id="fn1"><a
+                    href="https://hackernoon.com/javascript-vs-python-in-2017-d31efbb641b4"
+                    title="JavaScript vs. Python in 2017">A surprising
+                take</a> on Python versus JavaScript from Michael Bolin.
+            </li>
 
-        <p id="fn2">[2] In contrast to <em>ESR</em>'s thoughtful posts, a
-            nice Steve Yegge <a
-                    href="https://steve-yegge.blogspot.com/2017/05/why-kotlin-is-better-than-whatever-dumb.html"
-                    title="Why Kotlin Is Better Than Whatever Dumb Language You're Using">rant
-                in favor of Kotlin</a>. (I enjoy both their writing styles.)
-        </p>
+            <li id="fn2">In contrast to <em>ESR</em>'s thoughtful posts, a
+                nice Steve Yegge <a
+                        href="https://steve-yegge.blogspot.com/2017/05/why-kotlin-is-better-than-whatever-dumb.html"
+                        title="Why Kotlin Is Better Than Whatever Dumb Language You're Using">rant
+                    in favor of Kotlin</a>. (I enjoy both their writing
+                styles.)
+            </li>
 
-        <p id="fn3">[3] YMMV &mdash; I use Perl as a example, but it could
-            be Ruby or PHP or similar. And some might prefer Node.js to
-            Python (but don't: see <a href="#fn1">footnote 1</a>. The exact
-            choice is a matter of preference: I prefer Python, and some
-            would keep Ruby (for example).</p>
+            <li id="fn3">YMMV &mdash; I use Perl as a example, but it
+                could
+                be Ruby or PHP or similar. And some might prefer Node.js to
+                Python (but don't: see <a href="#fn1">footnote 1</a>. The
+                exact
+                choice is a matter of preference: I prefer Python, and some
+                would keep Ruby (for example).
+            </li>
 
-        <p id="fn4">[4] Mike Vanier wrote <a
-                href="http://users.cms.caltech.edu/~mvanier/hacking/rants/scalable_computer_programming_languages.html"
-                title="Scalable computer programming languages">a similar
-            list</a> for "scalable computer programming languages" in 2001,
-            at least for the technical elements.</p>
+            <li id="fn4">Mike Vanier wrote <a
+                    href="http://users.cms.caltech.edu/~mvanier/hacking/rants/scalable_computer_programming_languages.html"
+                    title="Scalable computer programming languages">a similar
+                list</a> for "scalable computer programming languages" in
+                2001,
+                at least for the technical elements.
+            </li>
 
-        <p id="fn5">[5] Mike Hearn points out <a
-                href="https://blog.plan99.net/modern-garbage-collection-911ef4f8bd8e"
-                title="Modern garbage collection">potential
-            pitfalls</a> with Go GC.</p>
+            <li id="fn5">Mike Hearn points out <a
+                    href="https://blog.plan99.net/modern-garbage-collection-911ef4f8bd8e"
+                    title="Modern garbage collection">potential
+                pitfalls</a> with Go GC.
+            </li>
+        </ol>
     </footer>
 </article>
