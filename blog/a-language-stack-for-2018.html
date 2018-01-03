@@ -12,11 +12,11 @@
     }
 
     a[aria-describedby="footnote-label"]::after {
-        content: '[' counter(footnotes) ']';
+        content: counter(footnotes);
         vertical-align: super;
-        font-size: 0.5em; /* TODO: Scalable? Percentage? And following... */
-        margin-left: 2px;
-        color: blue;
+        font-size: smaller;
+        margin-left: 2px; /* TODO: Scalable? Percentage? And following... */
+        color: #0000EE;
         text-decoration: underline;
         cursor: pointer;
     }
