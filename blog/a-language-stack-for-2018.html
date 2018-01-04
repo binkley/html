@@ -30,7 +30,8 @@
     <section id="caution">
         <p>(I talk about myself in the post more than usual. I'm expression
             opinions more than usual, rather than observations and advice.
-            <em>Caveat lector</em>. My posts are <em>link-rich</em>.)</p>
+            <em>Caveat lector</em>. Also, this post is <em>link-rich</em>.)
+        </p>
     </section>
 
     <section id="the-stack">
@@ -40,7 +41,7 @@
             post-"C" world, I realized that I, too, live in that world. What
             would my ideal language stack look like for 2018?</p>
 
-        <p>For context, here are the posts I have in mind:</p>
+        <p>For context, here are <em>ESR</em>'s posts I have in mind:</p>
 
         <ol>
             <li><a href="http://esr.ibiblio.org/?p=7711"
@@ -78,7 +79,7 @@
         </ul>
 
         <p>Each of these languages hits a sweet spot, and displaces an earlier
-            language (itself a sweet spot of its time):</p>
+            language which was itself a sweet spot of its time:</p>
 
         <ul>
             <li>Bash and Perl<a aria-describedby="footnote-label"
@@ -88,24 +89,20 @@
             <li>"C" and C++ &rarr; <strong>Kotlin and Go</strong></li>
         </ul>
 
-        <p>The interesting general trend here: Not just replace a language
-            with a more modern equivalent, but also move functionality higher
-            up the language stack. As <em>ESR</em> points out, Moore's law and
-            improving language engineering have raised the bar. His posts
-            focus on Go replacing "C" (for now: there are other options in the
-            near future); I've expanded this across the server-side.</p>
+        <p>An interesting general trend here: Not just replace a language with
+            a more modern equivalent, but also move programming further away
+            from the hardware. As <em>ESR</em> points out, Moore's law and
+            improving language engineering have raised the bar.</p>
 
-        <p>(ESR's thinking has <a
+        <p>(<em>ESR</em>'s thinking has <a
                 href="http://www.catb.org/esr/writings/taoup/html/ch14s04.html"
                 title="The Art of Unix Programming, Chapter 14, Section 4, Language Evaluations">evolved
             over time</a>, a sign of someone who has given deep and sustained
             thought to the subject.)</p>
     </section>
 
-    <section id="about-my-experience-with-these-three-languages">
-        <h3>About my experience with these three languages</h3>
-
-        <p>Some background on me to give these choices color:</p>
+    <section id="about-my-experience-with-these-languages">
+        <h3>About my experience with these languages</h3>
 
         <h4>Python</h4>
 
@@ -114,36 +111,39 @@
             and Perl. Over my career I worked heavily in Perl (it paid
             well, then), some in Ruby (mostly at ThoughtWorks), and
             gravitated strongly to Python, especially after using it
-            heavily at Macquarie commodities trading where Python was
-            central to their business.</p>
+            at Macquarie commodities trading where it was central to their
+            business.</p>
 
         <h4>Kotlin</h4>
 
-        <p>I've been a Kotlin fan since it's early days. It scratches itches
+        <p>I've been a Kotlin fan since it was announced. It scratches itches
             that Java persistently gives, and JetBrains is far more
             pleasant a <a
                     href="https://en.wikipedia.org/wiki/Benevolent_dictator_for_life">"benevolent
-                dictator"</a> than Oracle. Java has been my primary
-            language since the late 90s, bread and butter in most projects.
-            If JetBrains is successful in keeping Kotlin in its current
-            directions, I expect it to continue displacing Java, and
+                dictator"</a> than Oracle: JetBrains continually sought input
+            and feedback from the community in designing the language. Java
+            has been my primary language since the late 90s, bread and butter
+            in most projects. If JetBrains is successful in keeping Kotlin in
+            its current directions, I expect it to displace Java, and
             deservedly so.</p>
 
         <h4>Go</h4>
 
-        <p>This, sadly, is where I am relying on the advice of others more
-            than personal experience. I started programming with "C" and
-            LISP (Emacs), and quickly became an expert (things being relative)
-            in C++. Among other projects, I implemented the then new
-            specification for UNICODE/CJKV support in C++ for INSO (Microsoft
-            Word multilingual spell checker, among other uses).</p>
+        <p>This is where I am relying on the advice of others more than
+            personal experience. I started programming with "C" and LISP
+            (Emacs), and quickly became an expert (things being relative) in
+            C++. Among other C++ projects, I implemented for INSO (Microsoft
+            Word multilingual spell checker) a then new specification for
+            UNICODE/CJKV support in C++. I still love "C" but could do without
+            C++. Go seems to be the right way to head, especially with garbage
+            collection.</p>
 
-        <p>However, with <a
+        <p>With <a
                 href="https://www.amazon.com/Lions-Commentary-Unix-John/dp/1573980137"
                 title="How I learned the kernel">Ken Thompson</a> and <a
                 href="https://www.amazon.com/Unix-Programming-Environment-Prentice-Hall-Software/dp/013937681X"
                 title="How I learned the command line">Rob Pike</a> behind
-            it, intelligent luminaries like ESR pitching for it, and
+            it, intelligent luminaries like <em>ESR</em> pitching for it, and
             colleagues at ThoughtWorks excited to start new Go projects, it's
             high time I make up this gap.</p>
     </section>
@@ -192,14 +192,13 @@
                     title="Kotlin and Android">fully supports Kotlin on
                 Android</a> as a first-class language, so there is a wealth of
                 interoperability there. (The story for iOS is more nuanced,
-                with Kotlin/Native including that platform as a target; again,
-                in progress.)</p>
+                with Kotlin/Native including that platform as a target but in
+                progress.)</p>
 
             <p>Lastly, Kotlin/Native is bringing <a
                     href="https://github.com/JetBrains/kotlin-native/blob/master/LIBRARIES.md"
                     title="Kotlin/Native libraries">similar
-                interoperability</a> between Kotlin and Go (but this is in
-                progress).</p>
+                interoperability</a> between Kotlin and Go.</p>
 
             <p>(This is related to <a href="#rich-ecosystem">having a rich
                 ecosystem</a>.)</p>
@@ -223,9 +222,7 @@
                         href="https://www.seas.harvard.edu/courses/cs252/2016fa/16.pdf"
                         title="[PDF] Origins of Garbage Collection"><em>1959</em></a>.
                 No modern programmer&mdash;short of special cases&mdash;should
-                manually manage memory. And Go's pedigree includes Rob Pike
-                and Dennis Ritchie: they know how to write usable,
-                practical programming languages.</p>
+                manually manage memory.</p>
 
             <p><strong>Kotlin</strong> gets a head start here. It's built
                 on the JVM (when targeting that environment), which has
@@ -241,8 +238,8 @@
                 as strong as the JVM, it <a
                         href="https://www.python.org/dev/peps/pep-0556/"
                         title="PEP 556 -- Threaded garbage collection">continues
-                    to improve</a>. You are unlikely for GC to become a
-                limiting factor in a Python program; <a
+                    to improve</a>. It is unusual for GC to become a limiting
+                factor in a Python program; <a
                         href="https://engineering.instagram.com/dismissing-python-garbage-collection-at-instagram-4dca40b29172"
                         title="Dismissing Python Garbage Collection at Instagram">you
                     will know if it does</a>.</p>
@@ -258,23 +255,25 @@
         <section id="static-type-inference">
             <h4>Static type inference</h4>
 
-            <p>Kotlin really demonstrates where Java could improve by leaps
-                rather than <a href="http://openjdk.java.net/jeps/286"
-                               title="JEP 286: Local-Variable Type Inference">baby
+            <p><strong>Kotlin</strong> really demonstrates where Java could
+                improve by leaps rather than <a
+                        href="http://openjdk.java.net/jeps/286"
+                        title="JEP 286: Local-Variable Type Inference">baby
                     steps</a>: automatic type inference. At least Java is
                 heading in the right direction. Don't tell the computer <em>how</em>
                 to run your program when it can figure this our for itself!
                 Keep your focus on <em>what</em> the program is for.</p>
 
-            <p>Interestingly, only two of Python, Kotlin and Go have static
-                typing out of the box. Python has built-in support for typing,
-                and <a href="http://mypy-lang.org/"
-                       title='Mypy is an experimental optional static type checker for Python that aims to combine the benefits of dynamic (or "duck") typing and static typing'>an
+            <p>Interestingly, Kotlin and <strong>Go</strong> have strong
+                typing out of the box, but not Python. <strong>Python</strong>
+                has built-in support for typing, and <a
+                        href="http://mypy-lang.org/"
+                        title='Mypy is an experimental optional static type checker for Python that aims to combine the benefits of dynamic (or "duck") typing and static typing'>an
                     excellent optional implementation</a>, <code>mypy</code>,
                 however this is <em>type declaration</em> not <em>type
                     inference</em>, so it loses a bit there. And none of the
                 common alternatives (Ruby, Perl, PHP, etc.) have type
-                inference either. I'll need to check again in 5 years, and
+                inference either. I'll need to check again in a few years, and
                 possibly update this choice.</p>
 
             <p>(Paul Chiusana writes <a
@@ -289,10 +288,10 @@
             <p>Of the languages, <strong>Kotlin</strong> is a standout here.
                 Because it is a JVM language, it is 100% compatible with
                 Java, and can fully use the rich world of Java libraries
-                and frameworks. The only weakness for Kotlin is tooling:
-                because more advanced tools may make assumptions about
-                bytecode, Kotlin's particular choices of emitted bytecode
-                sometimes confuse them.</p>
+                and frameworks. The main weakness for Kotlin is lack of
+                tooling: because more advanced tools may make assumptions
+                about bytecode, Kotlin's particular choices of emitted
+                bytecode sometimes confuse them.</p>
 
             <p>(JetBrains has surveyed on <a
                     href="https://www.jetbrains.com/research/devecosystem-2017/"
@@ -303,15 +302,16 @@
             <p>Close behind is <strong>Python</strong>, <a
                     href="https://docs.python.org/3/tutorial/stdlib.html#batteries-included"
                     title="Brief Tour of the Standard Library">"batteries
-                included"</a> and all, and is better organized and
-                documented than the JDK. For some problem domains, Python
-                has a richer ecosystem, for example, <a
+                included"</a> and all, and is has a better organized and
+                documented standard library than Java. For some problem
+                domains, Python has a richer ecosystem, for example, <a
                         href="https://www.scipy.org/">SciPy</a> and <a
                         href="http://www.numpy.org/">NumPy</a> are the
                 best math environment available in any language. (Some
                 specialty languages like <a
                         href="https://www.mathworks.com/products/matlab.html">MATLAB</a>
-                deserve mention&mdash;an early employer of mine.)</p>
+                deserve mention&mdash;an early employer of mine.) I may need
+                to reconsider my ranking Kotlin over Python here.</p>
 
             <p><strong>Go</strong> is, frankly, too new to have developed an
                 equivalent ecosystem, and full-blown package management is
@@ -327,7 +327,8 @@
             <p>A common thread in recent language development is <em>lower
                 ceremony</em>: fewer punctuation marks and boilerplate; make
                 the machine do more work, you do less. Kotlin provides the
-                most obvious example. Compare it to Java:</p>
+                most obvious example compared to Java. Go is know for
+                cleanness and brevity. And Python ranks high here as well.</p>
 
             <p>(Donnie Berkholz writes <a
                     href="http://redmonk.com/dberkholz/2013/03/25/programming-languages-ranked-by-expressiveness/"
