@@ -18,6 +18,7 @@
 * [Quick diff tip, make, et al](quick-diff-tip-make-et-al.html)
 * [Quick Kotlin idiom: naming things](quick-kotlin-idiom-naming-things.html)
 * [SVG takeaways](svg-takeaways.html)
+* [Sproingk lives!](sproingk-lives.html)
 * [Thoughts on story writing](thoughts-on-story-writing.html) - in progress
 * [Two BDD styles in Kotlin](two-bdd-styles-in-kotlin.html)
 * [WSL, first experiences](wsl-first-experiences.html)
