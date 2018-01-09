@@ -41,7 +41,7 @@
         }
 
         .missing .ac:before {
-            content: '\1F637';
+            content: '\1F636';
             font-size: larger;
             font-style: normal;
         }
@@ -51,7 +51,7 @@
         }
 
         .untested .ac:before {
-            content: '\1F636';
+            content: '\1F637';
             font-size: larger;
             font-style: normal;
         }
@@ -60,7 +60,7 @@
         }
 
         .running .ac:before {
-            content: '\1F60E';
+            content: '\1F914';
             font-size: larger;
             font-style: normal;
         }
@@ -91,7 +91,7 @@
         }
 
         .errored .ac:before {
-            content: '\1F632';
+            content: '\1F644';
             font-size: larger;
             font-style: normal;
         }
@@ -108,6 +108,7 @@
 
         .disabled {
             color: gray;
+            text-decoration: line-through;
         }
 
         .flex-container {
@@ -147,10 +148,9 @@
     <section id="dream-story-card">
         <h2>I have a dream (story card)</h2>
         <p>What is my dream story card? I don't mean: <em>What's the story
-            I'd most like to work on</em>! I mean:
-            <em>What should a virtual story card look like</em> (as opposed
-            to card stock on a wall)? This
-            may be a trivial question. But for me the
+            I'd most like to work on</em>! I mean: <em>What should a
+            virtual story card look like</em> (as opposed to card stock on
+            a wall)? This may be a trivial question. But for me the
             <strong>user experience</strong> working with stories is very
             important: I work with them daily, write them, discuss them,
             finish them, etc. I want the feel of the card to be
@@ -161,7 +161,7 @@
             execute. Given my laziness, I don't want to switch systems
             and run tests; I'd like to execute acceptance criteria directly
             from the story card.</p>
-        <p>So is there a system like that today?  No.  There are bits and
+        <p>So is there a system like that today? No. There are bits and
             pieces though.</p>
     </section>
     <aside style="float:left">
@@ -537,7 +537,7 @@
                 edits in test update story via REST
             </li>
             <li>A given test can only be run once at a time; no parallel runs
-                of the same test.  A live story card may show a test
+                of the same test. A live story card may show a test
                 changing to <em>running</em> from <em>runnable</em> when
                 another user kicks off the test from elsewhere
             </li>
@@ -556,98 +556,6 @@
                 would it be 1 AC/page and a story is a suite?
             </li>
         </ul>
-    </section>
-    <section id="rest-api">
-        <h2>Sample REST API</h2>
-        <ul class="todo">
-            <li>Terrible, horrible, no good un-RESTful API.</li>
-            <li>Swagger for documenting API</li>
-            <li><code>POST</code> best for actions?</li>
-            <li>Use long-running REST API for running tests (which do not
-                have to be fast! Think Cucumber)</li>
-        </ul>
-        <h3>Calling the story system</h3>
-        <h4>From the story page</h4>
-        <dl>
-            <dt><code>GET</code>, <code>POST</code>
-                <code>/test-all</code></dt>
-            <dd>
-                <p>Invokes all tests for this story in the testing system,
-                    and updates the story page with progress and results.</p>
-                <h5>Parameters</h5>
-                <dl>
-                    <dt>story</dt>
-                    <dd>The unique mapping identifying a story.</dd>
-                </dl>
-            </dd>
-            <dt><code>GET</code> <code>/tests/<var>id</var></code></dt>
-            <dd>
-                <p>Gets the status of <var>id</var> test, including:
-                    <ul>
-                        <li>Most recent test result (pass, fail, etc.)</li>
-                        <li>Current state (running, stopped, etc.)</li>
-                    </ul>
-                </p>
-            </dd>
-            </dt>
-            <dt><code>PUT</code> <code>/create-test</code></dt>
-            <dd>
-                <p>Creates a new test in the testing system for an AC, and
-                    marks the AC as runnable.</p>
-                <h5>Parameters</h5>
-                <dl>
-                    <dt>story</dt>
-                    <dd>The unique mapping identifying a story</dd>
-                    <dt>given</dt>
-                    <dd>The <em>GIVEN</em> clause of the AC</dd>
-                    <dt>when</dt>
-                    <dd>The <em>WHEN</em> clause of the AC</dd>
-                    <dt>then</dt>
-                    <dd>The <em>THEN</em> clause of the AC</dd>
-                </dl>
-            </dd>
-            <dt><code>GET</code>, <code>POST</code>
-                <code>/run-test</code></dt>
-            <dd>
-                <p>Runs the test in the testing system for an AC, and marks
-                    the AC as running. When the testing system finishes, marks
-                    the AC with disabled, passed, failed or errored.</p>
-                <h5>Parameters</h5>
-                <dl>
-                    <dt>story</dt>
-                    <dd>The unique mapping identifying a story</dd>
-                    <dt>given</dt>
-                    <dd>The <em>GIVEN</em> clause of the AC</dd>
-                    <dt>when</dt>
-                    <dd>The <em>WHEN</em> clause of the AC</dd>
-                    <dt>then</dt>
-                    <dd>The <em>THEN</em> clause of the AC</dd>
-                </dl>
-            </dd>
-            <dt><code>GET</code>
-                <code>/tests-in-progress/<var>id</var></code></dt>
-            <dd>
-                <p>Gets the status of a currently running test.</p>
-            </dd>
-            <dt><code>DELETE</code>
-                <code>/tests-in-progress/<var>id</var></code></dt>
-           <dd>
-                <p>Cancels the running test in the testing system for an AC,
-                    and marks the AC as runnable.</p>
-            </dd>
-        </dl>
-        <h4>From the testing system</h4>
-        <dl>
-            <dt><code>/new-test</code></dt>
-            <dd>Notifies the story system of a new test potentially
-                associated with an AC.
-            </dd>
-            <dt><code>/test-done</code></dt>
-            <dd>Notifies the story system of test state for a test
-                potentially associated with an AC.
-            </dd>
-        </dl>
-        <h3>Calling the testing system</h3>
     </section>
 </article>
 </body>
