@@ -138,7 +138,7 @@
     <aside style="float: right">
         <img src="https://i.imgur.com/j8WZOOo.jpg"
              alt="Thoughtful Ralph Wiggum" style="float: right; width: 10vw;
-              height: auto"/>
+              height: auto; padding-left: 1vw"/>
         <blockquote>
             A well written user story helps put me into a thoughtful frame
             of mind.
@@ -164,9 +164,9 @@
             pieces though.</p>
     </section>
     <aside style="float:left">
-        <img src="https://i.imgur.com/ndiChvc.gif"
-             alt="Scared Milhouse"
-             style="float:left; width: 10vw; height: auto"/>
+        <img src="https://i.imgur.com/ndiChvc.gif" alt="Scared Milhouse"
+             style="float:left; width: 10vw; height: auto; padding-right:
+             1vw"/>
         <blockquote>
             Difficult to use systems, waiting on tests, ugly interfaces,
             counter-intuitive controls: these are a few of my least
@@ -218,9 +218,15 @@
             error-prone, fiddly. And worst of all&mdash;<em>boring</em>,
             <strong>BORING</strong>! This is traditional, manual "user
             testing" at its worst.</p>
-        <img src="https://i.imgur.com/uJGSibd.png"
-             alt="Empowered Lisa" style="float: right; width: 10vw;
-              height: auto"/>
+        <aside style="float: right">
+            <img src="https://i.imgur.com/uJGSibd.png" alt="Empowered Lisa"
+                 style="float: right; width: 10vw; height: auto; padding-left:
+             1vw"/>
+            <blockquote>
+                The QA is the <em>Advocate for Value</em>. Strive to make
+                them awesome!
+            </blockquote>
+        </aside>
         <p><em>What's to be done?</em> <em>Can we fix this?</em></p>
         <p>After all, the testing is valuable: nobody wants broken web pages;
             everybody wants to log in. But the tester is valuable, too,
@@ -230,9 +236,17 @@
             features not tested because of time spent on the basics?</p>
         <p>Well, people are more clever than this.</p>
     </section>
-    <section id="forward-path">
-        <h2>A forward path</h2>
-        <p class="todo">Better section title</p>
+    <aside style="float: left">
+        <img src="https://i.imgur.com/NzyAvNt.png"
+             alt="Groundskeeper Willie" style="float: left; width: 10vw;
+              height: auto; padding-right: 1vw"/>
+        <blockquote>
+            A great topic for <em>Retrospective</em>, as the team finds
+            means to overcoming whatever slows them down.
+        </blockquote>
+    </aside>
+    <section id="clearing-the-path">
+        <h2>Clearing the path</h2>
         <p>What guides testing? If you're using nearly any form of modern user
             story writing, this includes something like "Acceptance Criteria".
             These are the gates that permit story development to be called
@@ -246,10 +260,11 @@
         <p>We can do better! Gatekeeper-style testing assumes a linear path
             from requirements to implementation to testing, just as waterfall
             considers these activities as distinct phases. But we know
-            agile approaches do better than waterfall in most (nearly all)
-            cases. Why should we build our teams to mirror waterfall? Of
-            course the answer is to structure teams to look agile, even as
-            the team itself practices agile values.</p>
+            agile approaches do better than waterfall in most cases. Why
+            should we build our teams to mirror waterfall? Of course the
+            answer is to structure teams to look agile, just as the team
+            itself practices agile values.</p>
+        <p>So how do we make <em>Acceptance Criteria</em> more agile?</p>
     </section>
     <section id="three-amigos">
         <h2>Enter the Three Amigos</h2>
@@ -258,9 +273,15 @@
                 QA</strong>. Each plays their part, brings their
             perspective, contributes to meeting team-agreed "Definition of
             Ready".</p>
-        <img src="https://i.imgur.com/lFBEXHp.jpg"
-             alt="Carl, Homer, and Lenny" style="float: right; width: 20vw;
-              height: auto"/>
+        <aside style="float: right">
+            <img src="https://i.imgur.com/lFBEXHp.jpg"
+                 alt="Carl, Homer, and Lenny" style="float: right; width: 20vw;
+              height: auto; padding-left: 1vw"/>
+            <blockquote>
+                BA, Dev, QA: Who is which? Let agilists try out any role,
+                or all the roles.
+            </blockquote>
+        </aside>
         <p>A key component of playable cards are the
             <em>Acceptance Criteria</em> &mdash; answering the question,
             "What does success look like?" when a story is finished.</p>
@@ -316,8 +337,8 @@
             more human attention and insight on the kinds of tests which best
             improve the value of software. You win more.</p>
     </section>
-    <section id="story-picture">
-        <h2>A picture of a story</h2>
+    <section id="the-story">
+        <h2>The Story</h2>
         <p>This is a sample story card with a simplistic implementation of
             AACs. Live buttons call back into the story system, to be
             mapped to calls in the testing system. (Another
