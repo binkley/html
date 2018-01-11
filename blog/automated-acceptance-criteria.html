@@ -137,7 +137,7 @@
 <article>
     <aside style="float: right">
         <img src="https://i.imgur.com/j8WZOOo.jpg"
-             alt="Thoughtful Ralph Wiggum" style="float: right; width: 50%;
+             alt="Thoughtful Ralph Wiggum" style="float: right; width: 10vw;
               height: auto"/>
         <blockquote>
             A well written user story helps put me into a thoughtful frame
@@ -145,7 +145,7 @@
         </blockquote>
     </aside>
     <section id="dream-story-card">
-        <h2>I have a dream (story card)</h2>
+        <h2>I have a dream (Story Card)</h2>
         <p>What is my dream story card? I don't mean: <em>What's the story
             I'd most like to work on</em>! I mean: <em>What should a
             virtual story card look like</em> (as opposed to card stock on
@@ -164,9 +164,9 @@
             pieces though.</p>
     </section>
     <aside style="float:left">
-        <img src="https://upload.wikimedia.org/wikipedia/en/1/14/Ralph_Wiggum.png"
-             alt="Ralph Wiggum picking nose"
-             style="float:left; width: 40%; height: auto"/>
+        <img src="https://i.imgur.com/ndiChvc.gif"
+             alt="Scared Milhouse"
+             style="float:left; width: 10vw; height: auto"/>
         <blockquote>
             Difficult to use systems, waiting on tests, ugly interfaces,
             counter-intuitive controls: these are a few of my least
@@ -218,8 +218,8 @@
             error-prone, fiddly. And worst of all&mdash;<em>boring</em>,
             <strong>BORING</strong>! This is traditional, manual "user
             testing" at its worst.</p>
-        <img src="https://i.imgur.com/eRxczOB.png"
-             alt="Lisa, Scientist" style="float: right; width: 15%;
+        <img src="https://i.imgur.com/uJGSibd.png"
+             alt="Empowered Lisa" style="float: right; width: 10vw;
               height: auto"/>
         <p><em>What's to be done?</em> <em>Can we fix this?</em></p>
         <p>After all, the testing is valuable: nobody wants broken web pages;
@@ -253,6 +253,29 @@
     </section>
     <section id="three-amigos">
         <h2>Enter the Three Amigos</h2>
+        <p>In current agile practice, a story card is not a ready to play
+            until approved by the <em>The Three Amigos</em>: <strong>BA, Dev,
+                QA</strong>. Each plays their part, brings their
+            perspective, contributes to meeting team-agreed "Definition of
+            Ready".</p>
+        <img src="https://i.imgur.com/lFBEXHp.jpg"
+             alt="Carl, Homer, and Lenny" style="float: right; width: 20vw;
+              height: auto"/>
+        <p>A key component of playable cards are the
+            <em>Acceptance Criteria</em> &mdash; answering the question,
+            "What does success look like?" when a story is finished.</p>
+        <p>The perspectives include:</p>
+        <ul>
+            <li><strong>BA</strong>: Is the story told right? &mdash; What
+                is the way to describe the work?
+            </li>
+            <li><strong>Dev</strong>: Is the story the right size? &mdash;
+                What is the complexity of the work?
+            </li>
+            <li><strong>QA</strong>: Is it the right story to tell? &mdash;
+                What is the value of the work?
+            </li>
+        </ul>
     </section>
     <section id="acceptance-criteria">
         <h2>What are Acceptance Criteria?</h2>
@@ -294,7 +317,6 @@
             improve the value of software. You win more.</p>
     </section>
     <section id="story-picture">
-        <p class="todo">Too prologue before the main event.</p>
         <h2>A picture of a story</h2>
         <p>This is a sample story card with a simplistic implementation of
             AACs. Live buttons call back into the story system, to be
@@ -526,39 +548,6 @@
                     the tests specific to a story before calling that story
                     <em>Ready to Accept</em>.</p></dd>
         </dl>
-    </section>
-    <section id="implementation">
-        <h2>Possible implementations</h2>
-        <h3>General</h3>
-        <ul class="todo">
-            <li>REST between test system &amp; card wall</li>
-            <li>Create is an interesting case &mdash; how feasible is it
-                to interact with the testing system &amp; use some kind
-                of template to generate a new test case?
-            </li>
-            <li>Live bidi: Test button in story kicks off test via REST;
-                edits in test update story via REST
-            </li>
-            <li>A given test can only be run once at a time; no parallel runs
-                of the same test. A live story card may show a test
-                changing to <em>running</em> from <em>runnable</em> when
-                another user kicks off the test from elsewhere
-            </li>
-        </ul>
-        <h3>FitNesse</h3>
-        <p>FitNesse is a mature acceptance testing system built as a wiki
-            with executable pages and an extension system.</p>
-        <ul class="todo">
-            <li>Convention over configuration: test named by
-                camel-catenating words in AC
-            </li>
-            <li>Convention over configuration: test page named by
-                camel-catenting story title
-            </li>
-            <li>Can we do 1 test table/AC (hence 1 page per story), or
-                would it be 1 AC/page and a story is a suite?
-            </li>
-        </ul>
     </section>
 </article>
 </body>
