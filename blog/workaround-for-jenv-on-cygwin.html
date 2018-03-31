@@ -1,0 +1,74 @@
+<p>I'd like to use <code>jenv</code> on my Cygwin setup at home. Oracle has
+    moved to a 6-month release pace, and so I find myself dealing with
+    multiple Java major verions. However, my tool of choice, <code>jenv</code>,
+    does not play well with Cygwin.</p>
+
+<p>(Note: There are <em>two</em> <code>jenv</code>s out there. I am talking
+    about <a href="http://www.jenv.be/">jenv.be</a>, not <a
+            href="http://jenv.io">jenv.io</a>. Apologies that neither does
+    HTTP<em>S</em> well.)</p>
+
+<p>As a workaround, I wrote a straight-forward shell function to provide the
+    minimum I need: switch between versions in the current shell:</p>
+
+<pre class="code"># Until jenv.be supports Cygwin
+function set-java {
+    local -a java_v
+    local jdk v OPTIND
+    for jdk in /c/Program\ Files/Java/jdk*
+    do
+        jdk="${jdk/\/c\/Program\ Files\/Java\/jdk/}"
+        v=${jdk#-}
+        v=${v#1.}
+        v=${v%%.*}
+        java_v[$v]=$jdk
+    done
+
+    local verbose=false
+    while getopts :hv opt
+    do
+        case $opt in
+        h ) cat <<EOH
+            Usage: $FUNCNAME [-hv] VERSION
+
+            Options:
+            -h Print help and exit
+            -v Verbose output
+
+            Arguments:
+            VERSION One of ${!java_v[@]}
+            EOH
+            return 0 ;;
+            v ) verbose=true ;;
+            * ) echo "Usage: $FUNCNAME [-hv] VERSION" >&2 ; return 2 ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    case $# in
+    1 ) ;;
+    * ) echo "Usage: $FUNCNAME [-hv] VERSION" >&2 ; return 2 ;;
+    esac
+
+    if ! [[ ${java_v[$1]+foo} ]]
+    then
+        echo "$FUNCNAME: No such Java version: $1.  Try $FUNCNAME -h" >&2
+        return 2
+    fi
+
+    export JAVA_HOME='C:\Program Files\Java\jdk'${java_v[$1]}
+    for v in ${!java_v[@]}
+    do
+        case $v in
+        $1 ) ;;
+        * ) export PATH="${PATH//${java_v[$v]}/${java_v[$1]}}" ;;
+        esac
+    done
+
+    if $verbose
+    then
+        echo "$FUNCNAME: Updated JAVA_HOME and PATH for JDK to $v at $JAVA_HOME"
+    fi
+}</pre>
+
+<p>Try the <code>-h</code> flag (help).</p>
