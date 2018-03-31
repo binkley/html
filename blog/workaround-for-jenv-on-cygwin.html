@@ -28,7 +28,7 @@ function set-java {
     while getopts :hv opt
     do
         case $opt in
-        h ) cat <<EOH
+        h ) cat &lt;&lt;EOH
             Usage: $FUNCNAME [-hv] VERSION
 
             Options:
@@ -40,19 +40,19 @@ function set-java {
             EOH
             return 0 ;;
             v ) verbose=true ;;
-            * ) echo "Usage: $FUNCNAME [-hv] VERSION" >&2 ; return 2 ;;
+            * ) echo "Usage: $FUNCNAME [-hv] VERSION" &gt;&amp;2 ; return 2 ;;
         esac
     done
     shift $((OPTIND - 1))
 
     case $# in
     1 ) ;;
-    * ) echo "Usage: $FUNCNAME [-hv] VERSION" >&2 ; return 2 ;;
+    * ) echo "Usage: $FUNCNAME [-hv] VERSION" &gt;&amp;2 ; return 2 ;;
     esac
 
     if ! [[ ${java_v[$1]+foo} ]]
     then
-        echo "$FUNCNAME: No such Java version: $1.  Try $FUNCNAME -h" >&2
+        echo "$FUNCNAME: No such Java version: $1.  Try $FUNCNAME -h" &gt;&amp;2
         return 2
     fi
 
