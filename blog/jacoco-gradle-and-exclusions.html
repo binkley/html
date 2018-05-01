@@ -1,0 +1,171 @@
+<style>
+    article {
+        counter-reset: footnotes;
+    }
+
+    a[aria-describedby="footnote-label"] {
+        counter-increment: footnotes;
+        text-decoration: none;
+        color: inherit;
+        cursor: default;
+        outline: none;
+    }
+
+    a[aria-describedby="footnote-label"]::after {
+        content: counter(footnotes);
+        vertical-align: super;
+        font-size: smaller;
+        margin-left: 2px; /* TODO: Scalable? Percentage? And following... */
+        color: #0000EE;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    a[aria-describedby="footnote-label"]:focus::after {
+        outline: thin dotted;
+        outline-offset: 2px;
+    }
+</style>
+
+<article>
+    <section id="the-setup">
+        <h3>The setup</h3>
+
+        <p>My team is working on a Java server, as part of a larger project
+            project, using <a href="https://gradle.org/"
+                    title="Gradle Build Tool">Gradle</a>, to build and <a
+                    href="http://www.eclemma.org/jacoco/"
+                    title="JaCoCo Java Code Coverage Library">JaCoCo</a>
+            to measure testing code coverage. The build fails if coverage
+            drops below fixed limits (branch, instruction, and
+            line)&mdash;"verification" in JaCoCo-speak.</p>
+
+        <p>We follow the strategy of <a
+                href="http://robertgreiner.com/2012/01/continuous-code-improvement-using-ratcheting/"
+                title="Continuous Code Improvement Using Ratcheting"><em>The
+            Ratchet</em></a>: as dev pairs push commits into the project, code
+            coverage may not drop without group agreement, and if coverage
+            rises, the verification limits rise to match. This ensures we
+            have ever-rising coverage, and avoid new code which lacks
+            adequate testing<a aria-describedby="footnote-label"
+                    href="#fn1"></a>.</p>
+    </section>
+
+    <section id="the-problem">
+        <h3>The problem</h3>
+
+        <p>At a work project, we're struggling to get JaCoCo to ignore some
+            new, configuration-only Java classes. These classes have no
+            "real" implementation code to test, are used to setup
+            communication with an external resource, yet are high
+            line-count (static configuration via code). So they drag down
+            our code coverage limits, and there is no effective way to
+            unit test them sensibly. (They are best tested as system
+            tests within our CI pipeline using live programs and remote
+            resources.)</p>
+
+        <p>JaCoCo has what seems at first blush a sensible way to exclude
+            these configuration classes from testing:</p>
+
+        <pre class="code">jacocoTestVerificationCoverage {
+    violationRules {
+        rule {
+            excludes ['hm.binkley.labs.saml.SomeConfig']
+            limit {
+                counter = 'LINE'
+                minimum = 0.90
+            }
+        }
+    }
+}</pre>
+
+        <p>Unfortunately, this does nothing. There is no warning or error,
+            and coverage continues to include the whole code base.</p>
+    </section>
+
+    <section id="a-solution">
+        <h3>A solution</h3>
+
+        <p>After a lot of experimenting and StackOverflow research, <a
+                href="http://jivimberg.io/blog/2018/04/26/gradle-verify-coverage-with-exclusions/"
+                title="Jacoco &amp; Gradle - How to Verify Coverage With Exclusions">this
+            answer from Juan Vimberg</a> worked exactly as we needed.
+            Following his approach:</p>
+
+        <pre class="code">final def excludedClasses = ['hm.binkley.labs.saml.SomeConfig']
+
+jacocoTestVerificationCoverage {
+    violationRules {
+        rule {
+            limit {
+                counter = 'LINE'
+                minimum = 0.90
+            }
+        }
+    }
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, excludes: excludedClasses.collect {
+                it.replace('.', '/') + '.class'
+            })
+        })
+    }
+}</pre>
+
+        <p>The list of excluded classes is extracted so the same trick can
+            be used in the generated reports:</p>
+
+        <pre class="code">jacocoTestReport {
+    executionData test, databaseTest
+    reports {
+        html.enabled = true
+        xml.enabled = true
+        csv.enabled = false
+    }
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, excludes: excludedClasses.collect {
+                it.replace('.', '/') + '.class'
+            })
+        })
+    }
+}</pre>
+
+        <p>Something to consider: using wildcards
+            (<code>hm.binkley.labs.saml.*</code>) may take additional work.
+        </p>
+    </section>
+
+    <section id="why">
+        <h3>Why?</h3>
+
+        <p>Why does this work, and the "obvious" way does not?</p>
+
+        <p>JaCoCo has more than one notion of scoping. The clearest one is <a
+                href="http://www.eclemma.org/jacoco/trunk/doc/counters.html">the
+            <em>counters</em></a>: branches, classes, instructions, lines,
+            and methods.</p>
+
+        <p>Not as well documented is <a
+                href="http://www.eclemma.org/jacoco/trunk/doc/check-mojo.html">the
+            scope of checks</a>: bundles, classes, methods, packages, and
+            source files. These are <em>not</em> mix-and-match. For
+            example, exclusions apply to classes. Lyudmil Latinov has <a
+                    href="https://automationrhapsody.com/automated-code-coverage-of-unit-tests-with-jacoco-and-maven/">the
+                best hints I've found</a> on how this works.</p>
+    </section>
+</article>
+
+<footer id="footnotes">
+    <h3 id="footnote-label">Footnotes</h3>
+
+    <ol>
+        <li id="fn1">Paul Friedman discusses why <a
+                href="http://www.agiletrailblazers.com/blog/high-unit-test-code-coverage-means-you-have-quality-tests-right-not-so-fast"
+                title="High Code Coverage Means You Have Quality Tests, Right? Wrong!"><em>high
+            coverage</em> is <strong>not</strong> <em>synonymous with
+            quality</em></a>.
+        </li>
+    </ol>
+</footer>
