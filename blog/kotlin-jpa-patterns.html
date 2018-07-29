@@ -1,0 +1,182 @@
+<header>
+    <h1>Kotlin JPA pattern</h1>
+</header>
+
+<article>
+    <section id="The problem">
+        <h2>The problem</h2>
+
+        <p>Kotlin does many wonderful things for you. For example, <a
+                href="https://kotlinlang.org/docs/reference/data-classes.html"
+                title="Data Classes">the <code>data</code> classes</a>
+            create helpful constructors, and automatically implement
+            <code>equals</code> and <code>hashCode</code> in a reasonable
+            way.</p>
+
+        <p>Similarly, JPA works magic&mdash;expecially in <a
+                href="https://spring.io/guides/gs/accessing-data-jpa/"
+                title="Accessing Data with JPA">the context of Spring
+            Data</a>.</p>
+
+        <p>So how do I test that my Kotlin entity is correctly annotated
+            for JPA? The simplest thing would be a "round trip" test:
+            create an entity, save it to a database, read it back, and
+            confirm the object has the same values. Let's start with a
+            simple entity, and the simplest possible test:</p>
+
+        <pre class="code">@Entity
+data class Greeting(
+        val content: String,
+        @Id @GeneratedValue
+        val: Int id = 0)</pre>
+        <pre class="code">@DataJpaTest
+@ExtendWith(SpringExtension::class)
+internal class GreetingRepositoryIT(
+        @Autowired val repository: GreetingRepository,
+        @Autowired val entityManager: EntityManager) {
+    @DisplayName("WHEN saving a greeting properly annotated")
+    @Nested
+    inner class Roundtrip {
+        @Test
+        fun `THEN is can be read back`() {
+            val greeting = Greeting("Hello, world!")
+
+            repository.saveAndFlush(greeting.copy())
+            entityManager.clear()
+
+            assertThat(repository.findOne(Example.of(greeting)).get())
+                    .isEqualTo(greeting)
+        }
+    }
+}</pre>
+
+        <p>Some things to note:</p>
+        <ol>
+            <li>To ensure we truly read from the database, and not the
+                entity manager's in-memory cache, flush the object and
+                clear the cache.
+            </li>
+            <li>As saving also updates the entity's <var>id</var> field,
+                save a copy, so our original is untouched.
+            </li>
+            <li>Be careful to use <code>saveAndFlush</code> on the Spring
+                repository, rather than <code>entityManager.flush()</code>,
+                which requires a transaction, and would add unneeded
+                complexity to the test.
+            </li>
+        </ol>
+
+        <p>But this test fails! Why?</p>
+
+        <p>The unsaved entity (remember, we made a copy to keep the
+            original pristine) does not have a value for <var>id</var>,
+            the the entity read back does. Hence, the automatically
+            generated <code>equals</code> method says the two objects
+            differ because of <var>id</var> (<code>null</code> in the
+            original <i>vs</i> some value from the database).</p>
+
+        <p>Further, <a
+                href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#query-by-example"
+                title="Query by Example">the Spring Data QBE</a> (QBE) search
+            for our entity includes <var>id</var> in the search criteria. Even
+            changing <code>equals</code> would not address this.</p>
+
+        <p>What to do?</p>
+    </section>
+
+    <section id="The solution">
+        <h2>The solution</h2>
+
+        <p>It turns out we need to address two issues:</p>
+        <ol>
+            <li>The generated <code>equals</code> takes <var>id</var> into
+                account, but we are only interested in the data values, not
+                the database administrivia.
+            </li>
+
+            <li>The test look up in the database includes the SQL
+                <var>id</var> column. Although we could try
+                <code>repository.getOne(saved.id)</code>, I'd prefer to
+                keep using QBE, if the code is reasonable.
+            </li>
+        </ol>
+
+        <p>To address <code>equals</code>, we can rely on <a
+                href="https://discuss.kotlinlang.org/t/ignoring-certain-properties-when-generating-equals-hashcode-etc/2715/3"
+                title="Ignoring certain properties when generating equals(), hashCode(), etc">
+            an interesting fact</a> about Kotlin data classes: <em>only
+            default constructor parameters are used, not properties in the
+            class body</em>, when generating <code>equals</code> and
+            <code>hashCode</code>. Hence, I write the entity like this,
+            and <code>equals</code> does not include <var>id</var>, while
+            JPA is stil happy:</p>
+
+        <pre class="code">@Entity
+data class Greeting(
+        val content: String) {
+    @Id
+    @GeneratedValue
+    val id = 0
+}</pre>
+
+        <p>To address the test, we can ask QBE to ignore <var>id</var> when
+            fetching our saved entity back from the database:</p>
+
+        <pre class="code">@DataJpaTest
+@ExtendWith(SpringExtension::class)
+internal class GreetingRepositoryIT(
+        @Autowired val repository: GreetingRepository,
+        @Autowired val entityManager: EntityManager) {
+    @DisplayName("WHEN saving a greeting properly annotated")
+    @Nested
+    inner class Roundtrip {
+        @Test
+        fun `THEN is can be read back`() {
+            val greeting = Greeting("Hello, world!")
+
+            repository.saveAndFlush(greeting.copy())
+            entityManager.clear()
+
+            val matcher = ExampleMatcher.matching()
+                    .withIgnoreNullValues()
+                    .withIgnorePaths("id")
+            val example = Example.of(greeting, matcher);
+
+            assertThat(repository.findOne(example).get()).isEqualTo(greeting)
+        }
+    }
+}</pre>
+
+        <p>In a larger database, I'd look into providing an
+            <code>entity.asExample()</code> to avoid duplicating
+            <code>ExampleMatcher</code>.</p>
+    </section>
+
+    <section id="Java approach">
+        <h2>Java approach</h2>
+
+        <p>The closest to Kotlin's data classes for JPA entities is Lombok's
+            <code>@Data</code> annotation, together with
+            <code>@EqualsAndHashCode(exclude = "id")</code> and
+            <code>@Builder(toBuilder = true)</code>, however the
+            expressiveness is lower, and clutter higher.</p>
+
+        <p>The test would
+            be largely the same <i>modulo</i> language, replacing
+            <code>greeting.copy()</code> with
+            <code>greeting.toBuilder().build()</code>. Alternatively,
+            rather than a QBE matcher, one could write
+            <code>greeting.toBuilder().id(null).build()</code>.</p>
+
+        <p>This last fact leads to an alternative with Kotlin: include
+            <var>id</var> in the data classes' default constructor, and in
+            the test compare the QBE result as
+            <code>findOne(example).get().copy(id = null)</code>.</p>
+    </section>
+
+    <section id="Conclusion">
+        <h2>Conclusion</h2>
+
+        <p>What Kotlin JPA patterns have you discovered?</p>
+    </section>
+</article>

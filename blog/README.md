@@ -9,6 +9,7 @@
 * [Help for JDBC with Java streams](help-for-jdbc-with-java-streams.html)
 * [How to write clean Java](how-to-write-clean-java.html)
 * [JaCoCo, Gradle, and exclusions](jacoco-gradle-and-exclusions.html)
+* [Kotlin JPA patterns](kotlin-jpa-patterns.html)
 * [Kotlinc on Cygwin](kotlinc-on-cygwin.html)
 * [Maven color logging on Cygwin](maven-color-logging-on-cygwin.html)
 * [Maven logging and the command line](maven-logging-and-the-command-line.html)
