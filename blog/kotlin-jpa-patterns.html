@@ -70,7 +70,7 @@ internal class GreetingRepositoryIT(
 
         <p>The unsaved entity (remember, we made a copy to keep the
             original pristine) does not have a value for <var>id</var>,
-            the the entity read back does. Hence, the automatically
+            and the entity read back does. Hence, the automatically
             generated <code>equals</code> method says the two objects
             differ because of <var>id</var> (<code>null</code> in the
             original <i>vs</i> some value from the database).</p>
@@ -109,7 +109,7 @@ internal class GreetingRepositoryIT(
             class body</em>, when generating <code>equals</code> and
             <code>hashCode</code>. Hence, I write the entity like this,
             and <code>equals</code> does not include <var>id</var>, while
-            JPA is stil happy:</p>
+            JPA is stil happy as it relies on getter reflection:</p>
 
         <pre class="code">@Entity
 data class Greeting(
@@ -149,7 +149,7 @@ internal class GreetingRepositoryIT(
 
         <p>In a larger database, I'd look into providing an
             <code>entity.asExample()</code> to avoid duplicating
-            <code>ExampleMatcher</code>.</p>
+            <code>ExampleMatcher</code> in each test.</p>
     </section>
 
     <section id="Java approach">
@@ -169,9 +169,10 @@ internal class GreetingRepositoryIT(
             <code>greeting.toBuilder().id(null).build()</code>.</p>
 
         <p>This last fact leads to an alternative with Kotlin: include
-            <var>id</var> in the data classes' default constructor, and in
+            <var>id</var> in the data class' default constructor, and in
             the test compare the QBE result as
-            <code>findOne(example).get().copy(id = null)</code>.</p>
+            <code>findOne(example).get().copy(id = null)</code> without
+            a matcher.</p>
     </section>
 
     <section id="Conclusion">
