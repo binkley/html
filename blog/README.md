@@ -19,6 +19,7 @@
 * [Push early, push often, push on green](push-early-push-often-push-on-green.html)
 * [Quick diff tip, make, et al](quick-diff-tip-make-et-al.html)
 * [Quick Kotlin idiom: naming things](quick-kotlin-idiom-naming-things.html)
+* [Removing Joda from Spring Boot](removing-joda-from-spring-boot.html)
 * [SVG takeaways](svg-takeaways.html)
 * [Sproingk lives!](sproingk-lives.html)
 * [Thoughts on story writing](thoughts-on-story-writing.html) - in progress

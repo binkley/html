@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset=utf-8>
+    <title>Automated Acceptance Criteria</title>
+    <link href='https://fonts.googleapis.com/css?family=Noto%20Sans'
+            rel='stylesheet' type='text/css'>
+    <style>
+        body {
+            font-family: 'Noto Sans', sans-serif;
+        }
+
+        aside {
+            width: 25%;
+            float: right;
+            font-size: smaller;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Removing Joda from Spring Boot</h1>
+</header>
+
+<article>
+    <section id="the-problem">
+        <h2>The problem</h2>
+
+        <p>We recently migrated a medium-sized Java project to Spring Boot 2
+            from version 1. One of the challenges was migrating to the JDK
+            date-time library from Joda. It turns out that Spring Boot 2 has
+            excellent native support for JDK date-times, as does Jackson (JSON)
+            and Hibernate (database), the default technologies offered by Spring
+            Boot 2 for these features.</p>
+
+        <p>The migration itself went smoothly, which is unsurprising given the
+            fantastic work of <a href="https://blog.joda.org/"
+                    title="Stephen Colebourne's blog">Stephen
+                Colebourne</a> in designing JDK date-time support based on
+            his authorship of Joda.</p>
+
+        <aside>
+            <h3>Gradle configurations</h3>
+            <p>For our purposes, we are treating
+                <a href="https://docs.gradle.org/current/dsl/org.gradle.api.artifacts.Configuration.html"
+                        title="Configuration - Gradle DSL Version 4.10.2">a
+                    Gradle configuration</a> as a <em>classpath</em>. More on
+                <a href="https://docs.gradle.org/current/userguide/java_library_plugin.html"
+                        title="The Java Library Plugin">recent changes to
+                    configurations in Gradle</a>.</p>
+        </aside>
+
+        <p>So we looked at disabling Joda completely in our Gradle build.
+            The most concise approach we found was:</p>
+
+        <pre class="code">configurations {
+    compile.exclude group: 'joda-time'
+}</pre>
+
+        <p>This removed Joda completely from configurations (classpaths) related
+            to Java. However, this had unintended side effects:</p>
+
+        <ul>
+            <li>During tests, we needed Joda in the runtime classpath for a
+                3<sup>rd</sup>-party library, <a
+                        href="https://wiki.shibboleth.net/confluence/display/OpenSAML/Home"
+                        title="Home - OpenSAML 2 - Shibboleth Wiki">OpenSAML</a>
+            </li>
+            <li>During boot run (running the app), we needed Joda in the
+                classpath for another 3<sup>rd</sup>-party library, <a
+                        href="http://springfox.github.io/springfox/"
+                        title="SpringFox by springfox">SpringFox</a>
+            </li>
+        </ul>
+
+        <p>We easily found a workaround for SpringFox, but not for OpenSAML.</p>
+
+        <p>(If you're curious, yes, we do intent to migrate from OpenSAML 2
+            (desupported in 2016) to OpenSAML 3; however, we would like
+            <code>spring-security-saml2-core</code> support first.)</p>
+    </section>
+
+    <section id="a-solution-in-progress">
+        <h2>A solution in progress</h2>
+
+        <p>The exclusion in the <code>compile</code> configuration does
+            exactly what we need: <em>Joda disappears!</em> But what to do
+            about SpringFox and OpenSAML?</p>
+
+        <p>For the Spring Boot runtime classpath, there is another concise
+            solution, though finding it was rather troublesome, and it is
+            not well-documented by Pivotal or in Stack Overflow.</p>
+
+        <p>First, we setup another classpath of our own making named
+            <var>bootRuntime</var>:</p>
+
+        <pre class="code">configurations {
+    // Other parts of "configurations", including the Joda exclusion from above
+
+    bootRuntime // Synthetic configuration for deps needed *only* to launch app
+}</pre>
+
+        <p>Then we add Joda to that classpath relying on Spring Boot
+            plugin's definition for a the version of Joda to use:</p>
+
+        <pre class="code">dependencies {
+    // Other parts of "dependencies"
+
+    bootRuntime 'joda-time:joda-time'
+}</pre>
+
+        <aside>
+            <h3>Finding the partial solution</h3>
+            <p>For the nitty-gritty on <code>bootJar</code> and
+                <code>bootInfo</code>, see <a
+                        href="https://docs.spring.io/spring-boot/docs/current/gradle-plugin/api/org/springframework/boot/gradle/tasks/bundling/BootJar.html#bootInf-org.gradle.api.Action-"
+                        title="BootJar (Spring Boot Gradle Plugin 2.0.5.RELEASE API)">the
+                    javadocs</a>. Further searching led me to <a
+                        href="https://github.com/spring-projects/spring-boot/issues/13000"
+                        title="Provide access to the CopySpec for BOOT-INF of BootJar as Gradle's War task does for WEB-INF">this
+                    recently closed issue</a> and <a
+                        href="https://docs.gradle.org/current/userguide/war_plugin.html"
+                        title="The War Plugin">this vague hint</a>.</p>
+        </aside>
+
+        <p>Lastly, we teach Spring Boot to include this synthetic classpath
+            when launching our app (this was the trickiest part):</p>
+
+        <pre class="code">bootJar {
+    bootInf {
+        from configurations.bootRuntime
+        into 'lib'
+    }
+}
+
+bootRun {
+    classpath += configurations.bootRuntime
+}</pre>
+
+        <p>This adds Joda to the runtime classpath for both the single "fat
+            jar" built by Spring (<code>bootJar</code>), and when launching
+            the app on the command line with gradle (<code>bootRun</code>).</p>
+
+        <p>Unless you are a heavy Gradle user, <code>from ... into ...</code>
+            syntax may be unfamiliar: this copies the jars in the synthetic
+            configuration into the fat jar at the location Boot expects to find
+            them. The "'lib'" is literally a directory location within the
+            jar. Useful magic, but a bit obtuse. The outcome:</p>
+
+        <pre class="code">$ jar tf build/libs/the-project.jar | grep joda-time
+BOOT-INF/lib/joda-time-2.9.9.jar</pre>
+
+        <p>As a matter of fact, Joda is the very last file in the boot jar,
+            a suggestion that it was added by our <code>bootInf</code> section
+            after the Boot plugin built the jar.</p>
+
+        <p>(Our workaround is intentionally small. If we're unable to make
+            it work, we'll switch to brute-force library exclusions in our
+            dependencies lists. The goal is to prevent accidental import
+            from Joda, for example, of <code>LocalDate</code>.)</p>
+    </section>
+
+    <section id="remaining-work">
+        <h2>Remaining work</h2>
+
+        <p>For running the boot app, this solution is great: it is small,
+            readable, easy to maintain, and <em>it works</em>. However, for
+            tests which exercise our user authentication with OpenSAML, it
+            fails. Joda is not in the test classpath, and we cannot use or
+            mock OpenSAML methods which use Joda types.</p>
+
+        <p>Barring another magical solution like <code>bootRuntime</code>,
+            we'll fall back on manually excluding Joda from each dependency,
+            and adding it back in to the test classpath. A pity given how
+            pithy the solution is with exclusion from the
+            <code>compile</code> configuration.</p>
+    </section>
+</article>
+</body>
+</html>
