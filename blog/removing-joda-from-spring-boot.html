@@ -100,8 +100,8 @@
     bootRuntime // Synthetic configuration for deps needed *only* to launch app
 }</pre>
 
-        <p>Then we add Joda to that classpath relying on Spring Boot
-            plugin's definition for a the version of Joda to use:</p>
+        <p>Then we added Joda to that synthetic classpath relying on Spring Boot
+            plugin's definition for the version of Joda to use:</p>
 
         <pre class="code">dependencies {
     // Other parts of "dependencies"
@@ -115,7 +115,7 @@
                 <code>bootInfo</code>, see <a
                         href="https://docs.spring.io/spring-boot/docs/current/gradle-plugin/api/org/springframework/boot/gradle/tasks/bundling/BootJar.html#bootInf-org.gradle.api.Action-"
                         title="BootJar (Spring Boot Gradle Plugin 2.0.5.RELEASE API)">the
-                    javadocs</a>. Further searching led me to <a
+                    javadocs</a>. Further searching led to <a
                         href="https://github.com/spring-projects/spring-boot/issues/13000"
                         title="Provide access to the CopySpec for BOOT-INF of BootJar as Gradle's War task does for WEB-INF">this
                     recently closed issue</a> and <a
@@ -123,7 +123,7 @@
                         title="The War Plugin">this vague hint</a>.</p>
         </aside>
 
-        <p>Lastly, we teach Spring Boot to include this synthetic classpath
+        <p>Lastly, we taught Spring Boot to include this synthetic classpath
             when launching our app (this was the trickiest part):</p>
 
         <pre class="code">bootJar {
