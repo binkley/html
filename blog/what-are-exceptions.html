@@ -1,0 +1,110 @@
+<article>
+    <section id="main">
+        <h3>What are exceptions?</h3>
+
+        <p>Essentially, exceptions are a form of structured, non-local
+            <code>goto</code> with <a
+                    href="http://wiki.c2.com/?UnwindingTheStack"
+                    title="Unwinding The Stack">stack unwinding</a>.
+            "Structured" here means <a
+                    href="http://wiki.c2.com/?StructuredProgramming"
+                    title="Structured Programming">"higher level than the
+                machine"</a> (a matter of taste/opinion), and "non-local"
+            means "beyond a single function/method".</p>
+
+        <p>What this means is that you can replace code like (in "C"):</p>
+
+        <pre class="code">int bottom()
+{
+    int things_go_wrong = -1; // For illustration
+
+    if (things_go_wrong) goto error;
+    return 0;
+
+error:
+    return -1;
+}
+
+int
+middle()
+{
+    if (-1 == bottom()) goto error;
+    return 0;
+
+error:
+    return -1;
+}
+
+void
+top()
+{
+    if (-1 == middle()) {
+        handle_failure();
+    }
+}</pre>
+        <p>With code like (in Java):</p>
+
+        <pre class="code">public class A {
+    void botton() {
+        boolean thingsGoWrong = true; // For illustration
+
+        if (thingsGoWrong) throw new ThingsWentWrong("So wrong!");
+    }
+
+    void middle() {
+        bottom();
+    }
+
+    void top() {
+        try {
+            middle();
+        } catch (ThingsWentWrong e) {
+            handleFailure();
+        }
+    }
+}</pre>
+
+        <p>(<a href="https://stackoverflow.com/a/16493261/250924"
+                title="How to implement a try-catch block in scheme?">An
+            example in Scheme</a>.)</p>
+
+        <p>"Unwinding" here means the compiler or runtime treats
+            intermediate calls (the stack) the same as if returning
+            normally (for example, the stack pointer is moved back;
+            and in a language like C++, destructors are executed), and
+            program execution resumes in the <code>catch</code> block.</p>
+
+        <p>It is "structured" in the sense that it is not the same as a
+            direct <code>goto</code> to the resume point. This is not
+            possible in standard "C" or C++ (or in Java), which only
+            suppport local labels within functions. The equivalent in "C"
+            and C++ is to use <a
+                    href="https://en.wikipedia.org/wiki/Setjmp.h"
+                    title="setjmp.h"><code>setjmp</code> and
+                <code>longjmp</code></a> for a non-local goto, and forget
+            all about deallocating memory or calling destructors. (As odd as
+            this sounds, it is needed for <a
+                    href="http://www.madore.org/~david/computers/callcc.html"
+                    title="A page about call/cc"><code>call-with-continuation</code></a>,
+            an important feature in
+            LISP-like languages).
+        </p>
+    </section>
+
+    <section id="takeaway">
+        <h3>Takeaway</h3>
+
+        <p>All human endeavors build on the work of those who came
+            previous. <em>Exceptions</em> are no exception. They are the
+            result of <a
+                    href="https://en.wikipedia.org/wiki/Exception_handling"
+                    title="Exception handling">1960s and 1970s programmers</a>
+            wanting an easier way to deal with
+            <em>exceptional conditions</em>. This is not completely identical
+            with "errors", which may sometimes be better represented with
+            a simple boolean <code>true</code>/<code>false</code> return.
+            Like any sharp instrument, <a
+                    href="https://dalibornasevic.com/posts/52-don-t-overuse-exceptions"
+                    title="Don't Overuse Exceptions">do not abuse it</a>.</p>
+    </section>
+</article>

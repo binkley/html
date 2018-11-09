@@ -25,4 +25,5 @@
 * [Thoughts on story writing](thoughts-on-story-writing.html) - in progress
 * [Two BDD styles in Kotlin](two-bdd-styles-in-kotlin.html)
 * [WSL, first experiences](wsl-first-experiences.html)
+* [What are exceptions?](what-are-exceptions.html)
 * [Workaround for jenv on Cygwin](workaround-for-jenv-on-cygwin)
