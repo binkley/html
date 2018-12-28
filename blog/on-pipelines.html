@@ -1,11 +1,19 @@
 <style>
+    aside {
+        width: 25%;
+        font-size: smaller;
+        float: right;
+    }
+
     .tl-dr {
         font-style: italic;
         display: inline-block;
     }
 
     nav {
+        float: left;
         margin: 1em;
+        width: 25%;
     }
 
     .todo {
@@ -13,6 +21,26 @@
         color: red;
     }
 </style>
+
+<h2>On pipelines</h2>
+
+<!-- TODO: How to move styling and "tl;dr" prefix into custom element? -->
+<div id="introduction" class="tl-dr">
+    <p><span style="font-style: normal; font-weight: bold">tl;dr</span>
+        &mdash; The build pipeline is a key techniques to improving software
+        delivery. It provides two benefits that boost productivity and reduce
+        risk:</p>
+
+    <ol>
+        <li>Quick feedback to developers (inputs)</li>
+        <li>An enabler of the Path to Production (outputs)</li>
+    </ol>
+
+    <p>And it is a key component of <a
+            href="https://www.infoq.com/articles/Continuous-Delivery-Maturity-Model"
+            title="The Continuous Delivery Maturity Model">various maturity
+        models</a>.</p>
+</div>
 
 <nav style="float: left">
     <ul>
@@ -36,24 +64,6 @@
         <li><a href="#closing-the-loop"><cite>Closing the loop</cite></a></li>
     </ul>
 </nav>
-
-<!-- TODO: How to move styling and "tl;dr" prefix into custom element? -->
-<div id="introduction" class="tl-dr">
-    <p><span style="font-style: normal; font-weight: bold">tl;dr</span>
-        &mdash; The build pipeline is a key techniques to improving software
-        delivery. It provides two benefits that boost productivity and reduce
-        risk:</p>
-
-    <ol>
-        <li>Quick feedback to developers (inputs)</li>
-        <li>An enabler of the Path to Production (outputs)</li>
-    </ol>
-
-    <p>And it is a key component of <a
-            href="https://www.infoq.com/articles/Continuous-Delivery-Maturity-Model"
-            title="The Continuous Delivery Maturity Model">various maturity
-        models</a>.</p>
-</div>
 
 <section id="pipeline-benefits">
     <h3>Pipeline benefits</h3>
@@ -82,6 +92,13 @@
         </li>
     </ul>
 </section>
+
+<aside>
+    <p>Of course, <a href="https://en.wiktionary.org/wiki/the_cake_is_a_lie"
+            title="the cake is a lie"><em>the pipeline is a lie</em></a>.
+        It is really only a portion of the complete product feedback loop, the
+        portion seen by most development teams.</p>
+</aside>
 
 <section id="pipeline-shape">
     <h3>Pipeline shape</h3>
@@ -221,17 +238,28 @@
 
     <p>In the above illustration, pipeline and environments are tilted 7&deg;
         in opposite directions. As a consequence, the actual new work that is
-        running in production is a small piece of the available work in
-        development which could potentially be deployed. This represents a
-        large amount of <em>waste</em>.</p>
-</section>
+        running in production is a smaller piece of the available work in
+        development which could potentially be deployed. This represents
+        <em>waste</em>.</p>
 
-<aside>
-    <p>Of course, <a href="https://en.wiktionary.org/wiki/the_cake_is_a_lie"
-            title="the cake is a lie"><em>the pipeline is a lie</em></a>.
-        It is really only a portion of the complete product feedback loop, the
-        portion seen by most development teams.</p>
-</aside>
+    <h4 id="more-on-the-bottom-illustration">More on the bottom
+        illustration</h4>
+
+    <p>The wedges in the upper half between the lighter and darker grey
+        lines are work held back in an earlier environment from reaching a
+        later environment.</p>
+
+    <p>Similarly, wedges in the lower half represent later environmental
+        concerns pushed into earlier environments, increasing the complexity
+        of those lower environments.</p>
+
+    <p>Lastly the blue line shows how work, thinning as it runs left to
+        right, builds up in earlier environments, and either idles
+        developers who wait on later environments to catch up, or product
+        work that does not reach production. Similarly, higher
+        environments, thinning as they run right to left, degrade in
+        fidelity in lower environments.</p>
+</section>
 
 <section id="invest-in-your-pipeline">
     <h3>Invest in your pipeline</h3>
@@ -302,7 +330,16 @@
             stages. For example, in an F# project, use the same version of F#
             in every stage. This can be challenging when crossing environment
             boundaries, say from developer's Windows desktops to managed Linux
-            VMs or containers.
+            VMs or containers, especially when an older version used in
+            production is dictated by another part of the organization.
+            Developers chafe at using old software.
+        </dd>
+
+        <dt><em>Slow stages</em></dt>
+        <dd>Particularly notorious for slow pipeline states are large,
+            cumbersome tests, such as automated UI tests. <span
+                    class="todo">POINT TO DISCUSSION ON THEORY OF
+                CONSTRAINTS</span>
         </dd>
 
         <dt><em>Separate ownership of environments</em></dt>
