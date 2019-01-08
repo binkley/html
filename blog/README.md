@@ -7,6 +7,7 @@
 * [Followup on Bash long options](followup-on-bash-long-options.html)
 * [Frequent commits](frequent-commits.html)
 * [Help for JDBC with Java streams](help-for-jdbc-with-java-streams.html)
+* [Hard-won JDK offset knowledge](hard-won-jdk-offset-knowledge.html)
 * [How to write clean Java](how-to-write-clean-java.html)
 * [JaCoCo, Gradle, and exclusions](jacoco-gradle-and-exclusions.html)
 * [Kotlin JPA patterns](kotlin-jpa-patterns.html)

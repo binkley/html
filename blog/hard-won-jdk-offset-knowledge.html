@@ -1,0 +1,43 @@
+<h1>Hard-won JDK offset knowledge</h1>
+
+<p>It took far more research time than I expected. The goal:
+    <em>Output an <code>OffsetDateTime</code> with offset for Zulu
+        (OTC) timezone as <code>+00:00</code></em>.</p>
+
+<p>I have a project where a 3<sup>rd</sup>-party JSON exchange expected
+    timestamps in the format <code>01-02-03T04:05:06+00:00</code>. We're
+    using Jackson in a Java project. All the default configuration I
+    could find, and trying all the "knobs" on Jackson I could find, led
+    to: <code>01-02-03T04:05:06Z</code>. Interesting, as any non-0 offset
+    for timezone produced: <code>01-02-03T04:05:06+07:00</code> rather
+    than a timezone abbreviation: Zero offset is special.</p>
+
+<p>Finally, circling back to the JDK javadocs <em>yet again</em>, I
+    spotted what I had overlooked many times before:</p>
+
+<blockquote>
+    <b>Offset X and x</b>: This formats the offset based on the number of
+    pattern letters. One letter outputs just the hour, such as '+01',
+    unless the minute is non-zero in which case the minute is also output,
+    such as '+0130'. Two letters outputs the hour and minute, without a
+    colon, such as '+0130'. Three letters outputs the hour and minute, with
+    a colon, such as '+01:30'. Four letters outputs the hour and minute and
+    optional second, without a colon, such as '+013015'. Five letters
+    outputs the hour and minute and optional second, with a colon, such as
+    '+01:30:15'. Six or more letters throws
+    <code>IllegalArgumentException</code>. Pattern letter 'X' (upper case)
+    will output 'Z' when the offset to be output would be zero, whereas
+    pattern letter 'x' (lower case) will output '+00', '+0000', or '+00:00'.
+</blockquote>
+
+<p>The key is to use <em>lowercase</em> 'x' in the format specification.
+    So my problem with Jackson became:</p>
+
+<pre class="code">
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssxxx")
+    private final OffsetDateTime someOffsetDateTime;
+</pre>
+
+<p>And the result is the desired, <code>01-02-03T04:05:06+00:00</code>.</p>
+
+<p>Now I can return to more interesting problems.</p>
