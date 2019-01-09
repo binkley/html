@@ -14,6 +14,7 @@
 * [Kotlinc on Cygwin](kotlinc-on-cygwin.html)
 * [Maven color logging on Cygwin](maven-color-logging-on-cygwin.html)
 * [Maven logging and the command line](maven-logging-and-the-command-line.html)
+* [Magic Bus returns](magic-bus-returns.html)
 * [Mixing Kotlin and Go](mixing-kotlin-and-go.html)
 * [Old scripting](old-scripting.html)
 * [On pipelines](on-pipelines.html) - in progress

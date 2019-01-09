@@ -1,0 +1,41 @@
+<p>During my first stint at ThoughtWorks, I paired with Gregor Hohpe on
+    implementing messaging patterns while he worked with Bobby Woolf on
+    <a href="https://www.amazon.com/o/asin/0321200683"
+            title="Enterprise Integration Patterns"><cite>Enterprise
+        Integration Patterns</cite></a> (EIP). To this day, this remains
+    one of my favorite technical books. In conversation I was always struck by
+    Gregor's meticulous "napkin diagrams" as he illustrated the point he
+    was making.</p>
+
+<p>One output from that pairing was to experiment with using messaging
+    patterns <em>within a single program</em>, not just between programs.
+    So I wrote the "Magic Bus" library in Java, using reflection, to connect
+    publishing and subscribing components within a web services backend.</p>
+
+<p>While working a new project, I find myself diagramming one of our
+    backend services using EIP's notations for messaging patterns. And I
+    recalled "Magic Bus".</p>
+
+<p>I thought I had long ago lost the source code, but found some
+    JVM <code>.class</code> files in a forgotten directory. IntelliJ to
+    the rescue! Using <a
+            href="https://github.com/JetBrains/intellij-community/tree/master/plugins/java-decompiler/engine"
+            title="intellij-community/plugins/java-decompiler/engine at master · JetBrains/intellij-community">JetBrain's
+        excellent Fernflower decompiler</a>, I recovered a later stage of
+    "Magic Bus" after I had converted it to typesafer generics and dropped
+    reflection.</p>
+
+<p>That code is now <a href="https://github.com/binkley/magic-bus"
+        title="binkley/magic-bus: Bringing back the magic">in
+    public GitHub</a>, brought up to Java 11, and cleaned up.</p>
+
+<p>If I recall correctly, I originally dropped "Magic Bus"
+    after Guava's Event Bus came along. What makes "Magic Bus" different from
+    <a href="https://github.com/google/guava/wiki/EventBusExplained"
+            title="EventBusExplained · google/guava Wiki">Event
+        Bus</a>? Not too much, actually. The main feature in "Magic Bus"
+    lacking in Event Bus is subscribing to message handler exceptions: in
+    Guava one instead <a
+            href="https://google.github.io/guava/releases/23.0/api/docs/com/google/common/eventbus/EventBus.html#EventBus-com.google.common.eventbus.SubscriberExceptionHandler-"
+            title="EventBus (Guava: Google Core Libraries for Java 23.0 API)">registers
+        a global callback</a> to handle exceptions.</p>
