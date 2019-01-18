@@ -1,0 +1,132 @@
+<p>After too much Internet searching, I was unable to find an easy
+    solution to repeated duplication in my Spring MockMVC tests of REST
+    controller endpoints. For years now, the endpoints we write have
+    typically sent or received JSON. This is what I mean:</p>
+
+<pre class="code">
+mockMvc.perform(post("/some/endpoint")
+        .contentType(APPLICATION_JSON_UTF8)
+        .accept(APPLICATION_JSON_UTF8)
+        .content(someRequestJson))
+        .andExpect(status().isCreated())
+        .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
+        .andExpect(header().string(LOCATION, "/some/endpoint/name-or-id"))
+        .andExpect(content().json(someResponseJson));
+</pre>
+
+<p>All the repeated "APPLICATION_JSON_UTF8"s, in every controller test!</p>
+
+<p>If there is an existing Spring testing solution, I'd love to hear about
+    it. Rather than wait, I wrote up a small extension of
+    <code>@WebMvcTest</code> to default these values.</p>
+
+<p>First, an annotation for Spring to use in setting up a
+    <code>MockMvc</code> (javadoc elided):</p>
+
+<pre class="code">
+@Documented
+@Import(JsonMockMvcConfiguration.class)
+@Retention(RUNTIME)
+@Target(TYPE)
+@WebMvcTest
+public @interface JsonWebMvcTest {
+    @AliasFor(annotation = WebMvcTest.class)
+    String[] properties() default {};
+
+    @AliasFor(annotation = WebMvcTest.class)
+    Class<?>[] value() default {};
+
+    @AliasFor(annotation = WebMvcTest.class)
+    Class<?>[] controllers() default {};
+
+    @AliasFor(annotation = WebMvcTest.class)
+    boolean useDefaultFilters() default true;
+
+    @AliasFor(annotation = WebMvcTest.class)
+    ComponentScan.Filter[] includeFilters() default {};
+
+    @AliasFor(annotation = WebMvcTest.class)
+    ComponentScan.Filter[] excludeFilters() default {};
+
+    @AliasFor(annotation = WebMvcTest.class)
+    Class<?>[] excludeAutoConfiguration() default {};
+}
+</pre>
+
+<p>Note it is a near exact lookalike of <code>@WebMvcTest</code> (minus
+    the deprecated parameter). The important bits are:</p>
+
+<ol>
+    <li>Marking this annotation with <code>@WebMvcTest</code>, a kind of
+        extension through composition.
+    </li>
+    <li>Adding <code>@Import</code> to bind custom configuration to this
+        annotation.
+    </li>
+    <li>Tying the same-named annotation parameters to
+        <code>@WebMvcTest</code>, so this annotation is a drop-in
+        replacement of that one.
+    </li>
+</ol>
+
+<p>Next a configuration class, imported by the annotation, to customize
+    <code>MockMvc</code>:</p>
+
+<pre class="code">
+@Configuration
+public class JsonMockMvcConfiguration {
+    @Bean
+    @Primary
+    public MockMvc jsonMockMvc(final WebApplicationContext ctx) {
+        return webAppContextSetup(ctx)
+                .defaultRequest(post("/")
+                        .contentType(APPLICATION_JSON_UTF8)
+                        .accept(APPLICATION_JSON_UTF8_VALUE))
+                .alwaysExpect(header().string(
+                        CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
+                .build();
+    }
+}
+</pre>
+
+<p>Some points about this class:</p>
+
+<ul>
+    <li><code>@Primary</code> is not necessary for Spring, but helped
+        IntelliJ &mdash; perhaps I got lucky with Spring without
+        <code>@Primary</code>, and IntelliJ highlighted a real problem.
+    </li>
+    <li>It took quite a while to get <code>defaultRequest(...)</code>
+        working. I was unable to (re)implement the relevant interfaces, and
+        eventually found that passing <em>any</em>
+        <code>MockHttpServletRequestBuilder</code> sufficed. Spring
+        "merges" (overlays) the actual request builder from the test onto
+        this default, replacing POST and <code>"/"</code> with whichever
+        HTTP method and path the test uses (<em>eg</em>,
+        <code>GET "/bob"</code>).
+    </li>
+</ul>
+
+<p>Example usage:</p>
+
+<pre class="code">
+@JsonWebMvcTest(SomeController.class)
+class SomeControllerTest {
+    @Autowired
+    private MockMvc jsonMockMvc;
+
+    @Test
+    void shouldCheckSomething()
+            throws Exception {
+        jsonMockMvc.perform(post("/some/endpoint")
+                .content(someRequestJson))
+                .andExpect(status().isCreated())
+                .andExpect(header().string(LOCATION, "/some/endpoint/name-or-id"))
+                .andExpect(content().json(someResponseJson));
+    }
+}
+</pre>
+
+<p>See the <a href="https://github.com/binkley/basilisk">Basilisk</a> project
+    for source code and sample usage. (Basilisk is a demonstration project
+    for my team illustrating Spring usage and conventions.)</p>
