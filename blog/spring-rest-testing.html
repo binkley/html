@@ -100,10 +100,10 @@ public class JsonMockMvcConfiguration {
         working. I was unable to (re)implement the relevant interfaces, and
         eventually found that passing <em>any</em>
         <code>MockHttpServletRequestBuilder</code> sufficed. Spring
-        "merges" (overlays) the actual request builder from the test onto
+        "merges" (overlays) the actual request builder from the test over
         this default, replacing POST and <code>"/"</code> with whichever
         HTTP method and path the test uses (<em>eg</em>,
-        <code>GET "/bob"</code>).
+        <code>GET "/bob"</code>).  Only the header customization is used.
     </li>
 </ul>
 
@@ -121,7 +121,8 @@ class SomeControllerTest {
         jsonMockMvc.perform(post("/some/endpoint")
                 .content(someRequestJson))
                 .andExpect(status().isCreated())
-                .andExpect(header().string(LOCATION, "/some/endpoint/name-or-id"))
+                .andExpect(header()
+                        .string(LOCATION, "/some/endpoint/new-name"))
                 .andExpect(content().json(someResponseJson));
     }
 }
