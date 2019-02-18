@@ -8,7 +8,7 @@
 
 <h3>Problem</h3>
 
-<p>I'd like to ppend a "Z" character on the end of a UTC timestamp. OK, let's
+<p>I'd like to append a "Z" character on the end of a UTC timestamp. OK, let's
     look at
     <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/format/DateTimeFormatter.html#patterns"
        title="Patterns for Formatting and Parsing">the options</a>, showing
@@ -71,7 +71,7 @@
 
 <p>One thing to be wary of: formatting characters can be doubled, tripled, or
     quadrupled, and it changes the result. Further, some characters have
-    special rules on repeating (<em>eg</em>, "VV" and "O" vs "OOOO").</p>
+    special rules on repeating (<em>eg</em>, "VV", and "O" vs "OOOO").</p>
 
 <p>The best way to understand what to use is to try them all:</p>
 
