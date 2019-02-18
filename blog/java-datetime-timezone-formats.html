@@ -1,0 +1,133 @@
+<p>Java has excellent date-time formatting with the arrival of
+    <code>java.time</code> (JSR310) in Java 8. I point out that release as it
+    came with a usable, safe API. (Let us never speak of <code>Calendar</code>
+    again).</p>
+
+<p>However, I never recall how to format timezone. There are so many options,
+    and it is easy to get is "almost right", but not exactly right.</p>
+
+<h3>Problem</h3>
+
+<p>I'd like to ppend a "Z" character on the end of a UTC timestamp. OK, let's
+    look at
+    <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/format/DateTimeFormatter.html#patterns"
+       title="Patterns for Formatting and Parsing">the options</a>, showing
+    only those for timezone/offset:</p>
+
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Symbol</th>
+        <th scope="col">Meaning</th>
+        <th scope="col">Presentation</th>
+        <th scope="col">Examples</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">V</th>
+        <td>time-zone ID</td>
+        <td>zone-id</td>
+        <td>America/Los_Angeles; Z; -08:30</td>
+    </tr>
+    <tr>
+        <th scope="row">v</th>
+        <td>generic time-zone name</td>
+        <td>zone-name</td>
+        <td>Pacific Time; PT</td>
+    </tr>
+    <tr>
+        <th scope="row">z</th>
+        <td>time-zone name</td>
+        <td>zone-name</td>
+        <td>Pacific Standard Time; PST</td>
+    </tr>
+    <tr>
+        <th scope="row">O</th>
+        <td>localized zone-offset</td>
+        <td>offset-O</td>
+        <td>GMT+8; GMT+08:00; UTC-08:00</td>
+    </tr>
+    <tr>
+        <th scope="row">X</th>
+        <td>zone-offset 'Z' for zero</td>
+        <td>offset-X</td>
+        <td>Z; -08; -0830; -08:30; -083015; -08:30:15</td>
+    </tr>
+    <tr>
+        <th scope="row">x</th>
+        <td>zone-offset</td>
+        <td>offset-x</td>
+        <td>+0000; -08; -0830; -08:30; -083015; -08:30:15</td>
+    </tr>
+    <tr>
+        <th scope="row">Z</th>
+        <td>zone-offset</td>
+        <td>offset-Z</td>
+        <td>+0000; -0800; -08:00</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>One thing to be wary of: formatting characters can be doubled, tripled, or
+    quadrupled, and it changes the result. Further, some characters have
+    special rules on repeating (<em>eg</em>, "VV" and "O" vs "OOOO").</p>
+
+<p>The best way to understand what to use is to try them all:</p>
+
+<pre class="code">
+final var when = ZonedDateTime.of(
+        LocalDate.of(2011, 2, 3),
+        LocalTime.of(14, 5, 6, 7_000_000),
+        ZoneId.of("UTC"))
+        .toInstant();
+for (final String tzFormat
+        : List.of("VV", "v", "z", "zz", "zzz", "zzzz", "O", "OOOO", "X", "XX", "XXX",
+        "XXXX", "x", "xx", "xxx", "xxxx", "Z", "ZZ", "ZZZ", "ZZZZ")) {
+    System.out.println(
+            tzFormat + " - " + DateTimeFormatter
+                    .ofPattern("yyyy-MM-dd'T'HH:mm:ss" + tzFormat)
+                    .withZone(ZoneId.of("UTC"))
+                    .format(when));
+}
+</pre>
+
+<p>Producing:</p>
+
+<pre>
+VV - 2011-02-03T14:05:06UTC
+v - 2011-02-03T14:05:06UTC
+z - 2011-02-03T14:05:06UTC
+zz - 2011-02-03T14:05:06UTC
+zzz - 2011-02-03T14:05:06UTC
+zzzz - 2011-02-03T14:05:06Coordinated Universal Time
+O - 2011-02-03T14:05:06GMT
+OOOO - 2011-02-03T14:05:06GMT
+X - 2011-02-03T14:05:06Z
+XX - 2011-02-03T14:05:06Z
+XXX - 2011-02-03T14:05:06Z
+XXXX - 2011-02-03T14:05:06Z
+x - 2011-02-03T14:05:06+00
+xx - 2011-02-03T14:05:06+0000
+xxx - 2011-02-03T14:05:06+00:00
+xxxx - 2011-02-03T14:05:06+0000
+Z - 2011-02-03T14:05:06+0000
+ZZ - 2011-02-03T14:05:06+0000
+ZZZ - 2011-02-03T14:05:06+0000
+ZZZZ - 2011-02-03T14:05:06GMT
+</pre>
+
+<p>What an exciting list! "zzzz" is rather wordy, and it's unclear what "ZZZZ"
+    is doing. Actually, the whole list is even more iteresting for timezones
+    <em>other</em> than UTC.</p>
+
+<h3>Solution</h3>
+
+<p>Since the goal is to append a "Z", the simplest choice is:
+    <code>yyyy-MM-dd'T'HH:mm:ssX</code>.</p>
+
+<h3>Addendum</h3>
+
+<p>Why didn't I just use <code>DateTimeFormatter.ISO_INSTANT</code>, which is
+    documented to produce the "Z"? I want a timestamp that is to only <em>seconds-precision</em>,
+    and the format for "ISO_INSTANT" includes milliseconds.</p>

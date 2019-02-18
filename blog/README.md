@@ -10,6 +10,7 @@
 * [Hard-won JDK offset knowledge](hard-won-jdk-offset-knowledge.html)
 * [How to write clean Java](how-to-write-clean-java.html)
 * [JaCoCo, Gradle, and exclusions](jacoco-gradle-and-exclusions.html)
+* [Java date-time timezone formats](java-datetime-timezone-formats.html)
 * [Kotlin JPA patterns](kotlin-jpa-patterns.html)
 * [Kotlinc on Cygwin](kotlinc-on-cygwin.html)
 * [Maven color logging on Cygwin](maven-color-logging-on-cygwin.html)
