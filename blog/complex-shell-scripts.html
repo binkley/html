@@ -1,0 +1,137 @@
+<article>
+    <section id="complex-shell-scripts">
+        <h3>Complex shell scripts</h3>
+
+        <p>Most projects reach the point where dependencies on other programs,
+            command line startup for the project itself, data management,
+            etc., become taxing to manage manually on the command line.
+            The classic example is combining a database with an application
+            program, and these days, with Docker in the mix. Concerns
+            include:</p>
+
+        <ul>
+            <li>Building the appliction program(s) from local source</li>
+            <li>Providing for the database(s)</li>
+            <li>Installing any database schema(s) and seed data</li>
+            <li>Setting up any mock services that are not run locally</li>
+            <li>Fixing up the runtime environment, such as special command
+                line flags, environment variables, or special local files
+            </li>
+        </ul>
+
+        <p>Managing all of these may wind up with 5 or 10 command line steps
+            to carry out in sequence before the full application system is
+            usable locally.</p>
+
+        <p>What to do? The obvious thing: <em>automate</em>, and automating
+            means scripting.</p>
+
+        <p>In principle, these steps could be executed using the same source
+            language as the application; in practice, that is rarely done as
+            few languages excel at process management, and most are painful to
+            use for this purpose. For example, a simple thing as exit status
+            can be overly tricky to manage from most source languages. We'd
+            like a failed exit code from our command line when the steps we
+            execute fail.</p>
+    </section>
+
+    <section id="bash">
+        <h3>Bash</h3>
+
+        <p>There are other choices for scripting, but let us say we choose to
+            use Bash. This is the most common choice:</p>
+
+        <ul>
+            <li>Bash is a very stable language, widely known</li>
+            <li>It is portable across all important operating environments
+            </li>
+            <li>Documentation and online help are widely available</li>
+            <li>Script feedback is quick: the edit/test/fix cycle is short
+            </li>
+        </ul>
+
+        <p>The reset of this post is a collection of Bash idioms for local
+            development scripts. I've carried them around from project to
+            project. Mostly they move by word of mouth, or appear haphazardly
+            in online forums.</p>
+    </section>
+
+    <section id="generic-starter-script">
+        <h3>Generic starter script</h3>
+
+        <p>The best thing when starting fresh is to begin from a working
+            example, especially when there is a store of folk wisdom at hand.
+            I'm happy to profit from the experience of others!</p>
+
+        <p>To this end, I keep a <a
+                href="https://github.com/binkley/shell/tree/master/starter">generic
+            starter script</a> in GitHub which opens:</p>
+
+        <pre class="code">#!/usr/bin/env bash
+
+export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]:+${FUNCNAME[0]}():} '
+
+set -e
+set -u
+set -o pipefail</pre>
+
+        <p>Like some magic incantation, each of these lines is crucial to a
+            decent developer shell script. To wit:</p>
+
+        <ol>
+            <li><code>#!/usr/bin/env bash</code> ensures you are using the
+                <em>same</em> version of Bash when you try out code yourself
+                in your shell, as what the script executes. Relying on the
+                system shell, <code>/bin/bash</code> or <code>/bin/sh</code>
+                for scripts leaves you subject to the whims of operating
+                system upgrades, or in the case of some (looking at you
+                MacOS), a tremendously out of date version of Bash.
+            </li>
+            <li>The export of <code>PS4</code> is mysterious. There are
+                several variants of this: essentially it means when you turn
+                on execution tracing (debugging) with the <code>-x</code>
+                flag, Bash informs you of (1) line number, and (2) function
+                name, as it runs your script, even across sourcing (the <code>.</code>
+                "dot" operator) other scripts into yours.
+            </li>
+            <li>Lastly, the three <code>set</code> commands help you keep your
+                script clean:
+                <ul>
+                    <li><code>set -e</code> fails your script at the first
+                        sign of trouble, rather than bravely continuing
+                    </li>
+                    <li><code>set -u</code> fails your script when it tries to
+                        use an uninitialized variable
+                    </li>
+                    <li><code>set -o pipefail</code> has failing pipelines
+                        (the <code>|</code> "vertical bar" operator) exit with
+                        the code of the failing portion of the pipe;
+                        otherwise, it might bravely continue on even with
+                        failing commands
+                    </li>
+                </ul>
+            </li>
+        </ol>
+    </section>
+
+    <section id="parsing-option-flags">
+        <h3>Parsing option flags</h3>
+
+        <p>Everyone like nice command line flags, the most popular being
+            <code>-h</code> or "help". Further, after a while, most prefer
+            typing <code>-n</code> rather than <code>--really-long-option-containing-an-n</code>!
+            To set this up in your script, use this idiom:
+        </p>
+
+        <pre class="code">while getopts :h-: opt; do
+  [[ $opt == - ]] && opt=${OPTARG%%=*} OPTARG=${OPTARG#*=}
+  case $opt in
+    h | help ) print-help ; exit 0 ;;
+    * ) print-usage >&2 ; exit 2 ;;
+  esac
+done
+shift $((OPTIND - 1))</pre>
+
+        <p>Wow, that got deep quickly!</p>
+    </section>
+</article>

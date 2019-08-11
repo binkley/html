@@ -2,6 +2,7 @@
 
 * [A language stack for 2018](a-language-stack-for-2018.html)
 * [Automated Acceptance Criteria](automated-acceptance-criteria.html)
+* [Complex shell scripts](complex-shell-scripts.html)
 * [Cygwin terminal in IntelliJ](cygwin-terminal-in-intellij.html)
 * [DDD, _A Handmaid's Tale_](ddd-a-handmaids-tale.html)
 * [Followup on Bash long options](followup-on-bash-long-options.html)
