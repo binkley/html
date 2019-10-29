@@ -1,0 +1,114 @@
+<article>
+    <section id="what-is-this-about">
+        <h3>What is this about?</h3>
+
+        <p>This post is about application patterns for persistence and domain
+            objects. I have never been fully satisfied with existing patterns
+            in this area, so over the past six months I have run
+            <a href="http://www.extremeprogramming.org/rules/spike.html"
+               title="Create a Spike Solution">a series of spikes</a> to
+            explore them, and find what did satisfy me. I <a
+                    href="http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/ar01s02.html"
+                    title="The Mail Must Get Through">scratched an itch</a>.
+        </p>
+
+        <p>My implementation focus is the JVM (Java, Kotlin, <i>et al</i>),
+            though these patterns are not specific to the JVM, so perhaps
+            they will be useful to you in other platforms and languages.
+            <a href="http://www.catb.org/jargon/html/Y/YMMV.html"
+               title="YMMV">YMMV.</a>
+        </p>
+
+        <p>This post summarizes my findings.</p>
+    </section>
+
+    <section id="the-problem">
+        <h3>The problem</h3>
+
+        <p>It is a rare business application, which does not involve
+            persistence. With the advent of <a
+                    href="https://www.martinfowler.com/articles/microservices.html"
+                    title="Microservices">microservices</a>, this does not
+            change: it shifts the persistence to another system component.
+            So the question becomes: For the component managing the data,
+            how best to model persistence in that program?
+        </p>
+
+        <p>Among existing patterns, I find these problems:</p>
+
+        <ul>
+            <li>Complex and confusing organization of the source code,
+                focused on technology or implementation rather than
+                business domain
+            </li>
+            <li>Mingling of business and persistence concerns, often
+                surfaced as mixing of data records with domain (business)
+                logic
+            </li>
+            <li>Mingling of domains, often surfaced as data records and
+                domain objects with inter-dependencies
+            </li>
+            <li>Excessive copying of data within the application,
+                creating difficulties in data ownership, and <a
+                        href="https://en.wikipedia.org/wiki/Action_at_a_distance_%28computer_programming%29"
+                        title="Action at a distance (computer programming)">
+                    <i>action-at-a-distance</i></a> mutability
+            </li>
+            <li>Poor or uncertain performance of persistence queries
+                (chiefly SQL, but this problem applies to other means of
+                persisting)
+            </li>
+            <li>Difficult testing, with excessive mocking, and tedious or
+                confusing test setup
+            </li>
+        </ul>
+    </section>
+
+    <section id="a-business-model">
+        <h3>A business model</h3>
+    </section>
+
+    <section id="two-spikes">
+        <h3>Two spikes</h3>
+
+        <p>The two chief projects I have used for spiking are:</p>
+
+        <ul>
+            <li><a href="https://github.com/binkley/basilisk">
+                <code>basilisk</code></a>, a Java implementation, the older
+                of the two spikes
+            </li>
+            <li><a href="https://github.com/binkley/basilisk-kt">
+                <code>basilisk-kt</code></a>, a Kotlin reimplementation,
+                building on lessons learned
+            </li>
+        </ul>
+
+        <p>They both implement the business model</p>
+    </section>
+
+    <section id="patterns">
+        <h3>Patterns</h3>
+
+        <p>The main pattern: <a
+                href="https://martinfowler.com/tags/encapsulation.html">
+            <em>Encapsulation</em></a>. The goal is that domain objects and
+            their services should be as loosely-coupled as sensible. This
+            improves the abilities to test and refactor. Accordingly, these
+            patterns make certain assumptions:
+        </p>
+
+        <ul>
+            <li>A domain service is the factory for domain objects</li>
+            <li>A domain service holds all references for other services,
+                not the domain object
+            </li>
+            <li>A domain object should only have a direct reference to
+                its persistence data, and its corresponding service
+            </li>
+            <li>Domain services and objects are concrete implementations;
+                the application injects behavior variation into the service
+            </li>
+        </ul>
+    </section>
+</article>

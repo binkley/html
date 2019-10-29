@@ -1,0 +1,56 @@
+<h3 id="the-problem">The problem</h3>
+
+<p>I work with clients in corporate environments who choose to use
+    <em>self-signed SSL certificates</em>. And I sometimes work remotely
+    over VPN using non-client computers.</p>
+
+<p>The difficulty over VPN is that client does not register these certs with
+    any root authority, so when using a build tool like Gradle, the JVM cannot
+    download internal dependencies hosted within the client's network.
+    The JVM will complain loudly that HTTPS to a dependency service (for
+    example, Nexus) has an unusable SSL certificate (PKIX path errors,
+    etc).</p>
+
+<h3 id="a-solution">A solution</h3>
+
+<p>One solution is to add client self-signed certificates into the
+    <code>cacerts</code> file of the local JDK installation. However,
+    working with mutliple clients, I am not comfortable with this. For
+    example, there is no revocation policy for these certificates (though
+    they can eventually expire).</p>
+
+<p>With Gradle, however, there is a better alternative. I had <a
+        href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#CustomizingStores"
+        title="Customizing the Default Keystores and Truststores, Store Types, and Store Passwords">difficulty</a>
+    piecing this <a
+            href="https://docs.gradle.org/current/userguide/build_environment.html#sec:configuring_jvm_memory"
+            title="Configuring JVM memory">together</a>; hopefully this post
+    will remind my future self.</p>
+
+<ol>
+    <li>Generate a project-specific <code>cacerts</code> file by adding
+        all needed client self-signed SSL certificates into the standard
+        JDK <code>cacerts</code> file, <code>lib/security/cacerts</code>,
+        found in <code>$JAVA_HOME</code>. <em>Do this at client with their
+            JDK installation</em>, not your off-site local JDK.
+    </li>
+    <li>Add the client-specific <code>cacerts</code> file to the project
+        source. (Here I put the file in the project root, but it could be
+        in a path underneath the project: relative paths work.)
+    </li>
+    <li>Teach Gradle to use the project-specific <code>cacerts</code> file
+        by adding a JVM flag in <code>gradle.properties</code>:
+        <strong><code>-Djavax.net.ssl.trustStore=&lt;path/to/project/cacerts&gt;</code></strong>.
+        If you do not already have JVM flags for the project Gradle, these
+        file contents suffice:
+        <pre>
+# Gradle properties
+# This uses the local `cacerts`, which include client certs, without modifying the JDK
+# The memory flags are from
+# https://docs.gradle.org/current/userguide/build_environment.html#sec:configuring_jvm_memory
+# and are the defaults
+org.gradle.jvmargs=-Djavax.net.ssl.trustStore=cacerts -Xmx512m -XX:MaxMetaspaceSize=256m</pre>
+    </li>
+</ol>
+
+<p>This works also for Maven or Ant, modulo details specific to them.</p>

@@ -1,6 +1,7 @@
 # Blog Posts
 
 * [A language stack for 2018](a-language-stack-for-2018.html)
+* [A simple trick for self-signed certs](a-simple-trick-for-self-signed-certs.html)
 * [Automated Acceptance Criteria](automated-acceptance-criteria.html)
 * [Complex shell scripts](complex-shell-scripts.html)
 * [Cygwin terminal in IntelliJ](cygwin-terminal-in-intellij.html)
@@ -20,6 +21,7 @@
 * [Mixing Kotlin and Go](mixing-kotlin-and-go.html)
 * [Old scripting](old-scripting.html)
 * [On pipelines](on-pipelines.html) - in progress
+* [Persistence patterns in applications](persistence-patterns-in-applications.html) - in progress
 * [Push early, push often, push on green](push-early-push-often-push-on-green.html)
 * [Quick diff tip, make, et al](quick-diff-tip-make-et-al.html)
 * [Quick Kotlin idiom: naming things](quick-kotlin-idiom-naming-things.html)
